@@ -53,11 +53,18 @@
 [dir="rtl"] .setup[data-look="illustrated"] .setup__kicker, [dir="rtl"] .setup[data-look="illustrated"] .setup__sub { font-family: var(--f-text); }
 
 @media (max-width: 640px) {
-  .setup { place-items: start center; padding-top: 7vh; }
-  .setup__row { grid-template-columns: 1fr; gap: 8px; }
-  .modes { grid-template-columns: 1fr; }
-  .setup__acts { width: 100%; }
-  .setup__acts .btn { flex: 1 1 100%; justify-content: center; }
+  .setup { place-items: start center; padding: max(16px, 4vh) 16px 20px; }
+  .setup__in { gap: 10px; }
+  .setup__sub { font-size: 14.5px; line-height: 1.6; margin: 0; }
+  .setup__rows { padding: 12px 0; gap: 12px; margin-top: 4px; }
+  .setup__row { grid-template-columns: 1fr; gap: 6px; }
+  .modes { grid-template-columns: 1fr; gap: 8px; }
+  .mode-card { grid-template-columns: 56px minmax(0, 1fr); padding: 8px 12px 8px 8px; }
+  .mode-card__pv { width: 56px; height: 56px; }
+  .mode-card__t b { font-size: 16px; }
+  .mode-card__t small { font-size: 12.5px; }
+  .setup__acts { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+  .setup__acts .btn { justify-content: center; min-width: 0; padding-inline: 10px; font-size: 15px; }
   /* the wide riso face runs to three lines on a phone: narrower and a touch smaller */
   .setup[data-look="illustrated"] .setup__title { font-size: clamp(38px, 11.2vw, 58px); font-stretch: 112%; }
 }

@@ -162,8 +162,18 @@ function stageFor() {
   if (!world.real) return;
   world.start();
   if (wide()) world.setStage({ cx: isRTL() ? .225 : .775, cy: .5, z: 20.5 }, 1.6);
-  else world.setStage({ cx: .5, cy: .2, z: 19 }, 1.4);
+  else world.setStage(bandStage(), 1.4);
 }
+/** phones: the figure sits in the band between the screen's bar and the content (which starts 30vh down) */
+function bandStage() {
+  const bar = document.querySelector('.screen:not(.is-leaving) .screen__bar');
+  const top = bar ? bar.getBoundingClientRect().bottom : innerHeight * .14;
+  const band = innerHeight * .3, cy = (top + band / 2) / innerHeight;
+  if (!isIllustrated()) return { cx: .5, cy, z: 19 };
+  const size = Math.max(110, Math.min(innerWidth * .74, band * .92));
+  return { cx: .5, cy, z: 13.5 * Math.min(innerWidth, innerHeight) * .8 / size };
+}
+addEventListener('resize', () => { if (ready && !wide() && currentScreen()) world?.setStage?.(bandStage(), 0); });
 /* phones: rest the stage while the content covers its band */
 on('band', visible => { if (!world?.real || wide() || !currentScreen()) return; visible ? world.start() : world.stop(); });
 function toZone(id, tab) {

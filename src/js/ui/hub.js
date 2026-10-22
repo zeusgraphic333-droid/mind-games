@@ -196,17 +196,29 @@ export function createHub(world, { lessons = {}, onEnter, onOpen }) {
     if (!dead) onEnter?.(z.id);
   }
 
+  /** phones: the eye and its orbit sit in the free band between the top bar and the poster (never under the text) */
+  const phoneStage = () => {
+    const top = root.querySelector('.hud__top')?.getBoundingClientRect().bottom || innerHeight * .15;
+    const selEl = root.querySelector('.sel');
+    const selTop = selEl ? selEl.getBoundingClientRect().top - (root.classList.contains('is-shown') ? 0 : 16) : innerHeight * .6;
+    const band = Math.max(110, selTop - top);
+    return { cx: .5, cy: (top + band / 2) / innerHeight, z: Math.min(26, Math.max(12.5, 12.5 * 230 / band)) };
+  };
+  const stageNow = () => (innerWidth > 760 ? hubStage() : phoneStage());
+  listen(window, 'resize', () => { if (shown && innerWidth <= 760) world.setStage(phoneStage(), 0); });
+
   render();
   const api = {
     frame,
     show(selectId) {
       shown = true; root.hidden = false; root.classList.remove('is-diving');
-      world.setStage(hubStage(), 1.6); world.showRing?.(true, 1.6);
+      if (innerWidth > 760) world.setStage(hubStage(), 1.6);
+      world.showRing?.(true, 1.6);
       paintMe();
       const want = selectId || (active < 0 ? recommend() : null);
       const i = want ? Math.max(0, ZONES.findIndex(z => z.id === want)) : active;
       if (active < 0) { sel.v = i; settle(); } else if (i !== active) go(i); else { paint(ZONES[i]); world.morph(ZONE_FORMATION[ZONES[i].id] || 'nebula', { dur: 1.6 }); }
-      requestAnimationFrame(() => root.classList.add('is-shown'));
+      requestAnimationFrame(() => { if (innerWidth <= 760) world.setStage(phoneStage(), 1.6); root.classList.add('is-shown'); });
     },
     hide() { shown = false; root.classList.remove('is-shown'); root.hidden = true; world.showRing?.(false, .5); },
     /** language switch: re-render every string in place, keep the selection (and move the eye to its side) */
@@ -214,7 +226,7 @@ export function createHub(world, { lessons = {}, onEnter, onOpen }) {
       if (dead) return;
       render();
       if (active >= 0) paint(ZONES[active]);
-      if (shown) { world.setStage(hubStage(), 1.2); frame(); }
+      if (shown) { world.setStage(stageNow(), 1.2); frame(); }
     },
     /** experience switch: take back every listener, subscription and timer, and leave #hud empty */
     destroy() {

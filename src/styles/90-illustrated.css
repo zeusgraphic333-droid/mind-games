@@ -54,6 +54,8 @@ html[data-mode="illustrated"] .btn--solid:active, html[data-mode="illustrated"] 
 html[data-mode="illustrated"] .btn--ghost { --bb: transparent; }
 html[data-mode="illustrated"] .chip { border-width: 1.5px; border-color: var(--line-2); background: var(--card); }
 html[data-mode="illustrated"] .chip--zone { border-color: var(--zc); color: var(--navy); background: color-mix(in srgb, var(--zc) 12%, #fff); }
+/* a chosen filter chip is printed solid (the base rule's paper-on-ink would vanish on a white chip) */
+html[data-mode="illustrated"] .arc__f[aria-checked="true"] { background: var(--navy); border-color: var(--navy); color: #F4F5F9; }
 html[data-mode="illustrated"] .card { border-width: 1.5px; }
 html[data-mode="illustrated"] .label { font-weight: 700; color: var(--fg-3); }
 html[data-mode="illustrated"] mark { color: var(--navy); background: linear-gradient(transparent 55%, color-mix(in srgb, var(--riso-yellow) 85%, transparent) 55%); }

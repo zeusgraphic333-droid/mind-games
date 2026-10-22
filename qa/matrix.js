@@ -7,6 +7,7 @@ const { installRoutes } = require('./fonts');
 const ROOT = path.join(__dirname, '..');
 const file = process.argv[2] || 'index.html';
 const only = (process.argv[3] || '').split(',').filter(Boolean);
+const PH = (process.argv[4] || '390x844').split('x').map(Number); // phone viewport (visible area)
 const OUT = path.join(ROOT, 'shots', 'matrix');
 fs.mkdirSync(OUT, { recursive: true });
 const ROUTES = [
@@ -27,7 +28,7 @@ for (const lang of ['ar', 'en']) for (const mode of ['illustrated', 'immersive']
   const report = [];
   for (const c of COMBOS.filter(c => !only.length || only.includes(c.id))) {
     const phone = c.dev === 'm';
-    const ctx = await b.newContext({ viewport: phone ? { width: 390, height: 844 } : { width: 1440, height: 900 }, deviceScaleFactor: 1, isMobile: phone, hasTouch: phone });
+    const ctx = await b.newContext({ viewport: phone ? { width: PH[0], height: PH[1] } : { width: 1440, height: 900 }, deviceScaleFactor: 1, isMobile: phone, hasTouch: phone });
     const p = await ctx.newPage(); const errs = [];
     p.on('pageerror', e => errs.push('pageerror: ' + e.message));
     p.on('console', m => { if (m.type() === 'error') errs.push('console: ' + m.text()); });
