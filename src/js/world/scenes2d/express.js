@@ -43,11 +43,11 @@ export function sq(name) {
     draw(k) {
       const sh = sheet(k, id, w.word, `${trial + 1} / ${w.trials.length}`);
       // one riso touch that cannot change the composition: a misregistered second pass of the frame box
-      return `<defs>${pageClip(id)}</defs>
+      return `<g direction="ltr"><defs>${pageClip(id)}</defs>
         <rect class="${id}-mis" x="${px(0) + 5}" y="${py(0) - 4}" width="${150 * U}" height="${150 * U}" fill="none" stroke="${k.INK.blue}" stroke-width="1.3" opacity=".55"/>
         ${sh.under}
         <g class="${id}-art" clip-path="url(#${id}-clip)">${items.map(it => itemSVG(k, it, `${id}-i`)).join('')}</g>
-        ${sh.label}`;
+        ${sh.label}</g>`;
     },
     play(svg, k) {
       const { gsap } = k; const q = s => svg.querySelector(s), all = s => svg.querySelectorAll(s);
@@ -84,12 +84,12 @@ function squaresDraw(k) {
   const sh = sheet(k, 'bs', LECTURE[0], '');
   const L0 = LAYOUTS[0];
   const words = LECTURE.map((w, i) => k.text(px(-5), py(155) + 34, w.toUpperCase(), { size: 22, family: 'dot', weight: 800, fill: k.INK.navy, anchor: 'start', extra: `class="bs-w" data-i="${i}" letter-spacing="3" opacity="${i ? 0 : 1}"` })).join('');
-  return `<defs>${pageClip('bs')}</defs>
+  return `<g direction="ltr"><defs>${pageClip('bs')}</defs>
     <rect class="bs-mis" x="${px(0) + 5}" y="${py(0) - 4}" width="${150 * U}" height="${150 * U}" fill="none" stroke="${k.INK.blue}" stroke-width="1.3" opacity=".55"/>
     ${sh.under}
     <g clip-path="url(#bs-clip)">${L0.map((p, j) => `<rect class="bs-q" data-j="${j}" x="-.5" y="-.5" width="1" height="1" fill="${k.INK.navy}" transform="${sqT(p)}"/>`).join('')}</g>
     ${words}
-    <g class="bs-dots">${LECTURE.map((_, i) => `<circle class="bs-d" cx="${px(150) - (LECTURE.length - 1 - i) * 18}" cy="${py(155) + 27}" r="5" fill="${i ? 'none' : k.INK.pink}" stroke="${k.INK.navy}" stroke-width="1.5"/>`).join('')}</g>`;
+    <g class="bs-dots">${LECTURE.map((_, i) => `<circle class="bs-d" cx="${px(150) - (LECTURE.length - 1 - i) * 18}" cy="${py(155) + 27}" r="5" fill="${i ? 'none' : k.INK.pink}" stroke="${k.INK.navy}" stroke-width="1.5"/>`).join('')}</g></g>`;
 }
 function squaresPlay(svg, k) {
   const { gsap } = k; const all = s => svg.querySelectorAll(s), q = s => svg.querySelector(s);

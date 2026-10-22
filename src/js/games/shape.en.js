@@ -130,13 +130,13 @@ const CLAIMS = [
   { k: 'triangle', c: 'upward for danger, downward for growth', ok: false, fix: 'The other way round: upward for growth, downward for danger or grounding.' }
 ];
 const pairs = {
-  id: 'shape-pairs', title: 'Right Pair?', en: 'shape + line from the slide: true or false',
-  how: 'A shape and a line from the slide. Does that line really belong to that shape? Only 6 seconds. Press <b>1</b> for true and <b>2</b> for false.',
+  id: 'shape-pairs', title: 'Right Pair?', en: 'shape + sentence: true or false',
+  how: 'A shape and a sentence from the slide. Does that sentence really belong to that shape? Only 6 seconds. Press <b>1</b> for true and <b>2</b> for false.',
   mount(el, api, ctx) {
     const ROUNDS = 12, LIMIT = reduced() ? 10000 : 6500; const set = shuffle(CLAIMS).slice(0, ROUNDS);
     let i = 0, score = 0, stopT = null, locked = false, timers = [];
     el.innerHTML = `<div class="shp-t">
-      <div class="g-hud"><span class="chip">Claim <span class="hud-num" data-r>1</span>/<span class="hud-num">${ROUNDS}</span></span><span class="chip chip--zone">Correct <span class="hud-num" data-s>0</span></span></div>
+      <div class="g-hud"><span class="chip">Sentence <span class="hud-num" data-r>1</span>/<span class="hud-num">${ROUNDS}</span></span><span class="chip chip--zone">Correct <span class="hud-num" data-s>0</span></span></div>
       <div class="g-timer"><i></i></div>
       <div class="g-card"><div class="shp-t__claim"></div><div class="shp-t__yn"><button type="button" class="g-choice" data-v="1"><span class="hud-num">1</span>True</button><button type="button" class="g-choice" data-v="0"><span class="hud-num">2</span>False</button></div></div>
       <p class="shp-t__note" aria-live="polite"></p></div>`;
@@ -155,9 +155,9 @@ const pairs = {
       btns.forEach(b => { b.disabled = true; if ((b.dataset.v === '1') === it.ok) b.classList.add('is-right'); else if (b.dataset.v === v) b.classList.add('is-wrong'); });
       if (ok) { score++; api.sfx('good'); } else api.sfx('bad');
       el.querySelector('[data-s]').textContent = score;
-      note.innerHTML = it.ok ? (ok ? '<b>Right, that line is its own.</b>' : '<b>It was true.</b> That line really belongs to this shape.') : `<b>${ok ? 'You caught it.' : 'It was false.'}</b> ${api.esc(it.fix)}`;
+      note.innerHTML = it.ok ? (ok ? '<b>Right, that one belongs to it.</b>' : '<b>It was true.</b> That sentence really belongs to this shape.') : `<b>${ok ? 'You caught it.' : 'It was false.'}</b> ${api.esc(it.fix)}`;
       i++;
-      timers.push(setTimeout(() => { if (i < ROUNDS) round(); else endScreen(el, api, ctx, pairs.id, score, ROUNDS, ['Not a single trick got past you.', 'Good. The tricks that caught you are the same tricks the exam uses, so learn them.', 'The lines are getting mixed up. Go through the nine shape cards and come back.']); }, ok ? 900 : 1900));
+      timers.push(setTimeout(() => { if (i < ROUNDS) round(); else endScreen(el, api, ctx, pairs.id, score, ROUNDS, ['Not a single trick got past you.', 'Good. The tricks that caught you are the same tricks the exam uses, so learn them.', 'The sentences are getting mixed up. Go through the nine shape cards and come back.']); }, ok ? 900 : 1900));
     }
     btns.forEach(b => b.addEventListener('click', () => answer(b.dataset.v)));
     const onKey = e => { if (e.key === '1') { e.preventDefault(); answer('1'); } if (e.key === '2') { e.preventDefault(); answer('0'); } };

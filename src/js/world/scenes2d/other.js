@@ -136,7 +136,7 @@ function elementsDraw(k) {
     // 07 space: almost nothing, on purpose
     `<g class="el-space"><circle class="el-sdot" cx="${sp[0] + 26}" cy="${sp[1] - 26}" r="7" fill="${INK.pink}"/></g>`
   ];
-  const cells = EL_POS.map(([x, y], i) => `<g class="el-cell"><rect x="${x}" y="${y}" width="${S}" height="${S}" fill="none" stroke="${INK.navy}" stroke-width="1.8" opacity=".3"/>${k.text(x + 8, y + 18, '0' + (i + 1), { size: 15, family: 'dot', weight: 800, fill: INK.ink2, anchor: 'start' })}${items[i]}</g>`).join('');
+  const cells = EL_POS.map(([x, y], i) => `<g class="el-cell"><rect x="${x}" y="${y}" width="${S}" height="${S}" fill="none" stroke="${INK.navy}" stroke-width="1.8" opacity=".3"/>${k.text(x + 8, y + 19, '0' + (i + 1), { size: 16, family: 'dot', weight: 800, fill: INK.ink2, anchor: 'start', extra: 'direction="ltr"' })}${items[i]}</g>`).join('');
   const finder = `<g class="el-finder" stroke="${INK.pink}" stroke-width="5" fill="none" stroke-linecap="round">${[[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([dx, dy]) => `<polyline points="${P([[dx * 64, dy * 44], [dx * 64, dy * 64], [dx * 44, dy * 64]])}"/>`).join('')}</g>`;
   return `${cells}${finder}${marks(k)}`;
 }

@@ -36,7 +36,7 @@ function endScreen(el, api, ctx, id, score, max, lines) {
 /* ---------- 1 · First Glance ---------- */
 const glance = {
   id: 'mind-glance', title: 'First Glance', en: 'poster → focal point',
-  how: 'A poster flashes for less than a second, then disappears. Say what your eye went to first. That’s exactly what happens when people **scan**.',
+  how: 'A poster flashes for less than a second, then disappears. Say what your eye went to first. That’s exactly what happens when people scan.',
   mount(el, api, ctx) {
     const ROUNDS = 8; let i = 0, score = 0, focal = '', timers = [], locked = true;
     const later = (f, ms) => timers.push(setTimeout(f, ms));

@@ -576,20 +576,22 @@ function figureGroundPlay(svg, k) {
   return t;
 }
 
+/** the site is RTL: without this, text-anchor start/end would flip inside the scene */
+const ltr = draw => k => `<g direction="ltr">${draw(k)}</g>`;
 export default {
-  halftone: { draw: halftoneDraw, play: halftonePlay },
-  emergence: { draw: emergenceDraw, play: emergencePlay },
+  halftone: { draw: ltr(halftoneDraw), play: halftonePlay },
+  emergence: { draw: ltr(emergenceDraw), play: emergencePlay },
   kanizsa: { draw: kanizsaDraw, play: kanizsaPlay },
-  necker: { draw: neckerDraw, play: neckerPlay },
-  vase: { draw: vaseDraw, play: vasePlay },
-  invariance: { draw: invarianceDraw, play: invariancePlay },
-  proximity: { draw: proximityDraw, play: proximityPlay },
-  similarity: { draw: similarityDraw, play: similarityPlay },
-  continuity: { draw: continuityDraw, play: continuityPlay },
-  closure: { draw: closureDraw, play: closurePlay },
-  simplicity: { draw: simplicityDraw, play: simplicityPlay },
-  commonFate: { draw: commonFateDraw, play: commonFatePlay },
-  connection: { draw: connectionDraw, play: connectionPlay },
-  symmetry: { draw: symmetryDraw, play: symmetryPlay },
-  figureGround: { draw: figureGroundDraw, play: figureGroundPlay }
+  necker: { draw: ltr(neckerDraw), play: neckerPlay },
+  vase: { draw: ltr(vaseDraw), play: vasePlay },
+  invariance: { draw: ltr(invarianceDraw), play: invariancePlay },
+  proximity: { draw: ltr(proximityDraw), play: proximityPlay },
+  similarity: { draw: ltr(similarityDraw), play: similarityPlay },
+  continuity: { draw: ltr(continuityDraw), play: continuityPlay },
+  closure: { draw: ltr(closureDraw), play: closurePlay },
+  simplicity: { draw: ltr(simplicityDraw), play: simplicityPlay },
+  commonFate: { draw: ltr(commonFateDraw), play: commonFatePlay },
+  connection: { draw: ltr(connectionDraw), play: connectionPlay },
+  symmetry: { draw: ltr(symmetryDraw), play: symmetryPlay },
+  figureGround: { draw: ltr(figureGroundDraw), play: figureGroundPlay }
 };

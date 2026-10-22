@@ -307,33 +307,39 @@ function arrowPlay(svg, k) {
 }
 
 /* ---------- ellipse · continuity, elegance, motion: a graceful body with a path that never ends ---------- */
+// the orbit is printed in two halves: the far half under the body, the near half over it, so the path wraps the form
+const EO = { rx: 262, ry: 80, tilt: -18 };
 function ellipseDraw(k) {
-  const { INK, ht } = k;
+  const { INK, ht } = k; const { rx, ry, tilt } = EO;
+  const half = (far, cls) => `<path class="${cls}" d="M${far ? 300 - rx : 300 + rx},300 A${rx},${ry} 0 0 1 ${far ? 300 + rx : 300 - rx},300" fill="none" stroke="${INK.navy}" stroke-width="3.2" stroke-linecap="round"/>`;
+  const dot = cls => `<circle class="${cls}" cx="${300 + rx}" cy="300" r="14" fill="${INK.navy}"/>`;
   return `
+  <g transform="rotate(${tilt} 300 300)">${half(true, 'el-o el-far')}${dot('el-dot el-dot-far')}</g>
   <g class="el-pass"><ellipse cx="315" cy="314" rx="210" ry="130" fill="${ht('violet', 'm')}"/></g>
   <g class="el-body">
     <ellipse cx="300" cy="300" rx="210" ry="130" fill="${INK.pink}"/>
     <ellipse cx="300" cy="300" rx="148" ry="82" fill="none" stroke="${INK.paper}" stroke-width="3" opacity=".55"/>
     <ellipse cx="300" cy="300" rx="84" ry="40" fill="none" stroke="${INK.paper}" stroke-width="2" opacity=".4"/>
   </g>
-  <g transform="rotate(-18 300 300)">
-    <ellipse class="el-orbit" cx="300" cy="300" rx="262" ry="80" fill="none" stroke="${INK.navy}" stroke-width="3"/>
-    <circle class="el-dot" cx="562" cy="300" r="14" fill="${INK.navy}"/>
-  </g>
+  <g transform="rotate(${tilt} 300 300)">${half(false, 'el-o el-near')}${dot('el-dot el-dot-near')}</g>
   ${marks(k)}`;
 }
 function ellipsePlay(svg, k) {
-  const { gsap } = k; const [q] = sel(svg);
-  const orb = q('.el-orbit'), dot = q('.el-dot'); const L = orb.getTotalLength ? orb.getTotalLength() : 1200;
-  gsap.set(orb, { strokeDasharray: L });
+  const { gsap } = k; const [q, qa] = sel(svg);
+  const far = q('.el-dot-far'), near = q('.el-dot-near'), halves = qa('.el-o');
+  const L = halves[0].getTotalLength ? halves[0].getTotalLength() : 600;
+  gsap.set(halves, { strokeDasharray: L + 1 });
+  // the dot rides the orbit: drawn under the body on the far half (sin < 0), over it on the near half
+  const put = a => { const x = (300 + EO.rx * Math.cos(a)).toFixed(1), y = (300 + EO.ry * Math.sin(a)).toFixed(1), back = Math.sin(a) < 0; [far, near].forEach(d => { d.setAttribute('cx', x); d.setAttribute('cy', y); }); far.style.opacity = back ? 1 : 0; near.style.opacity = back ? 0 : 1; };
+  put(0);
   const t = k.tl();
   t.from(q('.el-body'), { scaleX: 0, transformOrigin: '50% 50%', duration: 1.1, ease: 'expo.out' }, 0)
     .from(q('.el-pass'), { opacity: 0, x: 26, y: 18, duration: 1, ease: 'expo.out' }, .2)
-    .from(orb, { strokeDashoffset: L, duration: 1.3, ease: 'power2.inOut' }, .3)
-    .from(dot, { scale: 0, transformOrigin: '50% 50%', duration: .5, ease: 'back.out(2)' }, 1.2);
+    .from(halves, { strokeDashoffset: L + 1, duration: 1, ease: 'power2.inOut', stagger: .45 }, .3)
+    .from(near, { scale: 0, transformOrigin: '50% 50%', duration: .5, ease: 'back.out(2)' }, 1.3);
   if (still(t, k)) return t;
   const p = { a: 0 };
-  gsap.to(p, { a: Math.PI * 2, duration: 8, repeat: -1, ease: 'none', delay: 1.5, onUpdate: () => { dot.setAttribute('cx', (300 + 262 * Math.cos(p.a)).toFixed(1)); dot.setAttribute('cy', (300 + 80 * Math.sin(p.a)).toFixed(1)); } });
+  gsap.to(p, { a: Math.PI * 2, duration: 8, repeat: -1, ease: 'none', delay: 1.6, onUpdate: () => put(p.a) });
   k.loop(q('.el-body'), { scaleX: 1.035, scaleY: .965, transformOrigin: '50% 50%', duration: 3, delay: 1.2 });
   return t;
 }

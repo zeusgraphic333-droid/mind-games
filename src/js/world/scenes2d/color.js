@@ -44,16 +44,17 @@ function latRegion(lam, part) {
   for (let i = 1; i < 24; i++) { const a = aR + (to - aR) * i / 24; pts.push([cx + R * Math.cos(a), cy + R * Math.sin(a)]); }
   return 'M' + pts.map(p => P(p[0], p[1])).join('L') + 'Z';
 }
+const AQUA = '#5EC8E5'; // riso "aqua": overprinted on pink it gives violet, on yellow a clean green
 function csGores(k) {
-  const { INK } = k, Y = INK.yellow, Pk = INK.pink, T = INK.teal;
-  const YP = over(Y, Pk), PT = over(Pk, T), TY = over(T, Y);
-  return { YP, PT, TY, list: [
+  const { INK } = k, Y = INK.yellow, Pk = INK.pink, A = AQUA;
+  const YP = over(Y, Pk), PA = over(Pk, A), AY = over(A, Y);
+  return { YP, PA, AY, A, list: [
     { base: Y, tint: 'url(#ht-yellow-m)' }, { base: Y, dots: 'url(#cs-yp)', tint: 'url(#ht-yellow-m)' },
     { base: YP, tint: 'url(#cs-ypt)' }, { base: Pk, dots: 'url(#cs-yp)', tint: 'url(#ht-pink-m)' },
-    { base: Pk, tint: 'url(#ht-pink-m)' }, { base: Pk, dots: 'url(#cs-pt)', tint: 'url(#ht-pink-m)' },
-    { base: PT, tint: 'url(#cs-ptt)' }, { base: T, dots: 'url(#cs-pt)', tint: 'url(#ht-teal-m)' },
-    { base: T, tint: 'url(#ht-teal-m)' }, { base: T, dots: 'url(#cs-ty)', tint: 'url(#ht-teal-m)' },
-    { base: TY, tint: 'url(#cs-tyt)' }, { base: Y, dots: 'url(#cs-ty)', tint: 'url(#ht-yellow-m)' }
+    { base: Pk, tint: 'url(#ht-pink-m)' }, { base: Pk, dots: 'url(#cs-pa)', tint: 'url(#ht-pink-m)' },
+    { base: PA, tint: 'url(#cs-pat)' }, { base: A, dots: 'url(#cs-pa)', tint: 'url(#cs-at)' },
+    { base: A, tint: 'url(#cs-at)' }, { base: A, dots: 'url(#cs-ay)', tint: 'url(#cs-at)' },
+    { base: AY, tint: 'url(#cs-ayt)' }, { base: Y, dots: 'url(#cs-ay)', tint: 'url(#ht-yellow-m)' }
   ] };
 }
 const CS_BODY = 36 * D2R, CS_POLE = 71 * D2R;
@@ -70,10 +71,10 @@ function sphereDraw(k) {
   void capC;
   return `
   <defs>
-    ${pat('cs-yp', G.YP, 9, 2.6, 75)}${pat('cs-pt', G.PT, 9, 2.4, 15)}${pat('cs-ty', G.TY, 9, 2.6, 45)}
-    ${pat('cs-ypt', G.YP, 9, 2.4, 60)}${pat('cs-ptt', G.PT, 9, 2.2, 30)}${pat('cs-tyt', G.TY, 9, 2.4, 0)}
+    ${pat('cs-yp', G.YP, 9, 2.6, 75)}${pat('cs-pa', G.PA, 9, 2.5, 15)}${pat('cs-ay', G.AY, 9, 2.6, 45)}
+    ${pat('cs-ypt', G.YP, 9, 2.4, 60)}${pat('cs-pat', G.PA, 9, 2.3, 30)}${pat('cs-ayt', G.AY, 9, 2.4, 0)}${pat('cs-at', G.A, 9, 2.4, 45)}
     <clipPath id="cs-body"><path d="${latRegion(CS_BODY, 'body')}"/></clipPath>
-    <linearGradient id="cs-g-shade" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff"/><stop offset=".22" stop-color="#fff" stop-opacity=".75"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="cs-g-shade" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".14" stop-color="#fff" stop-opacity=".55"/><stop offset=".32" stop-color="#fff" stop-opacity="0"/></linearGradient>
     <mask id="cs-shade" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="url(#cs-g-shade)"/></mask>
   </defs>
   <g class="cs-axis-b"><line x1="${cx}" y1="${cy + R + 6}" x2="${cx}" y2="${cy + R + 40}" stroke="${INK.navy}" stroke-width="3" stroke-linecap="round"/></g>
@@ -82,7 +83,7 @@ function sphereDraw(k) {
     <g>${tint}</g>
     <g clip-path="url(#cs-body)">${body}</g>
     <ellipse cx="${cx}" cy="${capCy.toFixed(1)}" rx="${capRx.toFixed(1)}" ry="${capRy.toFixed(1)}" fill="#fff"/>
-    <circle cx="${cx}" cy="${cy}" r="${R}" fill="${ht('navy', 's')}" mask="url(#cs-shade)" opacity=".95"/>
+    <circle cx="${cx}" cy="${cy}" r="${R}" fill="${ht('navy', 's')}" mask="url(#cs-shade)" opacity=".85"/>
     <path d="M${eq.map(p => P(p[0], p[1])).join('L')}" fill="none" stroke="${INK.navy}" stroke-width="1.6" stroke-dasharray="2 5" stroke-linecap="round" opacity=".7"/>
   </g>
   <circle class="cs-rim" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${INK.navy}" stroke-width="5"/>
@@ -198,31 +199,49 @@ function coldPlay(svg, k) {
 }
 
 /* ======================================================================================================
-   neutrals — the slide's untitled third set: Friendly, Formal, Gloomy, Solid, Classy, Clean, Purity — stacked like
-   paper stock and stone, the heaviest at the bottom (Classy is the one lavender among the beiges and greys).
+   neutrals — the slide's untitled third set: Friendly, Formal, Gloomy, Solid, Classy, Clean, Purity — as a cairn of
+   stones (earth, beside warm's sun and cold's water), the heaviest at the bottom; Classy is the one lavender stone.
    ====================================================================================================== */
-const NEUTRAL = [['Solid', '#050505'], ['Gloomy', '#2A2620'], ['Formal', '#6B6457'], ['Friendly', '#B49F70'], ['Clean', '#D6C8A3'], ['Classy', '#B2B2F5'], ['Purity', '#D9D9D9']];
-const NT = { h: 44, gap: 8, w: [404, 366, 384, 334, 356, 306, 326], dx: [0, -16, 12, -10, 18, -8, 6] };
+const NEUTRAL = [['Solid', '#050505', 304, 60], ['Gloomy', '#2A2620', 266, 56], ['Formal', '#6B6457', 236, 52], ['Friendly', '#B49F70', 208, 50], ['Clean', '#D6C8A3', 180, 46], ['Classy', '#B2B2F5', 152, 42], ['Purity', '#D9D9D9', 124, 40]];
+const NT = { ground: 452, dx: [0, -12, 10, -8, 12, -6, 5], rot: [0, -2, 1.6, -1.8, 2.2, -2.6, 3], overlap: 7 };
+/** a pebble: a squarish ellipse, a little flatter underneath, a little skewed */
+function stonePath(w, h) {
+  const a = w / 2, b = h / 2, n = 2.7, pts = [];
+  for (let i = 0; i < 40; i++) {
+    const t = i / 40 * Math.PI * 2, c = Math.cos(t), s = Math.sin(t);
+    let x = a * Math.sign(c) * Math.pow(Math.abs(c), 2 / n), y = b * Math.sign(s) * Math.pow(Math.abs(s), 2 / n);
+    if (y > 0) y *= .8; x += y * .07;
+    pts.push(`${x.toFixed(1)} ${y.toFixed(1)}`);
+  }
+  return 'M' + pts.join('L') + 'Z';
+}
+/** stones nest: each one carries the stones above it, so the top of the cairn can sway as one */
 function neutralsDraw(k) {
-  const { INK } = k; const n = NEUTRAL.length, pitch = NT.h + NT.gap, y0 = 300 + n * pitch / 2 - NT.gap / 2;
-  const slabs = NEUTRAL.map(([w, c], i) => {
-    const y = y0 - (i + 1) * pitch + NT.gap, x = 300 - NT.w[i] / 2 + NT.dx[i];
-    const ink = lum(c) < .45 ? '#fff' : INK.navy;
-    const mis = i === 0 ? `<rect x="${x + 6}" y="${y - 5}" width="${NT.w[i]}" height="${NT.h}" fill="${INK.blue}" opacity=".9"/>` : '';
-    return `<g class="nt-s" data-i="${i}">${mis}<rect x="${x}" y="${y}" width="${NT.w[i]}" height="${NT.h}" fill="${c}"/>${mono(x + 18, y + NT.h / 2 + 5, w.toUpperCase(), { size: 13, fill: ink, anchor: 'start' })}</g>`;
-  }).join('');
-  return `${slabs}
-  <line class="nt-base" x1="60" y1="${y0 + 12}" x2="540" y2="${y0 + 12}" stroke="${INK.navy}" stroke-width="3" stroke-linecap="round"/>
+  const { INK } = k; let y = NT.ground, html = '';
+  const frames = NEUTRAL.map(([w, c, sw, sh], i) => {
+    const b = sh / 2, cy = y - .8 * b, x = 300 + NT.dx[i];
+    const f = { i, w, c, sw, sh, x, cy, bottom: y }; y = cy - b + NT.overlap; return f;
+  });
+  for (let i = frames.length - 1; i >= 0; i--) {
+    const { w, c, sw, sh, x, cy, bottom } = frames[i]; const ink = lum(c) < .45 ? '#fff' : INK.navy;
+    const mis = i === 0 ? `<path d="${stonePath(sw, sh)}" transform="translate(${x + 7} ${cy - 5})" fill="${INK.blue}" opacity=".9"/>` : '';
+    html = `<g class="nt-g" data-i="${i}" data-x="${x}" data-y="${bottom.toFixed(1)}" transform="rotate(${NT.rot[i]} ${x} ${bottom.toFixed(1)})">
+      <g class="nt-s">${mis}<path d="${stonePath(sw, sh)}" transform="translate(${x} ${cy.toFixed(1)})" fill="${c}"/>${mono(x, (cy + 5).toFixed(1), w.toUpperCase(), { size: 12, fill: ink })}</g>
+      ${html}</g>`;
+  }
+  return `${html}
+  <line class="nt-base" x1="76" y1="${NT.ground + 1}" x2="524" y2="${NT.ground + 1}" stroke="${INK.navy}" stroke-width="3" stroke-linecap="round"/>
   ${k.regmark(52, 52)}${k.regmark(548, 52)}`;
 }
 function neutralsPlay(svg, k) {
   const { gsap } = k; const all = s => svg.querySelectorAll(s);
   const t = k.tl();
   t.from(svg.querySelector('.nt-base'), { attr: { x1: 300, x2: 300 }, duration: .7, ease: 'expo.out' }, 0);
-  // stacked like paper: bottom slab first, each one set down on the last
-  t.from(all('.nt-s'), { y: -46, opacity: 0, duration: .75, stagger: .1, ease: 'power3.out' }, .1);
+  // the cairn is built: each stone is set down on the one below, heaviest first
+  t.from(all('.nt-s'), { y: -40, opacity: 0, duration: .7, stagger: .12, ease: 'power3.out' }, .1);
   if (k.reduced()) return t;
-  all('.nt-s').forEach((s, i) => k.loop(s, { x: (i % 2 ? -1 : 1) * 7, duration: 3.2 + i * .35, delay: 1.3 + i * .15 }));
+  // and it keeps its balance: the upper stones sway a hair around their resting points
+  [3, 5].forEach((i, n) => { const g = svg.querySelector(`.nt-g[data-i="${i}"]`); k.loop(g, { rotation: NT.rot[i] + (n ? -2.2 : 1.6), svgOrigin: `${g.dataset.x} ${g.dataset.y}`, duration: 2.8 + n * .9, delay: 1.4 }); });
   void gsap;
   return t;
 }
@@ -232,25 +251,25 @@ function neutralsPlay(svg, k) {
    Each chip prints its solid and two halftone tints.
    ====================================================================================================== */
 const EIGHT = [['Red', '#E5322D'], ['Orange', '#FF7A1A'], ['Yellow', '#FFD21F'], ['Green', '#1FA35B'], ['Blue', '#2F47E8'], ['Purple', '#7B3FC4'], ['Black', '#15151C'], ['White', '#FFFFFF']];
-const SW = { px: 300, py: 476, len: 286, w: 64, step: 15 };
+const SW = { px: 300, py: 486, len: 298, w: 50, step: 16.5 };
 const swAngle = i => (i - (EIGHT.length - 1) / 2) * SW.step;
 function swatchesDraw(k) {
   const { INK } = k; const { px, py, len, w } = SW;
-  const defs = EIGHT.map(([, c], i) => pat(`sw-a${i}`, c, 8, 2.6, 45) + pat(`sw-b${i}`, c, 8, 1.4, 45)).join('');
+  const defs = EIGHT.map(([, c], i) => pat(`sw-a${i}`, c, 7, 2.1, 45)).join('');
   const chips = EIGHT.map(([name, c], i) => {
     const white = c === '#FFFFFF'; const x = px - w / 2, top = py - len;
     const ink = lum(c) < .5 ? '#fff' : INK.navy;
+    const line = white ? `stroke="${INK.navy}" stroke-width="1.2"` : '';
     return `<g class="sw-c" data-i="${i}" transform="rotate(${swAngle(i)} ${px} ${py})">
-      <rect x="${x}" y="${top}" width="${w}" height="${len + 26}" rx="8" fill="#fff" stroke="${INK.navy}" stroke-width="${white ? 2 : 1.4}"/>
-      <rect x="${x + 6}" y="${top + 6}" width="${w - 12}" height="${150}" rx="3" fill="${c}" ${white ? `stroke="${INK.ink3}" stroke-width="1.2" stroke-dasharray="3 4"` : ''}/>
-      <rect x="${x + 6}" y="${top + 162}" width="${w - 12}" height="34" rx="3" fill="url(#sw-a${i})"/>
-      <rect x="${x + 6}" y="${top + 202}" width="${w - 12}" height="34" rx="3" fill="url(#sw-b${i})"/>
-      <text transform="translate(${px + 7} ${top + 140}) rotate(-90)" font-family="'Courier Prime', monospace" font-weight="700" font-size="15" letter-spacing="2" fill="${white ? INK.navy : ink}">${name.toUpperCase()}</text>
+      <rect x="${x}" y="${top}" width="${w}" height="${len + 24}" rx="7" fill="#fff" stroke="${INK.navy}" stroke-width="1.5"/>
+      <rect x="${x + 5}" y="${top + 5}" width="${w - 10}" height="28" rx="2" fill="${white ? '#fff' : `url(#sw-a${i})`}" ${line}/>
+      <rect x="${x + 5}" y="${top + 37}" width="${w - 10}" height="112" rx="2" fill="${c}" ${line}/>
+      <text transform="translate(${px + 6} ${top + 142}) rotate(-90)" font-family="'Courier Prime', monospace" font-weight="700" font-size="14" letter-spacing="1.8" fill="${white ? INK.navy : ink}">${name.toUpperCase()}</text>
     </g>`;
   }).join('');
   return `<defs>${defs}</defs>
-  <g class="sw-mis" transform="translate(6 -5)" opacity=".9"><circle cx="${px}" cy="${py}" r="46" fill="${k.ht('pink', 'm')}"/></g>
   ${chips}
+  <circle cx="${px + 5}" cy="${py - 4}" r="13" fill="none" stroke="${INK.pink}" stroke-width="3" opacity=".9"/>
   <circle cx="${px}" cy="${py}" r="11" fill="#fff" stroke="${INK.navy}" stroke-width="4"/><circle cx="${px}" cy="${py}" r="3" fill="${INK.navy}"/>
   ${k.regmark(52, 52)}${k.regmark(548, 548)}`;
 }
@@ -260,20 +279,21 @@ function swatchesPlay(svg, k) {
   const set = s => s.el.setAttribute('transform', `rotate(${s.a.toFixed(2)} ${SW.px} ${SW.py})`);
   const t = k.tl();
   t.from(chips, { opacity: 0, duration: .3, stagger: .03 }, 0);
-  k.press(t, [svg.querySelector('.sw-mis')], { at: .5 });
   if (k.reduced()) return t;
   // the deck fans open from a closed stack
   st.forEach(s => t.fromTo(s, { a: 0 }, { a: swAngle(s.i), duration: 1.4, ease: 'expo.out', onUpdate: () => set(s), immediateRender: true }, .05 + Math.abs(s.i - 3.5) * .03));
   // then breathes: closes a little and opens again, slowly
   const fan = { f: 1 };
-  gsap.to(fan, { f: .86, duration: 3.4, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.8, onUpdate: () => st.forEach(s => { s.a = swAngle(s.i) * fan.f; set(s); }) });
+  gsap.to(fan, { f: .88, duration: 3.4, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.8, onUpdate: () => st.forEach(s => { s.a = swAngle(s.i) * fan.f; set(s); }) });
   return t;
 }
 
+/** the site is RTL: without this, text-anchor start/end would flip inside the scene */
+const ltr = draw => k => `<g direction="ltr">${draw(k)}</g>`;
 export default {
-  colorSphere: { draw: sphereDraw, play: spherePlay },
-  warm: { draw: warmDraw, play: warmPlay },
-  cold: { draw: coldDraw, play: coldPlay },
-  neutrals: { draw: neutralsDraw, play: neutralsPlay },
-  swatches: { draw: swatchesDraw, play: swatchesPlay }
+  colorSphere: { draw: ltr(sphereDraw), play: spherePlay },
+  warm: { draw: ltr(warmDraw), play: warmPlay },
+  cold: { draw: ltr(coldDraw), play: coldPlay },
+  neutrals: { draw: ltr(neutralsDraw), play: neutralsPlay },
+  swatches: { draw: ltr(swatchesDraw), play: swatchesPlay }
 };

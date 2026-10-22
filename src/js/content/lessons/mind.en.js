@@ -183,10 +183,11 @@ export default {
         { t: 'say', who: 'eye', text: 'The end of the lecture was a game: “Look closely, something’s hidden.” Here we’ll tell it in words only. We won’t draw a single logo.' },
         { t: 'p', text: '4 famous logos, each with a psychological idea inside. Flip the card and see the secret.' },
         { t: 'grid', cols: 2, flip: true, items: [
-          { title: 'The shipping company’s arrow', en: 'FedEx', text: '<span>An arrow hides in the space between two letters. It means **forward direction, speed, and precision**. Exactly what a shipping company promises.</span>', color: C.ice },
-          { title: 'The bite in the apple', en: 'Apple', text: '<span>The apple is missing a piece. The **bite** hints at **bytes**: the foundation stones of computing.</span>', color: C.fg },
-          { title: 'A logo with a soul', en: 'Yahoo', text: '<span>It has a **human touch**: it looks fun and personal. The overall impression: **fancy yet sophisticated**.</span>', color: C.zc },
-          { title: 'A symbol that joins 4 things', en: 'Airbnb', text: '<span>**People** + **places** + **love** + the letter **A**. All in one symbol.</span>', color: C.pink }
+          // <strong>, not **bold**: inside a card `b` is the card's title style
+          { title: 'The shipping company’s arrow', en: 'FedEx', text: '<span>An arrow hides in the space between two letters. It means <strong>forward direction, speed, and precision</strong>. Exactly what a shipping company promises.</span>', color: C.ice },
+          { title: 'The bite in the apple', en: 'Apple', text: '<span>The apple is missing a piece. The <strong>bite</strong> hints at <strong>bytes</strong>: the foundation stones of computing.</span>', color: C.fg },
+          { title: 'A logo with a soul', en: 'Yahoo', text: '<span>It has a <strong>human touch</strong>: it looks fun and personal. The overall impression: <strong>fancy yet sophisticated</strong>.</span>', color: C.zc },
+          { title: 'A symbol that joins 4 things', en: 'Airbnb', text: '<span><strong>People</strong> + <strong>places</strong> + <strong>love</strong> + the letter <strong>A</strong>. All in one symbol.</span>', color: C.pink }
         ] },
         { t: 'quote', ref: 'L02 · S29', text: 'Ever noticed this arrow in FedEx logo? Yes. It depicts forward direction, speed, and precision as core values at FedEx.' },
         { t: 'check', q: 'mi16' },

@@ -324,7 +324,7 @@ export default {
           { title: 'Young girl or old woman?', en: 'W.E. Hill, 1915', text: 'One drawing: you see a young girl looking away, or an old woman. Same lines, two readings.', color: C.ultra },
           { title: 'A German postcard', en: 'German postcard, 1880', text: 'An older take on the same idea. The next slides add the famous “duck or rabbit?” drawing.', color: C.pink }
         ] },
-        { t: 'example', title: 'The fava-bean cart at dawn', text: 'From far away, in the dark before sunrise, you see a big pot, a yellow light and people standing around. You haven’t read a single word yet. But your brain already told you: foul, breakfast. Your memory and your culture interpreted the shape before any reading.' },
+        { t: 'example', title: 'The fava-bean cart at dawn', text: 'From far away, in the dark before sunrise, you see a big pot, a yellow light and people standing around. You haven’t read a single word yet. But your brain has already decided: the foul cart, breakfast. Your memory and your culture interpreted the shape before any reading.' },
         { t: 'why', text: 'The brain can’t stand something meaningless. As soon as it sees a shape, it searches its memory for something similar. If it finds a match, it relaxes. If it doesn’t, it fills in the rest by itself.' },
         { t: 'tip', text: 'Perception = **active**. It merges + fills in + filters. And interpretation = **the viewer** (memories, culture, mood) + **the design** (context, form, style).' },
         { t: 'check', q: 'gi15' }, { t: 'check', q: 'gi16' }

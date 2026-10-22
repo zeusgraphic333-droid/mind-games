@@ -329,12 +329,14 @@ function monoPlay(svg, k) {
   return t;
 }
 
+/** the site is RTL: without this, text-anchor start/end would flip inside the scene */
+const ltr = draw => k => `<g direction="ltr">${draw(k)}</g>`;
 export default {
-  type: { draw: typeDraw, play: typePlay },
-  voices: { draw: voicesDraw, play: voicesPlay },
-  serif: { draw: serifDraw, play: serifPlay },
-  sans: { draw: sansDraw, play: sansPlay },
-  script: { draw: scriptDraw, play: scriptPlay },
-  display: { draw: displayDraw, play: displayPlay },
-  mono: { draw: monoDraw, play: monoPlay }
+  type: { draw: ltr(typeDraw), play: typePlay },
+  voices: { draw: ltr(voicesDraw), play: voicesPlay },
+  serif: { draw: ltr(serifDraw), play: serifPlay },
+  sans: { draw: ltr(sansDraw), play: sansPlay },
+  script: { draw: ltr(scriptDraw), play: scriptPlay },
+  display: { draw: ltr(displayDraw), play: displayPlay },
+  mono: { draw: ltr(monoDraw), play: monoPlay }
 };

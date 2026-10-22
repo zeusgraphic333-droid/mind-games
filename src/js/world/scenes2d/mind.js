@@ -112,7 +112,9 @@ function mindsDraw(k) {
   const { INK, ht } = k;
   const eyeAt = h => [h.x + 86 * h.s, h.y + 48 * h.s];
   const lines = HEADS.map((h, i) => { const [ex, ey] = eyeAt(h); return `<line class="mi-ray" x1="${(ex + 14).toFixed(1)}" y1="${ey.toFixed(1)}" x2="${DSG.x - 14}" y2="${DSG.y + 36 + i * 30}" stroke="${INK[h.ink]}" stroke-width="5.5" stroke-linecap="round" stroke-dasharray="2 11"/>`; }).join('');
-  const heads = HEADS.map(h => `<g class="mi-head"><g transform="translate(${h.x + 7} ${h.y + 6}) scale(${h.s})"><path d="${HEAD}" fill="${ht('navy', 's')}"/></g><g transform="translate(${h.x} ${h.y}) scale(${h.s})"><path d="${HEAD}" fill="${INK[h.ink]}"/></g></g>`).join('');
+  // each head is two plates: a halftone of its ink (always printed) and the solid + its misregistered pass (its turn)
+  const heads = HEADS.map(h => `<g class="mi-head"><g transform="translate(${h.x} ${h.y}) scale(${h.s})"><path d="${HEAD}" fill="${ht(h.ink, 'm')}"/></g>
+    <g class="mi-solid"><g transform="translate(${h.x + 7} ${h.y + 6}) scale(${h.s})"><path d="${HEAD}" fill="${ht('navy', 's')}"/></g><g transform="translate(${h.x} ${h.y}) scale(${h.s})"><path d="${HEAD}" fill="${INK[h.ink]}"/></g></g></g>`).join('');
   const reads = HEADS.map((h, i) => `<g class="mi-read"><rect x="${DSG.x + 14 + READ_OFF[i][0]}" y="${DSG.y + 14 + READ_OFF[i][1]}" width="${DSG.s - 28}" height="${DSG.s - 28}" fill="${ht(h.ink, 'm')}"/></g>`).join('');
   return `
   <g class="mi-rays">${lines}</g>
@@ -125,7 +127,7 @@ function mindsDraw(k) {
 }
 function mindsPlay(svg, k) {
   const { gsap } = k; const [q, qa] = sel(svg);
-  const heads = qa('.mi-head'), rays = qa('.mi-ray'), reads = qa('.mi-read');
+  const heads = qa('.mi-head'), solids = qa('.mi-solid'), rays = qa('.mi-ray'), reads = qa('.mi-read');
   const t = k.tl();
   t.from(q('.mi-design'), { scale: .5, opacity: 0, transformOrigin: '50% 50%', duration: 1, ease: 'expo.out' }, 0)
     .from(heads, { x: -40, opacity: 0, duration: 1, stagger: .12, ease: 'expo.out' }, .1)
@@ -136,8 +138,8 @@ function mindsPlay(svg, k) {
   const c = gsap.timeline({ repeat: -1, delay: 2.4 });
   [0, 1, 2].forEach(i => {
     const others = [0, 1, 2].filter(j => j !== i);
-    c.to(others.map(j => heads[j]), { opacity: .5, duration: .6, ease: 'power2.inOut' })
-      .to(heads[i], { opacity: 1, duration: .6 }, '<')
+    c.to(others.map(j => solids[j]), { opacity: 0, duration: .6, ease: 'power2.inOut' })
+      .to(solids[i], { opacity: 1, duration: .6 }, '<')
       .to(others.map(j => rays[j]), { opacity: .2, duration: .6 }, '<')
       .to(rays[i], { opacity: 1, duration: .6 }, '<')
       .to(others.map(j => reads[j]), { opacity: .12, duration: .6 }, '<')
@@ -145,7 +147,7 @@ function mindsPlay(svg, k) {
       .to({}, { duration: 1.5 })
       .to(reads[i], { x: 0, y: 0, duration: .6, ease: 'power2.inOut' });
   });
-  c.to([...heads, ...rays, ...reads], { opacity: 1, duration: .7, ease: 'power2.inOut' }).to({}, { duration: 2.2 });
+  c.to([...solids, ...rays, ...reads], { opacity: 1, duration: .7, ease: 'power2.inOut' }).to({}, { duration: 2.2 });
   gsap.to(rays, { strokeDashoffset: -22, duration: 1.2, repeat: -1, ease: 'none' });
   return t;
 }
