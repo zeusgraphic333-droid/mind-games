@@ -82,7 +82,7 @@ export default {
       blocks: [
         { t: 'say', who: 'drop:#FF6A13', text: 'ادخل محل كشري في وسط البلد: أحمر وأصفر وبرتقالي. ادخل عيادة أسنان: أزرق وأبيض. ده مش ذوق صاحب المكان وبس. ده "حرارة" اللون.' },
         { t: 'p', text: 'السلايدات قسمت الألوان لمجموعتين ليهم عنوان: **ألوان دافية** <en>Warm colors</en> و**ألوان باردة** <en>Cold colors</en>. وبعدهم جراف تالت من غير عنوان، كله ألوان محايدة: بيج ورمادي وأسود، وواحد بس لافندر فاتح (<en>Classy</en>).' },
-        { t: 'art', html: columns(), caption: 'كل كلمة مكتوبة زي ما هي في السلايدات. خد بالك إن Nobility متكررة مرتين في الباردة.' },
+        { t: 'art', html: columns(), caption: 'دي كلمات السلايدات نفسها. خد بالك إن Nobility متكررة مرتين في الباردة، وإن السلايد كاتبة Tranquility غلط: TRANQUALITY.' },
         { t: 'h', text: 'الدافي: طاقة ودفا', en: 'Warm colors' },
         { t: 'grid', cols: 5, items: WARM.map(([en, ar, c]) => ({ title: ar, en, art: hexSw(c), color: c })) },
         { t: 'h', text: 'البارد: هدوء وثقة', en: 'Cold colors' },

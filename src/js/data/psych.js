@@ -37,7 +37,7 @@ const RBL = [ // row-major for a 2-column grid, so it mirrors the slide's two co
   { h: 'plain', s: 'plain', read: 'The impact of this message is clear.', ar: 'تأثير الرسالة واضح ومباشر.', en: 'The message lands clearly and directly.' },
   { h: 'thin', s: 'thin', read: 'Minimalism inspired. Focused.', ar: 'مينيمال ومركّز.', en: 'Minimal and focused.' },
   { h: 'fancy', s: 'fancy', read: 'It is about women. Yep, too feminine.', ar: 'عن الستات، وأنثوي زيادة.', en: 'About women, and too feminine.' },
-  { h: 'thin', s: 'bold', read: 'Caters to the needs of a disparate audience.', ar: 'بيخدم جمهور مختلف ومتنوع.', en: 'Serves a mixed, very varied audience.' }
+  { h: 'thin', s: 'bold', read: 'Caters to the needs of disparate audience.', ar: 'بيخدم جمهور مختلف ومتنوع.', en: 'Serves a mixed, very varied audience.' }
 ];
 /* Mood mixer briefs: every "fit" is a phrase taken from the slides */
 const BRIEFS = [

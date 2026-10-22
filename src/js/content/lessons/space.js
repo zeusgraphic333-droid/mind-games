@@ -107,7 +107,7 @@ export default {
         { t: 'check', q: 'sp17' },
         { t: 'h', text: 'الفراغ الأبيض مش لازم يبقى أبيض', en: 'white space doesn’t have to be white' },
         { t: 'art', html: notWhite, caption: 'المربع واحد. الفراغ حواليه: أبيض، ولون، ونقش. التلاتة <en>white space</en>.' },
-        { t: 'quote', ref: 'L02 · S13', text: 'The white space doesn’t have to be White. It can be any color or pattern.' },
+        { t: 'quote', ref: 'L02 · S13', text: 'The white space doesn’t have to be White. It Can be any color or pattern.' },
         { t: 'why', text: 'اسمه «أبيض» عشان أيام الطباعة كان الورق أبيض. لكن الفكرة هي **غياب العناصر**، مش لون الورق.' },
         { t: 'trap', text: 'صح وغلط: «الفراغ الأبيض لازم يبقى أبيض». **غلط**. وكمان اسمه التاني: <en>negative space</en>.', wrong: 'White space has to be white', right: 'It can be any color or pattern' },
         { t: 'check', q: 'sp03' },

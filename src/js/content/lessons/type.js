@@ -177,7 +177,7 @@ export default {
           draw();
         } },
         { t: 'why', text: 'الوزن والزخرفة بيدّوا "نبرة صوت". تقيل فوق تقيل = زعيق. رفيع فوق رفيع = همس منظم. مزخرف فوق مزخرف = رقة زيادة عن اللزوم.' },
-        { t: 'trap', text: 'التركيبات المقلوبة بتلخبط: <en>BOLD</en> فوق <en>THIN</en> = <en>Committed to make an impression</en>. لكن <en>THIN</en> فوق <en>BOLD</en> = <en>Caters to the needs of a disparate audience</en>. ونفس الحكاية: <en>PLAIN</en> فوق <en>Fancy</en> = <en>Emphasis is on core business</en>، و<en>Fancy</en> فوق <en>PLAIN</en> = <en>Friendly, flexible and open to new ideas</en>.', wrong: 'Thin headline + bold subtext = Committed to make an impression', right: 'Bold headline + thin subtext = Committed to make an impression' },
+        { t: 'trap', text: 'التركيبات المقلوبة بتلخبط: <en>BOLD</en> فوق <en>THIN</en> = <en>Committed to make an impression</en>. لكن <en>THIN</en> فوق <en>BOLD</en> = <en>Caters to the needs of disparate audience</en>. ونفس الحكاية: <en>PLAIN</en> فوق <en>Fancy</en> = <en>Emphasis is on core business</en>، و<en>Fancy</en> فوق <en>PLAIN</en> = <en>Friendly, flexible and open to new ideas</en>.', wrong: 'Thin headline + bold subtext = Committed to make an impression', right: 'Bold headline + thin subtext = Committed to make an impression' },
         { t: 'tip', text: 'نفس الأسلوبين = رسالة صافية: <en>BOLD+BOLD</en> عدواني، <en>PLAIN+PLAIN</en> واضح، <en>THIN+THIN</en> مينيمال، <en>Fancy+Fancy</en> أنثوي زيادة.' },
         { t: 'check', q: 'ty24' },
         { t: 'check', q: 'ty25' },

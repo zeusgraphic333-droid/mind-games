@@ -178,7 +178,7 @@ export default {
           draw();
         } },
         { t: 'why', text: 'Weight and decoration give a “tone of voice”. Bold over bold = shouting. Thin over thin = a neat, quiet whisper. Fancy over fancy = more delicate than it needs to be.' },
-        { t: 'trap', text: 'The flipped pairs are the confusing ones. **BOLD over THIN** = “Committed to make an impression.” But **THIN over BOLD** = “Caters to the needs of a disparate audience.” Same story here: **PLAIN over Fancy** = “Emphasis is on core business.”, and **Fancy over PLAIN** = “Friendly, flexible and open to new ideas.”', wrong: 'Thin headline + bold subtext = Committed to make an impression', right: 'Bold headline + thin subtext = Committed to make an impression' },
+        { t: 'trap', text: 'The flipped pairs are the confusing ones. **BOLD over THIN** = “Committed to make an impression.” But **THIN over BOLD** = “Caters to the needs of disparate audience.” Same story here: **PLAIN over Fancy** = “Emphasis is on core business.”, and **Fancy over PLAIN** = “Friendly, flexible and open to new ideas.”', wrong: 'Thin headline + bold subtext = Committed to make an impression', right: 'Bold headline + thin subtext = Committed to make an impression' },
         { t: 'tip', text: 'Same style twice = a pure message: BOLD+BOLD aggressive, PLAIN+PLAIN clear, THIN+THIN minimal, Fancy+Fancy too feminine.' },
         { t: 'check', q: 'ty24' },
         { t: 'check', q: 'ty25' },

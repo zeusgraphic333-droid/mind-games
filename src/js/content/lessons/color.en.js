@@ -83,7 +83,7 @@ export default {
       blocks: [
         { t: 'say', who: 'drop:#FF6A13', text: 'Walk into a koshary place in downtown Cairo: red, yellow and orange. Walk into a dentist’s clinic: blue and white. That’s not just the owner’s taste. That’s the color’s “temperature”.' },
         { t: 'p', text: 'The slides split colors into two titled groups: **Warm colors** and **Cold colors**. After them comes a third graphic with no title, all neutral colors: beige, gray and black, plus just one light lavender (Classy).' },
-        { t: 'art', html: columns(), caption: 'Every word as it appears on the slides. Notice that Nobility shows up twice in the cold set.' },
+        { t: 'art', html: columns(), caption: 'These are the slides’ own words. Notice that Nobility shows up twice in the cold set, and that the slide misspells Tranquility as “TRANQUALITY”.' },
         { t: 'h', text: 'Warm: energy and warmth', en: 'Warm colors' },
         { t: 'grid', cols: 5, items: WARM.map(([en, ar, c]) => ({ title: ar, art: hexSw(c), color: c })) },
         { t: 'h', text: 'Cold: tranquility and trust', en: 'Cold colors' },

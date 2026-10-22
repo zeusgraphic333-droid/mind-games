@@ -57,7 +57,7 @@ export default [
         explain: `${w} is ${GROUP[g].en}${w === 'Nobility' ? ', and it shows up twice in the cold set.' : g === 'neutral' ? ': it’s from the third graphic, the one with no title.' : '.'}`,
         layout: 'row'
       }));
-      return quickfire(el, api, ctx, { id: 'color-thermo', time: 5, rounds, intro: { title: 'Thermostat', text: 'Every word comes from the three graphics on the slides: warm, cold and neutral. Sort it fast.', rules: ['1 = Warm · 2 = Cold · 3 = Neutral.', 'The words are written exactly as on the slides.', 'Nobility shows up twice in the cold set. Stay sharp.'] } });
+      return quickfire(el, api, ctx, { id: 'color-thermo', time: 5, rounds, intro: { title: 'Thermostat', text: 'Every word comes from the three graphics on the slides: warm, cold and neutral. Sort it fast.', rules: ['1 = Warm · 2 = Cold · 3 = Neutral.', 'The words are the slides’ own words (the slide misspells Tranquility as “TRANQUALITY”).', 'Nobility shows up twice in the cold set. Stay sharp.'] } });
     }
   }
 ];
