@@ -13,7 +13,9 @@ import gsap from 'gsap';
 gsap.ticker.lagSmoothing(0);
 export function devBoot(zone, lesson, games, buildLang = '') {
   document.documentElement.classList.add('is-dev');
-  if (buildLang) state().settings.lang = buildLang;
+  // dev pages keep their old defaults (the zone's own language, the dark world); ?lang= / ?mode= still win
+  state().settings.lang = buildLang || 'ar';
+  if (!state().settings.mode) state().settings.mode = 'immersive';
   readUrlPrefs();
   applyLang(); applyMode();
   touchStreak();

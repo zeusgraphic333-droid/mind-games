@@ -1,15 +1,15 @@
-// Experience mode: 'immersive' (dark particle world, WebGL) or 'illustrated' (light riso-print world, 2D SVG stage).
+// Experience mode: 'illustrated' (light riso-print world, 2D SVG stage; the default) or 'immersive' (dark particle world, WebGL).
 // Saved in settings.mode and mirrored on <html data-mode>. Switching emits 'mode'.
 import { state, save, emit } from './state.js';
 
 export const MODES = ['immersive', 'illustrated'];
-export const mode = () => (state().settings.mode === 'illustrated' ? 'illustrated' : 'immersive');
+export const mode = () => (state().settings.mode === 'immersive' ? 'immersive' : 'illustrated');
 export const isIllustrated = () => mode() === 'illustrated';
 
 export function applyMode() { document.documentElement.dataset.mode = mode(); }
 export function setMode(m) {
   if (!MODES.includes(m)) return;
-  const changed = state().settings.mode !== m;
+  const changed = mode() !== m;
   state().settings.mode = m; save(); applyMode();
   if (changed) emit('mode', m);
 }

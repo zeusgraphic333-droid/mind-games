@@ -1,4 +1,4 @@
-// Language: 'ar' (Egyptian Arabic, RTL) or 'en' (English, LTR). Saved in settings.lang.
+// Language: 'en' (English, LTR; the default) or 'ar' (Egyptian Arabic, RTL). Saved in settings.lang.
 // Content files come in pairs (mind.js + mind.en.js); UI strings live in strings.js and go through t().
 // Switching emits 'lang' — the router re-renders the current screen.
 import { state, save, emit } from './state.js';
@@ -6,7 +6,7 @@ import { STR as UI } from './strings.js';
 import { STR as ENTRY } from './strings-entry.js';
 const STR = { ar: { ...ENTRY.ar, ...UI.ar }, en: { ...ENTRY.en, ...UI.en } };
 
-export const lang = () => (state().settings.lang === 'en' ? 'en' : 'ar');
+export const lang = () => (state().settings.lang === 'ar' ? 'ar' : 'en');
 export const isEN = () => lang() === 'en';
 export const isRTL = () => !isEN();
 export const dir = () => (isEN() ? 'ltr' : 'rtl');
@@ -18,7 +18,7 @@ export function applyLang() {
 }
 export function setLang(l) {
   if (l !== 'ar' && l !== 'en') return;
-  const changed = state().settings.lang !== l;
+  const changed = lang() !== l;
   state().settings.lang = l; save(); applyLang();
   if (changed) emit('lang', l);
 }

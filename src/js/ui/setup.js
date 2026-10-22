@@ -49,14 +49,14 @@ export function openSetup({ onMode = async () => { }, onLang = async () => { } }
             <div class="setup__row" role="radiogroup" aria-label="${esc(t('setup.lang'))}">
               <span class="setup__label">${esc(t('setup.lang'))}</span>
               <div class="seg">
-                <button type="button" role="radio" class="seg__b" data-lang="ar" lang="ar" dir="rtl" aria-checked="${l === 'ar'}">العربية</button>
                 <button type="button" role="radio" class="seg__b" data-lang="en" lang="en" dir="ltr" aria-checked="${l === 'en'}">English</button>
+                <button type="button" role="radio" class="seg__b" data-lang="ar" lang="ar" dir="rtl" aria-checked="${l === 'ar'}">العربية</button>
               </div>
             </div>
             <div class="setup__row" role="radiogroup" aria-label="${esc(t('setup.mode'))}">
               <span class="setup__label">${esc(t('setup.mode'))}</span>
               <div class="modes">
-                ${['immersive', 'illustrated'].map(k => `<button type="button" role="radio" class="mode-card mode-card--${k}" data-mode="${k}" aria-checked="${m === k}">
+                ${['illustrated', 'immersive'].map(k => `<button type="button" role="radio" class="mode-card mode-card--${k}" data-mode="${k}" aria-checked="${m === k}">
                   <span class="mode-card__pv">${PREVIEW[k]()}</span>
                   <span class="mode-card__t"><b>${esc(t('setup.' + k))}</b><small>${esc(t('setup.' + k + '.sub'))}</small></span>
                 </button>`).join('')}
