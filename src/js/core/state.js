@@ -7,7 +7,7 @@ const fresh = () => ({
   xp: 0, seen: {}, checks: {}, games: {}, quiz: {}, boss: { wins: 0, tries: 0, best: 0 },
   exams: [], wrong: {}, fixed: {}, badges: {}, visits: {}, flags: {},
   streak: { last: '', days: 0, best: 0 }, combo: 0, bestCombo: 0,
-  settings: { sound: false, bonus: false, motion: 'auto' }
+  settings: { sound: false, bonus: false, motion: 'auto', lang: '', mode: '' } // lang/mode '' = not chosen yet (setup screen asks)
 });
 let S = fresh();
 try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(fresh(), JSON.parse(raw)); } catch (e) { /* private mode: play without saving */ }

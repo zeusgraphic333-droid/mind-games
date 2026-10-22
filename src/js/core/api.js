@@ -6,6 +6,8 @@ import { GLYPH, glyph } from '../ui/glyphs.js';
 import { QBY, optionsOf } from '../data/index.js';
 import { figureHTML } from '../data/figs.js';
 import { esc, rich, shuffle, seeded, sleep, pick } from './util.js';
+import { lang, L, t } from './i18n.js';
+import { mode } from './mode.js';
 
 export const api = {
   /** give XP with a floating sticker from `fromEl`; `key` makes it a one-time reward */
@@ -35,6 +37,8 @@ export const api = {
   scene(name) { emit('scene', { name }); },
   /* text + random helpers */
   esc, rich, shuffle, seeded, sleep, pick,
-  q: id => QBY[id], optionsOf
+  q: id => QBY[id], optionsOf,
+  /* language + mode (read at render time, never at module load) */
+  get lang() { return lang(); }, get mode() { return mode(); }, L, t
 };
 export default api;

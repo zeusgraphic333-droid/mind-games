@@ -1,18 +1,32 @@
-// Dev harness for one zone (node build.mjs --dev --zone <zone>). Routes: #/dev/learn · #/dev/game/<n> · #/dev/quiz
-// Builds the particle stage too, so chapter scenes can be checked. Add ?noworld to the URL to skip it.
+// Dev harness for one zone (node build.mjs --dev --zone <zone> [--lang en]). Routes: #/dev/learn · #/dev/game/<n> · #/dev/quiz
+// Builds the stage too, so chapter scenes can be checked: particles by default, the 2D stage with ?mode=illustrated.
+// ?noworld skips the stage. ?lang=en|ar overrides the language (an --lang en build defaults to English).
 import { openZone } from './ui/zone.js';
-import { touchStreak, on } from './core/state.js';
+import { touchStreak, on, state } from './core/state.js';
 import { createParticles, canWebGL } from './world/particles.js';
+import { createStage2D } from './world/stage2d.js';
 import { ZONE_FORMATION } from './world/formations.js';
+import { applyLang } from './core/i18n.js';
+import { applyMode, isIllustrated, readUrlPrefs } from './core/mode.js';
 import gsap from 'gsap';
 // headless QA renders slowly; keep tweens on wall-clock time
 gsap.ticker.lagSmoothing(0);
-export function devBoot(zone, lesson, games) {
+export function devBoot(zone, lesson, games, buildLang = '') {
   document.documentElement.classList.add('is-dev');
+  if (buildLang) state().settings.lang = buildLang;
+  readUrlPrefs();
+  applyLang(); applyMode();
   touchStreak();
   let world = null;
-  if (canWebGL() && !location.search.includes('noworld')) {
-    try { world = createParticles(document.getElementById('world')); world.set(ZONE_FORMATION[zone] || 'nebula'); world.start(); world.setStage(innerWidth > 980 ? { cx: .225, cy: .5, z: 20.5 } : { cx: .5, cy: .2, z: 19 }, 0); window.__mg = { world }; } catch (e) { console.warn(e); }
+  const ltr = document.documentElement.dir === 'ltr';
+  const stage = innerWidth > 980 ? { cx: ltr ? .775 : .225, cy: .5, z: 20.5 } : { cx: .5, cy: .2, z: 19 };
+  if (!location.search.includes('noworld')) {
+    if (isIllustrated()) {
+      const host = document.getElementById('stage2d'); host.hidden = false; document.getElementById('world').hidden = true;
+      world = createStage2D(host); world.set(ZONE_FORMATION[zone] || 'nebula'); world.setStage(stage, 0); window.__mg = { world };
+    } else if (canWebGL()) {
+      try { world = createParticles(document.getElementById('world')); world.set(ZONE_FORMATION[zone] || 'nebula'); world.start(); world.setStage(stage, 0); window.__mg = { world }; } catch (e) { console.warn(e); }
+    }
   }
   on('scene', ({ name }) => { if (world && name) world.morph(name, { dur: .9 }); });
   const go = () => {
