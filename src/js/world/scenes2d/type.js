@@ -16,17 +16,18 @@ const label = (x, y, s, fill, { anchor = 'start', size = 13, extra = '' } = {}) 
    ====================================================================================================== */
 const TY = { base: 432, cap: 157, xh: 257, desc: 486 };
 const VOICES4 = [
-  { k: 'GROWN UPS', html: k => T(300, TY.base, 'Aa', { fam: 'serif', size: 400, w: 600, fill: k.INK.navy }) },
-  { k: 'MASCULINE', html: k => T(300, TY.base, 'AA', { fam: 'display', size: 392, fill: k.INK.navy, ls: 6 }) },
-  { k: 'FEMININE', html: k => T(300, TY.base, 'Aa', { fam: 'script', size: 366, fill: k.INK.navy }) },
-  { k: 'KIDS', html: k => `<g transform="rotate(-8 214 ${TY.base})">${T(214, TY.base, 'A', { fam: 'wide', size: 330, w: 900, fill: k.INK.navy })}</g><g transform="rotate(9 410 ${TY.base - 20})">${T(410, TY.base - 20, 'a', { fam: 'wide', size: 330, w: 900, fill: k.INK.navy })}</g>` }
+  { k: 'GROWN UPS', html: (I, mis) => T(300, TY.base, 'Aa', { fam: 'serif', size: 400, w: 600, fill: mis ? I.pink : I.navy }) },
+  { k: 'MASCULINE', html: (I, mis) => T(300, TY.base, 'AA', { fam: 'display', size: 392, fill: mis ? I.pink : I.navy, ls: 6 }) },
+  { k: 'FEMININE', html: (I, mis) => T(300, TY.base, 'Aa', { fam: 'script', size: 366, fill: mis ? I.pink : I.navy }) },
+  // fonts for kids: heavy, round, tilted, in two inks (Anybody 900: A .787em, a .729em)
+  { k: 'KIDS', html: (I, mis) => `<g transform="rotate(-7 172 ${TY.base})">${T(172, TY.base, 'A', { fam: 'wide', size: 320, w: 900, fill: mis ? I.yellow : I.blue })}</g><g transform="rotate(9 424 ${TY.base - 18})">${T(424, TY.base - 18, 'a', { fam: 'wide', size: 320, w: 900, fill: mis ? I.yellow : I.pink })}</g>` }
 ];
 function typeDraw(k) {
   const { INK, ht } = k;
   const guide = (y, dash = '') => `<line class="ty-g" x1="46" y1="${y}" x2="554" y2="${y}" stroke="${INK.blue}" stroke-width="1.5" ${dash ? `stroke-dasharray="${dash}"` : ''}/><rect class="ty-g" x="40" y="${y - 4}" width="8" height="8" fill="${INK.blue}"/>`;
   const faces = VOICES4.map((v, i) => `<g class="ty-v" data-i="${i}" ${i ? 'opacity="0"' : ''}>
-      <g class="ty-mis" transform="translate(8 -6)" opacity=".9">${v.html({ INK: { navy: INK.pink } })}</g>
-      <g class="ty-ink">${v.html(k)}</g>
+      <g class="ty-mis" transform="translate(8 -6)" opacity=".9">${v.html(INK, true)}</g>
+      <g class="ty-ink">${v.html(INK, false)}</g>
       ${label(48, 98, v.k, INK.navy, { size: 15 })}
     </g>`).join('');
   return `
@@ -61,11 +62,11 @@ function typePlay(svg, k) {
    voices — visual voices: the same word in the five families of slide 26; a highlight passes from voice to voice.
    ====================================================================================================== */
 const VO = [
-  { k: 'SERIF', fam: 'serif', w: 600, size: 94, s: 'Voice' },
-  { k: 'SANS-SERIF', fam: 'sans', w: 600, size: 88, s: 'Voice' },
-  { k: 'SCRIPT', fam: 'script', w: 400, size: 98, s: 'Voice' },
-  { k: 'DISPLAY', fam: 'display', w: 400, size: 104, s: 'VOICE', ls: 3 },
-  { k: 'MONOSPACED', fam: 'mono', w: 700, size: 74, s: 'Voice' }
+  { k: 'SERIF', fam: 'serif', w: 600, size: 104, s: 'Voice' },
+  { k: 'SANS-SERIF', fam: 'sans', w: 600, size: 98, s: 'Voice' },
+  { k: 'SCRIPT', fam: 'script', w: 400, size: 110, s: 'Voice' },
+  { k: 'DISPLAY', fam: 'display', w: 400, size: 118, s: 'VOICE', ls: 3 },
+  { k: 'MONOSPACED', fam: 'mono', w: 700, size: 80, s: 'Voice' }
 ];
 const VO_Y = i => 140 + i * 84;
 function voicesDraw(k) {
@@ -73,14 +74,14 @@ function voicesDraw(k) {
   const rows = VO.map((v, i) => {
     const y = VO_Y(i), o = { fam: v.fam, size: v.size, w: v.w, anchor: 'start', ls: v.ls || 0 };
     return `<g class="vo-r" data-i="${i}">
-      <g class="vo-mis" transform="translate(6 -5)" opacity="0">${T(236, y, v.s, { ...o, fill: INK.pink })}</g>
-      ${T(236, y, v.s, { ...o, fill: INK.navy, extra: `class="vo-w" fill-opacity="${i ? .26 : 1}"` })}
-      ${label(64, y - 6, v.k, INK.navy, { size: 13, extra: `class="vo-l" opacity="${i ? .45 : 1}"` })}
+      <g class="vo-mis" transform="translate(6 -5)" opacity="0">${T(250, y, v.s, { ...o, fill: INK.pink })}</g>
+      ${T(250, y, v.s, { ...o, fill: INK.navy, extra: `class="vo-w" fill-opacity="${i ? .26 : 1}"` })}
+      ${label(72, y - 8, v.k, INK.navy, { size: 13, extra: `class="vo-l" opacity="${i ? .45 : 1}"` })}
     </g>`;
   }).join('');
   return `
   <g class="vo-bar" transform="translate(0 ${VO_Y(0)})"><rect x="40" y="-64" width="520" height="80" fill="${ht('yellow', 'm')}"/><rect x="40" y="-64" width="9" height="80" fill="${INK.pink}"/></g>
-  <line class="vo-rule" x1="214" y1="80" x2="214" y2="${VO_Y(4) + 34}" stroke="${INK.navy}" stroke-width="1.5" opacity=".5"/>
+  <line class="vo-rule" x1="228" y1="80" x2="228" y2="${VO_Y(4) + 34}" stroke="${INK.navy}" stroke-width="1.5" opacity=".5"/>
   ${rows}
   ${k.regmark(52, 548)}`;
 }
@@ -111,7 +112,7 @@ function voicesPlay(svg, k) {
 /* ======================================================================================================
    serif — EB Garamond: a printer's loupe travels along the word and magnifies the serifs (the little feet).
    ====================================================================================================== */
-const SF = { size: 224, base: 372, x0: 92, mag: 2.5, r: 82 };
+const SF = { size: 240, base: 386, x0: 80, mag: 2.5, r: 86 };
 // advances (EB Garamond 500, per 1000): S 475 · e 400 · r 362 · i 263 · f 333
 const SF_X = (() => { const adv = [475, 400, 362, 263, 333]; const xs = [SF.x0]; adv.forEach(a => xs.push(xs[xs.length - 1] + a * SF.size / 1000)); return xs; })();
 const SF_STOPS = [
@@ -201,10 +202,10 @@ function sansPlay(svg, k) {
     .from(q('.sn-dot'), { scale: 0, transformOrigin: '50% 50%', duration: .5, ease: 'back.out(2)' }, .9);
   if (k.reduced()) return t;
   // construction: the straight stroke steps out along the grid and comes back to close the circle into an 'a'
-  gsap.timeline({ repeat: -1, delay: 2.2, repeatDelay: 1.6 })
+  gsap.timeline({ repeat: -1, delay: 3.4, repeatDelay: 3 })
     .to(q('.sn-stem'), { x: 76.67, duration: 1, ease: 'expo.inOut' })
     .to(q('.sn-dot'), { x: -76.67, duration: 1, ease: 'expo.inOut' }, '<.1')
-    .to(q('.sn-stem'), { x: 0, duration: 1, ease: 'expo.inOut' }, '+=1.4')
+    .to(q('.sn-stem'), { x: 0, duration: 1, ease: 'expo.inOut' }, '+=1.2')
     .to(q('.sn-dot'), { x: 0, duration: 1, ease: 'expo.inOut' }, '<.1');
   k.loop(q('.sn-mis'), { x: -3, y: 3, duration: 3.6 });
   return t;
@@ -213,7 +214,7 @@ function sansPlay(svg, k) {
 /* ======================================================================================================
    script — Lobster, written in: the outline is drawn like a pen, the ink fills it, a swash flows underneath.
    ====================================================================================================== */
-const SC = { base: 318, size: 178 };
+const SC = { base: 330, size: 178 };
 const SWASH = 'M118 398C178 382 238 372 300 376S418 394 458 382C492 372 500 344 478 338C456 333 448 360 470 372C488 382 516 376 534 364';
 function scriptDraw(k) {
   const { INK, ht } = k;
@@ -221,11 +222,11 @@ function scriptDraw(k) {
   return `
   <rect class="sc-card" x="76" y="104" width="448" height="380" fill="none" stroke="${INK.gold}" stroke-width="2"/>
   <rect class="sc-card" x="86" y="114" width="428" height="360" fill="none" stroke="${INK.gold}" stroke-width="1"/>
-  <circle class="sc-dot" cx="300" cy="200" r="120" fill="${ht('pink', 's')}" mask="url(#fade-r)"/>
+  <circle class="sc-dot" cx="300" cy="214" r="124" fill="${ht('pink', 's')}" mask="url(#fade-r)"/>
   <g class="sc-mis" transform="translate(-6 5)" opacity=".9">${word(INK.gold)}</g>
   <g class="sc-word">${word(INK.pink, `stroke="${INK.pink}" stroke-width="2" stroke-linejoin="round"`)}</g>
-  <path class="sc-swash" d="${SWASH}" fill="none" stroke="${INK.navy}" stroke-width="3.5" stroke-linecap="round"/>
-  <path d="M534 364l8 -9l8 9l-8 9z" class="sc-tip" fill="${INK.navy}"/>
+  <g transform="translate(-8 14)"><path class="sc-swash" d="${SWASH}" fill="none" stroke="${INK.navy}" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M534 364l8 -9l8 9l-8 9z" class="sc-tip" fill="${INK.navy}"/></g>
   ${k.regmark(548, 548)}`;
 }
 function scriptPlay(svg, k) {

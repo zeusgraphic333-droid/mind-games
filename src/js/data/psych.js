@@ -33,7 +33,7 @@ const RBL = [ // row-major for a 2-column grid, so it mirrors the slide's two co
   { h: 'plain', s: 'fancy', read: 'Emphasis is on core business.', ar: 'التركيز على البيزنس الأساسي.', en: 'The main business comes first.' },
   { h: 'bold', s: 'thin', read: 'Committed to make an impression.', ar: 'عايز يسيب انطباع.', en: 'Wants to leave a strong impression.' },
   { h: 'fancy', s: 'plain', read: 'Friendly, flexible and open to new ideas.', ar: 'ودود ومرن ومنفتح على أفكار جديدة.', en: 'Approachable, flexible, open-minded.' },
-  { h: 'bold', s: 'bold', read: 'Jagged, masculine and aggressive.', ar: 'حاد ورجولي وعدواني.', en: 'Rough-edged, manly and aggressive.' },
+  { h: 'bold', s: 'bold', read: 'Jagged, masculine and aggressive.', ar: 'حاد ورجولي وعدواني.', en: 'Sharp and rough, masculine, aggressive.' },
   { h: 'plain', s: 'plain', read: 'The impact of this message is clear.', ar: 'تأثير الرسالة واضح ومباشر.', en: 'The message lands clearly and directly.' },
   { h: 'thin', s: 'thin', read: 'Minimalism inspired. Focused.', ar: 'مينيمال ومركّز.', en: 'Minimal and focused.' },
   { h: 'fancy', s: 'fancy', read: 'It is about women. Yep, too feminine.', ar: 'عن الستات، وأنثوي زيادة.', en: 'About women, and too feminine.' },

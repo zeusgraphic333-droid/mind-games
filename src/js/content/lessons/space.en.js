@@ -12,7 +12,7 @@ export function densityLayout(t, seed = 7) {
   const cols = [C.mute, C.mute, '#5A5866', C.pink, C.sun, C.ice];
   for (let i = 0; i < n; i++) { const w = 18 + r() * 70, h = 6 + r() * 22; const x = 10 + r() * (300 - w), y = 10 + r() * (200 - h); extra += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${cols[i % cols.length]}" opacity="${(.45 + r() * .45).toFixed(2)}"/>`; }
   const size = 30 - t * 10;
-  return svg('0 0 320 220', `<rect x=".5" y=".5" width="319" height="219" rx="12" fill="${C.ink}" stroke="#2A2935"/>${extra}<circle cx="160" cy="${86 - t * 10}" r="${26 - t * 8}" stroke="${C.ice}" stroke-width="1.6" fill="${C.ink}"/>${tx(160, 150 - t * 14, 'Spring Show', { fill: C.fg, size, font: 'Alexandria', weight: 800, extra: `stroke="${C.ink}" stroke-width="${t > .4 ? 4 : 0}" paint-order="stroke"` })}`, 'A poster that gets more crowded or emptier');
+  return svg('0 0 320 220', `<rect x=".5" y=".5" width="319" height="219" rx="12" fill="${C.ink}" stroke="#2A2935"/>${extra}<circle cx="160" cy="${86 - t * 10}" r="${26 - t * 8}" stroke="${C.ice}" stroke-width="1.6" fill="${C.ink}"/>${tx(160, 150 - t * 14, 'Spring Fair', { fill: C.fg, size, font: 'Alexandria', weight: 800, extra: `stroke="${C.ink}" stroke-width="${t > .4 ? 4 : 0}" paint-order="stroke"` })}`, 'A poster that gets more crowded or emptier');
 }
 /** a layout whose space is either active (deliberate, asymmetric) or passive (default gaps) */
 export function spaceLayout(kind = 'active', fill = C.ink, seed = 3) {
