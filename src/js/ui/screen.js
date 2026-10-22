@@ -46,7 +46,9 @@ export function openScreen(o) {
   const body = el.querySelector('.screen__body');
   const panes = Object.fromEntries([...el.querySelectorAll('.pane')].map(p => [p.id.replace('pane-', ''), p]));
   const api = { el, body, panes, tab: null, opened: {}, cleanups: [] };
-  const ink = el.querySelector('.tabs__ink');
+  const ink = el.querySelector('.tabs__ink'), nav = el.querySelector('.tabs');
+  /** tabs that can't fit their row (longer English labels on a phone) drop their numbers */
+  const fitTabs = () => { if (!nav) return; nav.classList.remove('tabs--tight'); if (nav.scrollWidth > nav.clientWidth + 1) nav.classList.add('tabs--tight'); };
   const moveInk = () => { const t = el.querySelector('.tab[aria-selected="true"]'); if (!t || !ink) return; const nav = t.parentElement.getBoundingClientRect(), r = t.getBoundingClientRect(); ink.style.width = r.width + 'px'; ink.style.transform = `translateX(${r.left - nav.left}px)`; };
   api.setTab = (id, focus) => {
     if (!panes[id]) return;
@@ -77,7 +79,8 @@ export function openScreen(o) {
   document.addEventListener('keydown', onKey); api.cleanups.push(() => document.removeEventListener('keydown', onKey));
   const offXP = on('xp', () => { const x = el.querySelector('[data-xp] .hud-num'); if (x) x.textContent = state().xp; const l = levelOf(); const c = el.querySelector('.chip--lvl'); if (c) c.textContent = `Lv ${l.n} · ${L(l.ar, l.en)}`; });
   api.cleanups.push(offXP);
-  const ro = new ResizeObserver(moveInk); ro.observe(el); api.cleanups.push(() => ro.disconnect());
+  const ro = new ResizeObserver(() => { fitTabs(); moveInk(); }); ro.observe(el); api.cleanups.push(() => ro.disconnect());
+  fitTabs();
   // phones: tell the world whether its band at the top is still in view (so it can rest when covered)
   let bandOn = true;
   const onScroll = () => { const on = body.scrollTop < innerHeight * .45; if (on !== bandOn) { bandOn = on; emit('band', on); } };

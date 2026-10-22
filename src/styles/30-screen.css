@@ -33,6 +33,7 @@ html[dir="ltr"] .screen__title small { text-align: left; }
 .tab:hover { color: var(--fg-2); }
 .tab[aria-selected="true"] { color: var(--fg); }
 .tab[aria-selected="true"] .tab__n { color: var(--zc); }
+.tabs--tight .tab__n { display: none; }
 .tabs__ink { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--zc); box-shadow: 0 0 12px var(--zglow); transition: transform .5s var(--ease-out), width .5s var(--ease-out); }
 .screen__body { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; position: relative; outline: none; }
 .wrap { width: min(780px, 100%); margin: 0 auto; padding: clamp(28px, 5vh, 56px) clamp(18px, 4vw, 52px) 120px; }

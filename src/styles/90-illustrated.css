@@ -111,7 +111,9 @@ html[data-mode="illustrated"] .blk-art:not(:has(.qfig)) { border-radius: 18px; p
 html[data-mode="illustrated"] .gamestage__in { border-radius: 22px; padding: clamp(12px, 2vw, 22px); box-shadow: 6px 6px 0 var(--zc); }
 html[data-mode="illustrated"] .gamestage__in .btn--solid, html[data-mode="illustrated"] .blk-demo__stage .btn--solid { --bc: var(--fg); --bt: var(--void); --bb: var(--fg); box-shadow: none; }
 html[data-mode="illustrated"] .gamestage__in .btn, html[data-mode="illustrated"] .blk-demo__stage .btn { --bb: var(--line-3); --fill: var(--fg); --ft: var(--void); }
-html[data-mode="illustrated"] .gamestage__in .chip, html[data-mode="illustrated"] .blk-demo__stage .chip { background: transparent; border-color: var(--line-2); }
+html[data-mode="illustrated"] .gamestage__in .chip, html[data-mode="illustrated"] .blk-demo__stage .chip { background: transparent; border-color: var(--line-2); color: var(--fg-2); }
+/* the zone chip (score) on navy stock: light text, the district ink as its rim */
+html[data-mode="illustrated"] :is(.gamestage__in, .blk-demo__stage) .chip--zone { color: var(--fg); border-color: var(--zc); background: color-mix(in srgb, var(--zc) 18%, transparent); }
 html[data-mode="illustrated"] .gamestage__in .bar, html[data-mode="illustrated"] .blk-demo__stage .bar { height: 3px; background: var(--line-2); }
 
 /* ---------- lesson blocks on paper ---------- */

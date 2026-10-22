@@ -49,12 +49,12 @@ function csGores(k) {
   const { INK } = k, Y = INK.yellow, Pk = INK.pink, A = AQUA;
   const YP = over(Y, Pk), PA = over(Pk, A), AY = over(A, Y);
   return { YP, PA, AY, A, list: [
-    { base: Y, tint: 'url(#ht-yellow-m)' }, { base: Y, dots: 'url(#cs-yp)', tint: 'url(#ht-yellow-m)' },
-    { base: YP, tint: 'url(#cs-ypt)' }, { base: Pk, dots: 'url(#cs-yp)', tint: 'url(#ht-pink-m)' },
-    { base: Pk, tint: 'url(#ht-pink-m)' }, { base: Pk, dots: 'url(#cs-pa)', tint: 'url(#ht-pink-m)' },
-    { base: PA, tint: 'url(#cs-pat)' }, { base: A, dots: 'url(#cs-pa)', tint: 'url(#cs-at)' },
-    { base: A, tint: 'url(#cs-at)' }, { base: A, dots: 'url(#cs-ay)', tint: 'url(#cs-at)' },
-    { base: AY, tint: 'url(#cs-ayt)' }, { base: Y, dots: 'url(#cs-ay)', tint: 'url(#ht-yellow-m)' }
+    { base: Y, tint: 'url(#ht-yellow-m)' }, { base: Y, dots: 'url(#colorSphere-yp)', tint: 'url(#ht-yellow-m)' },
+    { base: YP, tint: 'url(#colorSphere-ypt)' }, { base: Pk, dots: 'url(#colorSphere-yp)', tint: 'url(#ht-pink-m)' },
+    { base: Pk, tint: 'url(#ht-pink-m)' }, { base: Pk, dots: 'url(#colorSphere-pa)', tint: 'url(#ht-pink-m)' },
+    { base: PA, tint: 'url(#colorSphere-pat)' }, { base: A, dots: 'url(#colorSphere-pa)', tint: 'url(#colorSphere-at)' },
+    { base: A, tint: 'url(#colorSphere-at)' }, { base: A, dots: 'url(#colorSphere-ay)', tint: 'url(#colorSphere-at)' },
+    { base: AY, tint: 'url(#colorSphere-ayt)' }, { base: Y, dots: 'url(#colorSphere-ay)', tint: 'url(#ht-yellow-m)' }
   ] };
 }
 const CS_BODY = 36 * D2R, CS_POLE = 71 * D2R;
@@ -71,19 +71,19 @@ function sphereDraw(k) {
   void capC;
   return `
   <defs>
-    ${pat('cs-yp', G.YP, 9, 2.6, 75)}${pat('cs-pa', G.PA, 9, 2.5, 15)}${pat('cs-ay', G.AY, 9, 2.6, 45)}
-    ${pat('cs-ypt', G.YP, 9, 2.4, 60)}${pat('cs-pat', G.PA, 9, 2.3, 30)}${pat('cs-ayt', G.AY, 9, 2.4, 0)}${pat('cs-at', G.A, 9, 2.4, 45)}
-    <clipPath id="cs-body"><path d="${latRegion(CS_BODY, 'body')}"/></clipPath>
-    <linearGradient id="cs-g-shade" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".14" stop-color="#fff" stop-opacity=".55"/><stop offset=".32" stop-color="#fff" stop-opacity="0"/></linearGradient>
-    <mask id="cs-shade" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="url(#cs-g-shade)"/></mask>
+    ${pat('colorSphere-yp', G.YP, 9, 2.6, 75)}${pat('colorSphere-pa', G.PA, 9, 2.5, 15)}${pat('colorSphere-ay', G.AY, 9, 2.6, 45)}
+    ${pat('colorSphere-ypt', G.YP, 9, 2.4, 60)}${pat('colorSphere-pat', G.PA, 9, 2.3, 30)}${pat('colorSphere-ayt', G.AY, 9, 2.4, 0)}${pat('colorSphere-at', G.A, 9, 2.4, 45)}
+    <clipPath id="colorSphere-body"><path d="${latRegion(CS_BODY, 'body')}"/></clipPath>
+    <linearGradient id="colorSphere-g-shade" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".14" stop-color="#fff" stop-opacity=".55"/><stop offset=".32" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <mask id="colorSphere-shade" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="url(#colorSphere-g-shade)"/></mask>
   </defs>
   <g class="cs-axis-b"><line x1="${cx}" y1="${cy + R + 6}" x2="${cx}" y2="${cy + R + 40}" stroke="${INK.navy}" stroke-width="3" stroke-linecap="round"/></g>
   <g class="cs-mis" transform="translate(7 -6)" opacity=".9"><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${INK.blue}" stroke-width="4"/></g>
   <g class="cs-ball">
     <g>${tint}</g>
-    <g clip-path="url(#cs-body)">${body}</g>
+    <g clip-path="url(#colorSphere-body)">${body}</g>
     <ellipse cx="${cx}" cy="${capCy.toFixed(1)}" rx="${capRx.toFixed(1)}" ry="${capRy.toFixed(1)}" fill="#fff"/>
-    <circle cx="${cx}" cy="${cy}" r="${R}" fill="${ht('navy', 's')}" mask="url(#cs-shade)" opacity=".85"/>
+    <circle cx="${cx}" cy="${cy}" r="${R}" fill="${ht('navy', 's')}" mask="url(#colorSphere-shade)" opacity=".85"/>
     <path d="M${eq.map(p => P(p[0], p[1])).join('L')}" fill="none" stroke="${INK.navy}" stroke-width="1.6" stroke-dasharray="2 5" stroke-linecap="round" opacity=".7"/>
   </g>
   <circle class="cs-rim" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${INK.navy}" stroke-width="5"/>
@@ -100,8 +100,8 @@ function spherePlay(svg, k) {
   t.from([q('.cs-axis-t'), q('.cs-axis-b')], { opacity: 0, duration: .6 }, .5);
   if (k.reduced()) return t;
   // the globe spins into place, then keeps turning slowly: hues travel round the axis, white stays on top, dark below
-  t.fromTo(rot, { a: -2.4 }, { a: 0, duration: 1.7, ease: 'expo.out', onUpdate: paint, immediateRender: true }, 0);
-  gsap.to(rot, { a: Math.PI * 2, duration: 44, ease: 'none', repeat: -1, delay: 1.7, onUpdate: paint });
+  t.fromTo(rot, { a: -2.4 }, { a: 0, duration: 1.6, ease: 'expo.out', onUpdate: paint, immediateRender: true }, 0);
+  gsap.to(rot, { a: Math.PI * 2, duration: 44, ease: 'none', repeat: -1, delay: 1.6, onUpdate: paint });
   k.loop(q('.cs-mis'), { x: 4, y: -3, duration: 3.4 });
   return t;
 }
@@ -123,18 +123,18 @@ function warmDraw(k) {
   const bands = WARM.map(([w, c], i) => {
     const [ri, ro] = wmRad(i), rm = (ri + ro) / 2;
     const label = i === 0 ? mono(cx, hy - 26, w.toUpperCase(), { size: 14, fill: INK.navy })
-      : `<path id="wm-arc${i}" d="M${cx - rm} ${hy + 5}A${rm} ${rm} 0 0 1 ${cx + rm} ${hy + 5}" fill="none"/><text font-family="'Courier Prime', monospace" font-weight="700" font-size="13" letter-spacing="2.2" fill="${INK.navy}" opacity=".85"><textPath href="#wm-arc${i}" startOffset="50%" text-anchor="middle">${w.toUpperCase()}</textPath></text>`;
+      : `<path id="warm-arc${i}" d="M${cx - rm} ${hy + 5}A${rm} ${rm} 0 0 1 ${cx + rm} ${hy + 5}" fill="none"/><text font-family="'Courier Prime', monospace" font-weight="700" font-size="13" letter-spacing="2.2" fill="${INK.navy}" opacity=".85"><textPath href="#warm-arc${i}" startOffset="50%" text-anchor="middle">${w.toUpperCase()}</textPath></text>`;
     return `<g class="wm-b" data-i="${i}"><path d="${archPath(ri, ro)}" fill="${c}"/>${label}</g>`;
   }).join('');
   const bar = WARM.map(([, c], i) => `<rect x="${cx - 2.5 * 30 + i * 30 + 4}" y="${hy + 44}" width="22" height="22" fill="${c}"/>`).join('');
   return `
   <defs>
-    <clipPath id="wm-sky"><rect x="0" y="0" width="600" height="${hy}"/></clipPath>
-    <radialGradient id="wm-rg" gradientUnits="userSpaceOnUse" cx="${cx}" cy="${hy}" r="${outer + 74}"><stop offset=".55" stop-color="#fff"/><stop offset=".8" stop-color="#fff" stop-opacity=".5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
-    <mask id="wm-glowmask" maskUnits="userSpaceOnUse" x="0" y="0" width="600" height="600"><rect x="0" y="0" width="600" height="${hy - 2}" fill="url(#wm-rg)"/></mask>
+    <clipPath id="warm-sky"><rect x="0" y="0" width="600" height="${hy}"/></clipPath>
+    <radialGradient id="warm-rg" gradientUnits="userSpaceOnUse" cx="${cx}" cy="${hy}" r="${outer + 74}"><stop offset=".55" stop-color="#fff"/><stop offset=".8" stop-color="#fff" stop-opacity=".5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <mask id="warm-glowmask" maskUnits="userSpaceOnUse" x="0" y="0" width="600" height="600"><rect x="0" y="0" width="600" height="${hy - 2}" fill="url(#warm-rg)"/></mask>
   </defs>
-  <g class="wm-glow"><circle cx="${cx}" cy="${hy}" r="${outer + 74}" fill="${ht('yellow', 'l')}" mask="url(#wm-glowmask)"/></g>
-  <g class="wm-ripple" clip-path="url(#wm-sky)"><circle cx="${cx}" cy="${hy}" r="${outer + 8}" fill="none" stroke="${INK.orange}" stroke-width="3" opacity="0"/></g>
+  <g class="wm-glow"><circle cx="${cx}" cy="${hy}" r="${outer + 74}" fill="${ht('yellow', 'l')}" mask="url(#warm-glowmask)"/></g>
+  <g class="wm-ripple" clip-path="url(#warm-sky)"><circle cx="${cx}" cy="${hy}" r="${outer + 8}" fill="none" stroke="${INK.orange}" stroke-width="3" opacity="0"/></g>
   <g class="wm-mis" transform="translate(6 -5)" opacity=".85"><path d="${archPath(...wmRad(2))}" fill="${INK.pink}"/></g>
   ${bands}
   <line class="wm-hz" x1="64" y1="${hy}" x2="536" y2="${hy}" stroke="${INK.navy}" stroke-width="4" stroke-linecap="round"/>
@@ -152,7 +152,7 @@ function warmPlay(svg, k) {
   if (k.reduced()) return t;
   // warmth radiates: a slow heat ring leaves the sun, and the bands breathe outward one after another
   gsap.timeline({ repeat: -1, delay: 1.6, repeatDelay: .6 })
-    .fromTo(q('.wm-ripple circle'), { attr: { r: wmRad(4)[1] + 6 }, opacity: .9 }, { attr: { r: wmRad(4)[1] + 92 }, opacity: 0, duration: 2.8, ease: 'sine.out' });
+    .fromTo(q('.wm-ripple circle'), { attr: { r: wmRad(4)[1] + 6 }, opacity: .9 }, { attr: { r: wmRad(4)[1] + 92 }, opacity: 0, duration: 2.8, ease: 'sine.out', immediateRender: false });
   k.loop(all('.wm-b'), { scale: 1.025, svgOrigin: `${WM.cx} ${WM.hy}`, duration: 1.8, stagger: { each: .22 }, delay: 1.4 });
   k.loop(q('.wm-glow'), { scale: 1.06, svgOrigin: `${WM.cx} ${WM.hy}`, duration: 3.2 });
   return t;
@@ -176,9 +176,9 @@ function coldDraw(k) {
   }).join('');
   const labels = COLD.map(([w, c], i) => mono(cx, top + i * h + h / 2 + 7, w.toUpperCase(), { size: 13, fill: lum(c) < .5 ? '#fff' : INK.navy })).join('');
   return `
-  <defs><clipPath id="cd-disc"><circle cx="${cx}" cy="${cy}" r="${R}"/></clipPath></defs>
+  <defs><clipPath id="cold-disc"><circle cx="${cx}" cy="${cy}" r="${R}"/></clipPath></defs>
   <g class="cd-mis" transform="translate(-7 6)" opacity=".9"><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${INK.violet}" stroke-width="3"/></g>
-  <g class="cd-sea" clip-path="url(#cd-disc)">${bands}</g>
+  <g class="cd-sea" clip-path="url(#cold-disc)">${bands}</g>
   <g class="cd-lab">${labels}</g>
   <circle class="cd-rim" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${INK.navy}" stroke-width="4"/>
   <line class="cd-hz" x1="${cx - R - 34}" y1="${top}" x2="${cx + R + 34}" y2="${top}" stroke="${INK.navy}" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round" opacity=".7"/>
@@ -255,14 +255,14 @@ const SW = { px: 300, py: 474, len: 298, w: 50, step: 16.5 };
 const swAngle = i => (i - (EIGHT.length - 1) / 2) * SW.step;
 function swatchesDraw(k) {
   const { INK } = k; const { px, py, len, w } = SW;
-  const defs = EIGHT.map(([, c], i) => pat(`sw-a${i}`, c, 7, 2.1, 45)).join('');
+  const defs = EIGHT.map(([, c], i) => pat(`swatches-a${i}`, c, 7, 2.1, 45)).join('');
   const chips = EIGHT.map(([name, c], i) => {
     const white = c === '#FFFFFF'; const x = px - w / 2, top = py - len;
     const ink = lum(c) < .5 ? '#fff' : INK.navy;
     const line = white ? `stroke="${INK.navy}" stroke-width="1.2"` : '';
     return `<g class="sw-c" data-i="${i}" transform="rotate(${swAngle(i)} ${px} ${py})">
       <rect x="${x}" y="${top}" width="${w}" height="${len + 24}" rx="7" fill="#fff" stroke="${INK.navy}" stroke-width="1.5"/>
-      <rect x="${x + 5}" y="${top + 5}" width="${w - 10}" height="28" rx="2" fill="${white ? '#fff' : `url(#sw-a${i})`}" ${line}/>
+      <rect x="${x + 5}" y="${top + 5}" width="${w - 10}" height="28" rx="2" fill="${white ? '#fff' : `url(#swatches-a${i})`}" ${line}/>
       <rect x="${x + 5}" y="${top + 37}" width="${w - 10}" height="112" rx="2" fill="${c}" ${line}/>
       <text transform="translate(${px + 6} ${top + 142}) rotate(-90)" font-family="'Courier Prime', monospace" font-weight="700" font-size="14" letter-spacing="1.8" fill="${white ? INK.navy : ink}">${name.toUpperCase()}</text>
     </g>`;

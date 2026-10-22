@@ -57,7 +57,7 @@ export function sq(name) {
         .from(q(`.${id}-frame`), { attr: { width: 0, height: 0 }, duration: .7, ease: 'expo.out' }, .2)
         .from(q(`.${id}-label`), { opacity: 0, y: 10, duration: .6 }, .5);
       // printed onto the sheet: squares are stamped one after another, lines are pulled across
-      const each = Math.min(.07, .85 / Math.max(1, els.length));
+      const each = Math.min(.06, .7 / Math.max(1, els.length));
       els.forEach((el, i) => {
         const at = .45 + i * each;
         if (el.tagName === 'line') { const L = Math.hypot(el.x2.baseVal.value - el.x1.baseVal.value, el.y2.baseVal.value - el.y1.baseVal.value); t.fromTo(el, { strokeDasharray: `0 ${L + 2}` }, { strokeDasharray: `${L + 2} 0`, duration: .45, ease: 'power2.out' }, at); }
@@ -84,10 +84,10 @@ function squaresDraw(k) {
   const sh = sheet(k, 'bs', LECTURE[0], '');
   const L0 = LAYOUTS[0];
   const words = LECTURE.map((w, i) => k.text(px(-5), py(155) + 46, w.toUpperCase(), { size: 22, family: 'dot', weight: 800, fill: k.INK.navy, anchor: 'start', extra: `class="bs-w" data-i="${i}" letter-spacing="3" opacity="${i ? 0 : 1}"` })).join('');
-  return `<g direction="ltr"><defs>${pageClip('bs')}</defs>
+  return `<g direction="ltr"><defs>${pageClip('squares')}</defs>
     <rect class="bs-mis" x="${px(0) + 5}" y="${py(0) - 4}" width="${150 * U}" height="${150 * U}" fill="none" stroke="${k.INK.blue}" stroke-width="1.3" opacity=".55"/>
     ${sh.under}
-    <g clip-path="url(#bs-clip)">${L0.map((p, j) => `<rect class="bs-q" data-j="${j}" x="-.5" y="-.5" width="1" height="1" fill="${k.INK.navy}" transform="${sqT(p)}"/>`).join('')}</g>
+    <g clip-path="url(#squares-clip)">${L0.map((p, j) => `<rect class="bs-q" data-j="${j}" x="-.5" y="-.5" width="1" height="1" fill="${k.INK.navy}" transform="${sqT(p)}"/>`).join('')}</g>
     ${words}
     <g class="bs-dots">${LECTURE.map((_, i) => `<circle class="bs-d" cx="${px(150) - (LECTURE.length - 1 - i) * 18}" cy="${py(155) + 39}" r="5" fill="${i ? 'none' : k.INK.pink}" stroke="${k.INK.navy}" stroke-width="1.5"/>`).join('')}</g></g>`;
 }
@@ -107,14 +107,14 @@ function squaresPlay(svg, k) {
   const cyc = gsap.timeline({ repeat: -1, delay: 2.4 });
   LECTURE.forEach((_, i) => {
     const n = (i + 1) % LECTURE.length, at = i * 2.9;
-    st.forEach((s, j) => cyc.to(s, { ...LAYOUTS[n][j], duration: 1.1, ease: 'power3.inOut', onUpdate: j === 0 ? paint : undefined }, at + (j % 8) * .025));
+    st.forEach((s, j) => cyc.to(s, { ...LAYOUTS[n][j], duration: 1.1, ease: 'power3.inOut' }, at + (j % 8) * .025));
     cyc.to(words[i], { opacity: 0, y: -8, duration: .35 }, at)
-      .fromTo(words[n], { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .5 }, at + .55)
+      .fromTo(words[n], { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .5, immediateRender: false }, at + .55)
       .to(dots[i], { attr: { fill: 'none' }, duration: .2 }, at)
       .to(dots[n], { attr: { fill: k.INK.pink }, duration: .2 }, at + .55)
       .set(words[i], { y: 0 }, at + .4);
   });
-  // one paint per frame for the whole set (the first square's tween drives it, the others only move numbers)
+  // the tweens only move numbers; one paint per frame writes all sixteen transforms
   cyc.eventCallback('onUpdate', paint);
   return t;
 }

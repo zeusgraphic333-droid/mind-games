@@ -6,7 +6,7 @@ html[dir="ltr"] .gamecard:hover { background: linear-gradient(270deg, transparen
 .gamecard__n { font-size: 34px; line-height: .8; color: var(--fg-4); transition: color .3s; }
 .gamecard:hover .gamecard__n { color: var(--zc); }
 .gamecard__txt { display: grid; gap: 4px; }
-.gamecard__txt b { font: 800 clamp(21px, 2.2vw, 27px)/1.2 var(--f-display); }
+.gamecard__txt > b { font: 800 clamp(21px, 2.2vw, 27px)/1.2 var(--f-display); }
 .gamecard__txt bdi { font: 500 13px/1.2 var(--f-text); color: var(--zc); }
 .gamecard__how { font-size: 15px; line-height: 1.7; color: var(--fg-2); margin-top: 4px; }
 .gamecard__meta { display: grid; justify-items: end; gap: 4px; font-size: 12.5px; color: var(--fg-3); }

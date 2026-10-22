@@ -141,18 +141,19 @@ function emergenceDraw(k) {
 function emergencePlay(svg, k) {
   const { gsap } = k; const all = s => svg.querySelectorAll(s), q = s => svg.querySelector(s);
   const cs = [...all('.em-c')]; const r = rng(7);
+  // the parts on their own: every circle goes to a random spot on the sheet (no trace of the U left)
   const off = cs.map(c => {
-    const x = +c.getAttribute('cx'), y = +c.getAttribute('cy'), a = Math.atan2(y - 286, x - 300) + (r() - .5) * 1.3, d = 70 + r() * 120;
-    const tx = Math.max(52, Math.min(548, x + Math.cos(a) * d)), ty = Math.max(52, Math.min(548, y + Math.sin(a) * d));
+    const x = +c.getAttribute('cx'), y = +c.getAttribute('cy'), rad = +c.getAttribute('r');
+    const tx = 64 + rad + r() * (472 - 2 * rad), ty = 64 + rad + r() * (472 - 2 * rad);
     return { x: tx - x, y: ty - y };
   });
   const t = k.tl();
   if (k.reduced()) { t.from(cs, { opacity: 0, duration: .6, stagger: .004 }); return t; }
   // parts first arrive from everywhere; the outline is recognised before they have even settled
-  t.from(cs, { x: i => off[i].x, y: i => off[i].y, opacity: 0, duration: 1.5, ease: 'expo.out', stagger: { each: .004, from: 'random' } }, 0)
-    .to(q('.em-ghost'), { opacity: .95, duration: .45 }, .35).to(q('.em-ghost'), { opacity: 0, duration: .8 }, 1.5);
+  t.from(cs, { x: i => off[i].x, y: i => off[i].y, opacity: 0, duration: 1.2, ease: 'expo.out', stagger: { each: .003, from: 'random' } }, 0)
+    .to(q('.em-ghost'), { opacity: .95, duration: .45 }, .3).to(q('.em-ghost'), { opacity: 0, duration: .8 }, 1.4);
   gsap.timeline({ repeat: -1, delay: 3.6, repeatDelay: 1.4 })
-    .to(cs, { x: i => off[i].x * .8, y: i => off[i].y * .8, duration: 1.8, ease: 'power2.inOut', stagger: { each: .005, from: 'random' } })
+    .to(cs, { x: i => off[i].x, y: i => off[i].y, duration: 1.8, ease: 'power2.inOut', stagger: { each: .005, from: 'random' } })
     .to(cs, { x: 0, y: 0, duration: 1.9, ease: 'power3.inOut', stagger: { each: .005, from: 'random' } }, '+=1.1')
     .to(q('.em-ghost'), { opacity: .95, duration: .5 }, '<.55')
     .to(q('.em-ghost'), { opacity: 0, duration: .9 }, '>.5');

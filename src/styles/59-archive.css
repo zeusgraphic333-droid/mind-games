@@ -90,6 +90,7 @@ html[dir="ltr"] .fc__k { left: auto; right: 16px; }
 .set small { font-size: 13px; color: var(--fg-3); }
 .set input { width: 20px; height: 20px; accent-color: var(--violet); flex: none; }
 .set--danger { cursor: default; }
+.set > .btn { flex: none; }
 /* language / experience: two-way switches */
 .set--pref { cursor: default; flex-wrap: wrap; }
 .set__seg { display: inline-flex; gap: 6px; flex: none; }

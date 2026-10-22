@@ -18,7 +18,7 @@
 .brand__txt { display: grid; line-height: 1; gap: 4px; }
 .brand__txt b { font: 600 25px/0.8 var(--f-hud); letter-spacing: .08em; }
 .brand__txt small { font: 400 12px/1 var(--f-text); color: var(--fg-3); }
-.hud__me { display: flex; align-items: center; gap: 10px; }
+.hud__me { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; row-gap: 6px; } /* wraps only when it runs out of room */
 .me { display: flex; align-items: center; gap: 10px; background: none; border: 0; padding: 4px 8px; border-radius: 12px; text-align: start; transition: background .3s; }
 .me:hover { background: rgba(237, 235, 230, .06); }
 .me__sigil { width: 30px; height: 30px; color: var(--fg); }
@@ -83,6 +83,7 @@ html[dir="ltr"] .sel__en { text-align: left; }
 .hud__lang, .hud__mode { padding: 0 12px; font: 500 14px/1 var(--f-display); --bt: var(--fg-2); }
 .hud__mode { gap: 7px; }
 .hud__mode svg { width: 18px; height: 18px; }
+@media (max-width: 1100px) { .hud__mode span { display: none; } .hud__mode { width: 40px; padding: 0; } }
 .hud.is-diving .sel, .hud.is-diving .nodes, .hud.is-diving .hud__nav { opacity: 0 !important; transition: opacity .35s ease !important; }
 
 @media (max-width: 760px) {
@@ -92,7 +93,9 @@ html[dir="ltr"] .sel__en { text-align: left; }
   .me__txt, .hud__archive span, .hud__mode span, .xp__l { display: none; }
   .xp { padding: 0 4px; }
   .xp__bar { width: 56px; }
-  .hud__me { gap: 4px; }
+  .hud__me { gap: 4px; } /* the preference chips drop to a second row */
+  .hud__lang { padding: 0 10px; }
+  .hud__mode { width: 38px; }
   .sel { inset-inline: 16px; width: auto; bottom: 86px; }
   .sel__title { font-size: 46px; }
   .sel__blurb { font-size: 15px; margin-bottom: 14px; }

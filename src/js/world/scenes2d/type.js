@@ -51,9 +51,9 @@ function typePlay(svg, k) {
     const nx = v[(i + 1) % v.length];
     cyc.to(g, { opacity: 0, y: 14, duration: .45, ease: 'power2.in' }, i * 2.9)
       .set(g, { y: 0 })
-      .fromTo(nx, { opacity: 0 }, { opacity: 1, duration: .2 }, i * 2.9 + .45)
-      .fromTo(nx.querySelector('.ty-mis'), { x: -10, y: 8 }, { x: 8, y: -6, duration: .9, ease: 'expo.out' }, i * 2.9 + .45)
-      .fromTo(nx.querySelector('.ty-ink'), { y: -16 }, { y: 0, duration: .9, ease: 'expo.out' }, i * 2.9 + .45);
+      .fromTo(nx, { opacity: 0 }, { opacity: 1, duration: .2, immediateRender: false }, i * 2.9 + .45)
+      .fromTo(nx.querySelector('.ty-mis'), { x: -10, y: 8 }, { x: 8, y: -6, duration: .9, ease: 'expo.out', immediateRender: false }, i * 2.9 + .45)
+      .fromTo(nx.querySelector('.ty-ink'), { y: -16 }, { y: 0, duration: .9, ease: 'expo.out', immediateRender: false }, i * 2.9 + .45);
   });
   return t;
 }
@@ -104,7 +104,7 @@ function voicesPlay(svg, k) {
       .to(r.querySelector('.vo-l'), { opacity: .45, duration: .4 }, at)
       .to(nx.querySelector('.vo-w'), { attr: { 'fill-opacity': 1 }, duration: .5 }, at + .35)
       .to(nx.querySelector('.vo-l'), { opacity: 1, duration: .4 }, at + .35)
-      .fromTo(nx.querySelector('.vo-mis'), { opacity: 0, x: -4, y: 4 }, { opacity: .9, x: 6, y: -5, duration: .8, ease: 'expo.out' }, at + .45);
+      .fromTo(nx.querySelector('.vo-mis'), { opacity: 0, x: -4, y: 4 }, { opacity: .9, x: 6, y: -5, duration: .8, ease: 'expo.out', immediateRender: false }, at + .45);
   });
   return t;
 }
@@ -126,11 +126,11 @@ function serifDraw(k) {
   const { INK, ht } = k; const [fx, fy] = SF_STOPS[0], { mag, r } = SF;
   const ticks = [0, 90, 180, 270].map(a => { const c = Math.cos(a * Math.PI / 180), s = Math.sin(a * Math.PI / 180); return `<line x1="${(c * (r - 14)).toFixed(1)}" y1="${(s * (r - 14)).toFixed(1)}" x2="${(c * (r - 4)).toFixed(1)}" y2="${(s * (r - 4)).toFixed(1)}" stroke="${INK.navy}" stroke-width="2.5"/>`; }).join('');
   return `
-  <defs><clipPath id="sf-lens"><circle class="sf-clip" cx="${fx}" cy="${fy}" r="${r - 3}"/></clipPath></defs>
+  <defs><clipPath id="serif-lens"><circle class="sf-clip" cx="${fx}" cy="${fy}" r="${r - 3}"/></clipPath></defs>
   <line class="sf-base" x1="56" y1="${SF.base + 1}" x2="544" y2="${SF.base + 1}" stroke="${INK.blue}" stroke-width="2"/>
   <g class="sf-mis" transform="translate(-6 5)" opacity=".85">${serifWord(k, INK.blue)}</g>
   <g class="sf-word">${serifWord(k, INK.navy)}</g>
-  <g class="sf-loupe-in" clip-path="url(#sf-lens)">
+  <g class="sf-loupe-in" clip-path="url(#serif-lens)">
     <circle class="sf-glass" cx="${fx}" cy="${fy}" r="${r}" fill="#fff"/>
     <circle class="sf-glass" cx="${fx}" cy="${fy}" r="${r}" fill="${ht('yellow', 'm')}"/>
     <g class="sf-zoom" transform="translate(${fx} ${fy}) scale(${mag}) translate(${-fx} ${-fy})">
@@ -236,11 +236,11 @@ function scriptPlay(svg, k) {
   const t = k.tl();
   t.from(all('.sc-card'), { opacity: 0, scale: .96, transformOrigin: '50% 50%', duration: .8, stagger: .1 }, 0)
     .from(q('.sc-dot'), { opacity: 0, duration: .8 }, .1)
-    .fromTo(word, { attr: { 'fill-opacity': 0 }, strokeDasharray: '0 1200' }, { strokeDasharray: '1200 0', duration: 1.4, ease: 'power2.inOut' }, .1)
-    .to(word, { attr: { 'fill-opacity': 1 }, duration: .5 }, .95)
-    .from(q('.sc-mis'), { opacity: 0, x: -14, y: 10, duration: .9, ease: 'expo.out' }, .9)
-    .fromTo(sw, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: 1.1, ease: 'power2.inOut' }, .6)
-    .from(q('.sc-tip'), { scale: 0, transformOrigin: '50% 50%', duration: .4, ease: 'back.out(2)' }, 1.5);
+    .fromTo(word, { attr: { 'fill-opacity': 0 }, strokeDasharray: '0 1200' }, { strokeDasharray: '1200 0', duration: 1.15, ease: 'power2.inOut' }, .05)
+    .to(word, { attr: { 'fill-opacity': 1 }, duration: .45 }, .8)
+    .from(q('.sc-mis'), { opacity: 0, x: -14, y: 10, duration: .8, ease: 'expo.out' }, .75)
+    .fromTo(sw, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: 1, ease: 'power2.inOut' }, .5)
+    .from(q('.sc-tip'), { scale: 0, transformOrigin: '50% 50%', duration: .35, ease: 'back.out(2)' }, 1.3);
   if (k.reduced()) { t.progress(1); return t; }
   // the pen keeps writing the flourish: it lifts off, then flows back in
   gsap.timeline({ repeat: -1, delay: 3.2, repeatDelay: 1.8 })
@@ -282,7 +282,7 @@ function displayPlay(svg, k) {
   if (k.reduced()) return t;
   // it keeps shouting: an echo of the headline leaves the word, slow and wide
   gsap.timeline({ repeat: -1, delay: 1.8, repeatDelay: .9 })
-    .fromTo(q('.dp-echo'), { opacity: .95, scale: 1 }, { opacity: 0, scale: 1.22, svgOrigin: '300 300', duration: 2.2, ease: 'sine.out' });
+    .fromTo(q('.dp-echo'), { opacity: .95, scale: 1 }, { opacity: 0, scale: 1.22, svgOrigin: '300 300', duration: 2.2, ease: 'sine.out', immediateRender: false });
   k.loop(q('.dp-rays'), { rotate: 9, svgOrigin: '300 300', duration: 6 });
   return t;
 }
@@ -315,12 +315,12 @@ function monoPlay(svg, k) {
   const t = k.tl();
   t.from(all('.mn-c'), { opacity: 0, scaleY: 0, transformOrigin: '50% 100%', duration: .6, stagger: .04, ease: 'expo.out' }, 0)
     .from(q('.mn-ticks'), { opacity: 0, y: 8, duration: .6 }, .2);
-  const type = (tl, at) => chs.forEach((c, i) => {
+  const type = (tl, at, first = false) => chs.forEach((c, i) => {
     tl.set(caret, { x: i * cell }, at + i * .28)
-      .fromTo(c, { opacity: 0, y: -18 }, { opacity: 1, y: 0, duration: .16, ease: 'power2.in' }, at + i * .28);
+      .fromTo(c, { opacity: 0, y: -18 }, { opacity: 1, y: 0, duration: .16, ease: 'power2.in', immediateRender: first }, at + i * .28);
   });
   if (k.reduced()) return t;
-  type(t, .35);
+  type(t, .35, true);
   t.set(caret, { x: (chs.length - 1) * cell }, .35 + chs.length * .28);
   // a typewriter: same step for every key; then a carriage return and it types again
   const cyc = gsap.timeline({ repeat: -1, delay: 4.2 });
