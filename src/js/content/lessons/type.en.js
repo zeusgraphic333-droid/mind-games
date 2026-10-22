@@ -110,7 +110,7 @@ export default {
         { t: 'p', text: 'Its psychology: **tradition, authority, reliability**. Its use: **newspapers, law firms, academic institutions**. Its effect: it feels **formal, trustworthy and classic**.' },
         { t: 'h', text: 'Sans-serif: the clean T-shirt', en: 'Sans-serif — Helvetica, Arial' },
         { t: 'p', text: 'Its psychology: **modernity, clarity, neutrality**. Its use: **tech companies, minimalist brands, UI design**. Its effect: it feels **clean, straightforward and contemporary**.' },
-        { t: 'example', title: 'Certificate or app?', text: 'A graduation certificate or a syndicate membership card: serif, so it feels official and full of history. A food-delivery app: sans, so it looks fast, clean and modern.' },
+        { t: 'example', title: 'Certificate or app?', text: 'A graduation certificate or a professional union card: serif, so it feels official and full of history. A food-delivery app: sans, so it looks fast, clean and modern.' },
         { t: 'why', text: 'Serif has old roots, from letters carved in stone and the first printed books. So your brain links it to history and authority. Sans spread with modern design and screens, so it feels new and neutral.' },
         { t: 'trap', text: '**Coding environments** is not a serif use. It belongs to monospaced. Serif has just three uses: newspapers, law firms, academic institutions.', wrong: 'Serif use: coding environments', right: 'Serif use: newspapers, law firms, academic institutions' },
         { t: 'tip', text: 'Serif = a lawyer in a suit. Sans = an app on your phone.' },
@@ -134,7 +134,7 @@ export default {
         { t: 'h', text: 'Display: a loud voice', en: 'Display — Impact, Bebas Neue' },
         { t: 'p', text: 'Its psychology: **boldness, uniqueness, attention-grabbing**. Its use: **posters, headlines, advertising**. Its effect: it feels **dramatic, expressive and memorable**.' },
         { t: 'h', text: 'Monospaced: the machine', en: 'Monospaced — Courier, Consolas' },
-        { t: 'p', text: 'Its psychology: **precision, tech-savvy, utilitarian**. Its use: **coding environments, retro designs**. Its effect: it feels **mechanical, structured, or nostalgic**. Its biggest giveaway: **every letter takes exactly the same width**, even the i and the W.' },
+        { t: 'p', text: 'Its psychology: **precision, tech-savvy, utilitarian**. Its use: **coding environments, retro designs**. Its effect: it feels **mechanical, structured, or nostalgic**. The easiest way to spot it: **every letter takes exactly the same width**, even the i and the W.' },
         { t: 'demo', id: 'typ-mono', title: 'The width test', caption: 'In monospaced type, every letter gets a slot of the same size. That’s what gives it the feel of a precise machine.', mount(el, api) {
           const word = 'iiiWWW';
           el.innerHTML = `<div class="typ-demo typ-mono"><div class="typ-mono__row"><span class="typ-mono__lab">Monospaced</span><span class="typ-mono__w" style="font-family:var(--f-mono)" dir="ltr">${[...word].map(c => `<i>${c}</i>`).join('')}</span></div><div class="typ-mono__row"><span class="typ-mono__lab">Serif</span><span class="typ-mono__w" style="font-family:var(--f-serif)" dir="ltr">${[...word].map(c => `<i>${c}</i>`).join('')}</span></div><button type="button" class="btn btn--sm" aria-pressed="false">Show the slots</button></div>`;

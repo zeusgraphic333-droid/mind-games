@@ -64,8 +64,8 @@ export default {
         { t: 'h', text: 'Designers use color for 3 things', en: 'Designers use color strategically to…' },
         { t: 'grid', cols: 3, items: [
           { title: 'Set a mood', en: 'evoke moods', text: 'Calm? Excited? Luxurious? The color decides.', art: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 30c6-10 12-10 18 0s12 10 18 0"/><path d="M6 20c6-10 12-10 18 0s12 10 18 0" opacity=".45"/></svg>`, color: '#8B7BFF' },
-          { title: 'Sway your decision', en: 'influence decisions', text: 'Tap? Buy? Wait?', art: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M24 6v20M24 26l-12 14M24 26l12 14"/><circle cx="12" cy="41" r="2.5" fill="currentColor"/><circle cx="36" cy="41" r="2.5"/></svg>`, color: '#FF3E8A' },
-          { title: 'Carry the brand', en: 'communicate brand identity', text: 'You know the brand by its color before its name.', art: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="8" y="8" width="14" height="14"/><rect x="26" y="8" width="14" height="14"/><rect x="8" y="26" width="14" height="14"/><rect x="26" y="26" width="14" height="14" fill="currentColor"/></svg>`, color: '#FFC21A' }
+          { title: 'Affect your decision', en: 'influence decisions', text: 'Tap? Buy? Wait?', art: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M24 6v20M24 26l-12 14M24 26l12 14"/><circle cx="12" cy="41" r="2.5" fill="currentColor"/><circle cx="36" cy="41" r="2.5"/></svg>`, color: '#FF3E8A' },
+          { title: 'Show the brand', en: 'communicate brand identity', text: 'You know the brand by its color before its name.', art: `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="8" y="8" width="14" height="14"/><rect x="26" y="8" width="14" height="14"/><rect x="8" y="26" width="14" height="14"/><rect x="26" y="26" width="14" height="14" fill="currentColor"/></svg>`, color: '#FFC21A' }
         ] },
         { t: 'quote', text: 'Designers use color strategically to evoke moods, influence decisions, and communicate brand identity.', ref: 'L02 · S20' },
         { t: 'example', title: 'Sales season', text: 'In the okazyon (the big sales season), clothes-shop windows fill up with red signs. That’s no accident. Red creates a sense of urgency, so you feel the offer will be gone if you don’t walk in now. That’s exactly **influence decisions**.' },
@@ -81,7 +81,7 @@ export default {
     {
       id: 'color-temp', title: 'A color’s temperature', en: 'Warm colors · Cold colors · Neutrals', ref: 'L02 · slides 17–19', scene: 'warm',
       blocks: [
-        { t: 'say', who: 'drop:#FF6A13', text: 'Walk into a koshari place in downtown Cairo: red, yellow and orange. Walk into a dentist’s clinic: blue and white. That’s not just the owner’s taste. That’s the color’s “temperature”.' },
+        { t: 'say', who: 'drop:#FF6A13', text: 'Walk into a koshary place in downtown Cairo: red, yellow and orange. Walk into a dentist’s clinic: blue and white. That’s not just the owner’s taste. That’s the color’s “temperature”.' },
         { t: 'p', text: 'The slides split colors into two titled groups: **Warm colors** and **Cold colors**. After them comes a third graphic with no title, all neutral colors: beige, gray and black, plus just one light lavender (Classy).' },
         { t: 'art', html: columns(), caption: 'Every word as it appears on the slides. Notice that Nobility shows up twice in the cold set.' },
         { t: 'h', text: 'Warm: energy and warmth', en: 'Warm colors' },

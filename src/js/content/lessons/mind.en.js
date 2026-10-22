@@ -85,12 +85,12 @@ export default {
         { t: 'quote', ref: 'L02 · S03', text: 'The psychology of viewers plays a crucial role in shaping graphic design, as designers must anticipate how people perceive, process, and emotionally respond to visual content.' },
         { t: 'art', html: flowArt, caption: 'perceive → process → emotionally respond' },
         { t: 'list', style: 'num', items: ['**Perceive** (see it): the eye has to catch the thing in the first place. If the element gets lost, the story ends here.', '**Process** (understand it): the brain sorts out what it saw and pulls a meaning out of it.', '**Emotionally respond** (feel it): happy? reassured? startled? That’s what stays with them.'] },
-        { t: 'example', title: 'A billboard on the flyover', text: 'The driver has 3 seconds, tops. They see the ad, get what it’s about, and feel something. If any one of those steps fails, the ad money is gone with the wind.' },
+        { t: 'example', title: 'A billboard on the bridge', text: 'The driver has only 3 seconds. They see the ad, get what it’s about, and feel something. If any one of those steps fails, the money spent on the ad is wasted.' },
         { t: 'h', text: 'The brain looks for 3 things', en: 'clarity · patterns · emotional cues' },
         { t: 'quote', ref: 'L02 · S03', text: 'Human brains are wired to seek clarity, patterns, and emotional cues so designs that align with these tendencies are more likely to resonate.' },
         { t: 'grid', cols: 3, items: [
           { title: 'Clarity', text: 'You get it at first glance. No effort needed.', art: seekArt.clarity, color: C.zc },
-          { title: 'Patterns', text: 'Something repeats in an order, so the brain relaxes and can predict what comes next.', art: seekArt.patterns, color: C.ice },
+          { title: 'Patterns', text: 'Something repeats in a regular way, so the brain relaxes and can predict what comes next.', art: seekArt.patterns, color: C.ice },
           { title: 'Emotional cues', text: 'A color, an image or a word that makes you feel before you think.', art: seekArt.cues, color: C.pink }
         ] },
         { t: 'why', text: 'The brain is lazy, in a smart way. It loves shortcuts. Clarity and patterns save it effort, and emotional cues are faster than thinking. So a design that goes along with these tendencies gets through: it **resonates**.' },

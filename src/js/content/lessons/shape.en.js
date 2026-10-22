@@ -66,7 +66,7 @@ const linesCompare = {
 const triCompare = {
   t: 'compare',
   left: { title: 'Pointing up', en: 'upward', art: svg('0 0 200 110', `<path d="M100 14l52 84H48z" stroke="${C.sun}" stroke-width="2"/><path d="M100 98V40M88 52l12-12 12 12" stroke="${C.good}" stroke-width="1.6"/>`, 'Upward triangle'), text: '**growth**: going up and rising. The arrow points up.' },
-  right: { title: 'Pointing down', en: 'downward', art: svg('0 0 200 110', `<path d="M100 98L48 14h104z" stroke="${C.red}" stroke-width="2"/><path d="M100 14v58M88 60l12 12 12-12" stroke="${C.red}" stroke-width="1.6" opacity=".7"/>`, 'Downward triangle'), text: '**danger or grounding**: a warning, or being planted firmly on the ground.' },
+  right: { title: 'Pointing down', en: 'downward', art: svg('0 0 200 110', `<path d="M100 98L48 14h104z" stroke="${C.red}" stroke-width="2"/><path d="M100 14v58M88 60l12 12 12-12" stroke="${C.red}" stroke-width="1.6" opacity=".7"/>`, 'Downward triangle'), text: '**danger or grounding**: danger, or being planted firmly on the ground.' },
   note: 'One shape. Its direction is what changes the sentence.'
 };
 
