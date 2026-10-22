@@ -22,7 +22,7 @@ function sheet() {
   });
 }
 function single(name) {
-  app.innerHTML = `<div id="stage2d" class="stage2d"></div><div style="position:fixed;left:14px;bottom:12px;font:600 14px system-ui">${name} · ${(SCENE_INFO[name] || []).join(' · ')} ${SCENES2D[name] ? '' : '<b style="color:#EE3440">MISSING</b>'}</div>`;
+  app.innerHTML = `<div id="stage2d" class="stage2d"></div><div style="position:fixed;left:14px;bottom:12px;font:600 14px system-ui">${name} · ${(SCENE_INFO[name] || []).join(' · ')} ${SCENES2D[name] || (name.startsWith('sq:') && sceneFor(name) !== sceneFor('zzz')) ? '' : '<b style="color:#EE3440">MISSING</b>'}</div>`;
   stage = createStage2D(document.getElementById('stage2d'));
   stage.setStage({ cx: .5, cy: .48, z: 13.5 }, 0);
   stage.morph(name, { dur: 1 });

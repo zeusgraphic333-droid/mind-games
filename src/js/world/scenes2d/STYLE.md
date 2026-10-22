@@ -38,8 +38,14 @@ Think of a small studio that prints posters on a riso machine, then makes them m
   entrance timeline jumps to its end (callbacks suppressed) and every repeating animation stays on its first frame.
 - **Pivots in SVG:** in GSAP a px `transformOrigin` on an SVG element is measured from the element's own box. To pivot
   around a point in viewBox coordinates use `svgOrigin: '300 300'` (the eye's zoom, blink and halo had this bug).
-- **Text direction:** `k.text()` sets `direction` per text (rtl when the string has Arabic letters, else ltr), so
-  `anchor: 'start' | 'end'` lands on the same side whatever the page direction. Override with `{ dir: 'rtl' }`.
+- **Loops with fromTo:** a `fromTo` inside a repeating timeline renders its "from" state the moment it is created
+  (hiding things during the entrance). Give loop `fromTo`s `immediateRender: false`.
+- **Chrome bug, clip + patterns:** a `clip-path` on a group whose children are *all* pattern fills renders displaced (a
+  copy of the content appears elsewhere). Put a plain (non-pattern) element in the group, or clip each child instead.
+- **Unprinted areas are `#fff`:** the whole scene multiplies onto the paper, so `INK.paper` shows as a visible tint.
+- **Text direction:** the stage's `<svg>` is `direction: ltr` and `k.text()` sets `direction` per text (rtl when the
+  string has Arabic letters, else ltr), so `anchor: 'start' | 'end'` lands on the same side whatever the page direction.
+  Override with `{ dir: 'rtl' }`.
 
 ## Contract
 Each group file (`mind.js`, `shape.js`, … ) default-exports `{ sceneName: { view?, draw(k, name), play?(svg, k, name) } }`.

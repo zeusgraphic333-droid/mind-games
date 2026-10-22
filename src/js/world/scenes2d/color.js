@@ -177,7 +177,7 @@ function coldDraw(k) {
   const labels = COLD.map(([w, c], i) => mono(cx, top + i * h + h / 2 + 7, w.toUpperCase(), { size: 13, fill: lum(c) < .5 ? '#fff' : INK.navy })).join('');
   return `
   <defs><clipPath id="cold-disc"><circle cx="${cx}" cy="${cy}" r="${R}"/></clipPath></defs>
-  <g class="cd-mist"><circle cx="${cx}" cy="${cy}" r="${R + 66}" fill="${k.ht('blue', 'l')}" mask="url(#fade-r)" opacity=".75"/></g>
+  <g class="cd-mist"><circle cx="${cx}" cy="${cy}" r="${R + 66}" fill="${k.ht('blue', 'l')}" mask="url(#fade-r)" opacity=".6"/></g>
   <g class="cd-mis" transform="translate(-7 6)" opacity=".9"><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${INK.violet}" stroke-width="3"/></g>
   <g class="cd-sea" clip-path="url(#cold-disc)">${bands}</g>
   <g class="cd-lab">${labels}</g>
