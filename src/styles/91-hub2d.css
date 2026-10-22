@@ -51,7 +51,6 @@
 .h2-go:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--zc); }
 .h2-go:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--zc); }
 .h2-go svg { width: 22px; height: 22px; }
-[dir="ltr"] .h2-go svg { transform: scaleX(-1); }
 
 .h2-stage { position: relative; align-self: stretch; min-height: 240px; }
 .h2-stage i { position: absolute; width: 22px; height: 22px; border: 0 solid var(--navy); opacity: .45; }
