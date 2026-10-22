@@ -1,4 +1,5 @@
-/* Lecture 02 content tables (slide wording) used by the Psychology room */
+/* Lecture 02 content tables (slide wording) used by the Psychology room.
+   `ar` = the Arabic pages' gloss · `en` = the English pages' gloss (COLORS, RBL); everything else is the slide's own English. */
 const SHAPES = [
   { k: 'circle', name: 'Circle', sym: 'Unity, infinity, wholeness, protection.', eff: 'Feels soft, safe, and inclusive.', use: 'Buttons in UI design, logos (e.g., Pepsi), social icons.', tip: 'Use circles to create a sense of harmony or friendliness.', ar: 'الدايرة: وحدة ولانهاية واكتمال وحماية. إحساسها ناعم وآمن وبيحتوي الكل.' },
   { k: 'square', name: 'Square / Rectangle', sym: 'Stability, reliability, structure, honesty.', eff: 'Feels solid, grounded, and trustworthy.', use: 'Layouts, grids, containers, corporate logos.', tip: 'Use squares to convey professionalism and order.', ar: 'المربع: ثبات واعتمادية ونظام وصدق. إحساسه متين وموثوق.' },
@@ -11,14 +12,14 @@ const SHAPES = [
   { k: 'combo', name: 'Geometric combinations', sym: 'Complexity, innovation, balance.', eff: 'Feels structured yet creative.', use: 'Modern branding, abstract art, tech interfaces.', tip: 'Combine shapes to tell layered stories or build visual metaphors.', ar: 'تركيبات الأشكال: تعقيد وابتكار وتوازن. منظمة بس مبدعة.' }
 ];
 const COLORS = [
-  { k: 'red', name: 'Red', hex: '#E5322D', on: '#fff', imp: 'Stimulates energy, urgency, passion, and appetite. Can also signal danger or excitement.', use: 'Sales, food brands, warnings', ar: 'طاقة واستعجال وشغف وفاتح للشهية. وممكن خطر أو حماس.' },
-  { k: 'orange', name: 'Orange', hex: '#FF7A1A', on: '#1a1205', imp: 'Friendly, playful, and energetic. Encourages enthusiasm and creativity.', use: 'Call-to-action buttons, youth brands', ar: 'ودود ومرح وفيه طاقة. بيشجع الحماس والإبداع.' },
-  { k: 'yellow', name: 'Yellow', hex: '#FFD21F', on: '#1a1705', imp: 'Optimistic, cheerful, attention-grabbing. Can cause anxiety in excess.', use: 'Promotions, children’s products', ar: 'متفائل ومبهج وبيشد الانتباه. لو زاد بيعمل قلق.' },
-  { k: 'green', name: 'Green', hex: '#1FA35B', on: '#fff', imp: 'Associated with nature, health, tranquility, and wealth.', use: 'Eco-friendly brands, finance', ar: 'طبيعة وصحة وهدوء وثروة.' },
-  { k: 'blue', name: 'Blue', hex: '#2F47E8', on: '#fff', imp: 'Trustworthy, calming, and professional. Often used to convey stability and reliability.', use: 'Tech, healthcare, corporate brands', ar: 'ثقة وهدوء واحترافية، وثبات واعتمادية.' },
-  { k: 'purple', name: 'Purple', hex: '#7B3FC4', on: '#fff', imp: 'Luxurious, mysterious, and creative. Historically linked to royalty and spirituality.', use: 'Beauty, premium products, spirituality', ar: 'فخامة وغموض وإبداع. تاريخيًا مرتبط بالملوك والروحانيات.' },
-  { k: 'black', name: 'Black', hex: '#15151C', on: '#fff', imp: 'Sophisticated, powerful, and elegant. Can also feel heavy or intimidating.', use: 'Luxury, fashion, editorial', ar: 'راقي وقوي وأنيق. وممكن يبقى تقيل أو مخيف.' },
-  { k: 'white', name: 'White', hex: '#FFFFFF', on: '#15151C', imp: 'Clean, pure, minimalist. Enhances clarity and simplicity.', use: 'Tech, healthcare, modern design', ar: 'نظيف ونقي وبسيط. بيزوّد الوضوح والبساطة.' }
+  { k: 'red', name: 'Red', hex: '#E5322D', on: '#fff', imp: 'Stimulates energy, urgency, passion, and appetite. Can also signal danger or excitement.', use: 'Sales, food brands, warnings', ar: 'طاقة واستعجال وشغف وفاتح للشهية. وممكن خطر أو حماس.', en: 'Energy, urgency, passion and appetite. Can also signal danger or excitement.' },
+  { k: 'orange', name: 'Orange', hex: '#FF7A1A', on: '#1a1205', imp: 'Friendly, playful, and energetic. Encourages enthusiasm and creativity.', use: 'Call-to-action buttons, youth brands', ar: 'ودود ومرح وفيه طاقة. بيشجع الحماس والإبداع.', en: 'Friendly, playful, energetic. Encourages enthusiasm and creativity.' },
+  { k: 'yellow', name: 'Yellow', hex: '#FFD21F', on: '#1a1705', imp: 'Optimistic, cheerful, attention-grabbing. Can cause anxiety in excess.', use: 'Promotions, children’s products', ar: 'متفائل ومبهج وبيشد الانتباه. لو زاد بيعمل قلق.', en: 'Optimistic, cheerful, attention-grabbing. Can cause anxiety in excess.' },
+  { k: 'green', name: 'Green', hex: '#1FA35B', on: '#fff', imp: 'Associated with nature, health, tranquility, and wealth.', use: 'Eco-friendly brands, finance', ar: 'طبيعة وصحة وهدوء وثروة.', en: 'Nature, health, tranquility and wealth.' },
+  { k: 'blue', name: 'Blue', hex: '#2F47E8', on: '#fff', imp: 'Trustworthy, calming, and professional. Often used to convey stability and reliability.', use: 'Tech, healthcare, corporate brands', ar: 'ثقة وهدوء واحترافية، وثبات واعتمادية.', en: 'Trustworthy, calming, professional. Stability and reliability.' },
+  { k: 'purple', name: 'Purple', hex: '#7B3FC4', on: '#fff', imp: 'Luxurious, mysterious, and creative. Historically linked to royalty and spirituality.', use: 'Beauty, premium products, spirituality', ar: 'فخامة وغموض وإبداع. تاريخيًا مرتبط بالملوك والروحانيات.', en: 'Luxurious, mysterious, creative. Historically linked to royalty and spirituality.' },
+  { k: 'black', name: 'Black', hex: '#15151C', on: '#fff', imp: 'Sophisticated, powerful, and elegant. Can also feel heavy or intimidating.', use: 'Luxury, fashion, editorial', ar: 'راقي وقوي وأنيق. وممكن يبقى تقيل أو مخيف.', en: 'Sophisticated, powerful, elegant. Can feel heavy or intimidating.' },
+  { k: 'white', name: 'White', hex: '#FFFFFF', on: '#15151C', imp: 'Clean, pure, minimalist. Enhances clarity and simplicity.', use: 'Tech, healthcare, modern design', ar: 'نظيف ونقي وبسيط. بيزوّد الوضوح والبساطة.', en: 'Clean, pure, minimalist. Enhances clarity and simplicity.' }
 ];
 const TYPES = [
   { k: 'serif', name: 'Serif', ex: 'Times New Roman, Garamond', fam: "'EB Garamond', Garamond, 'Times New Roman', serif", psy: 'Tradition, authority, reliability', use: 'Newspapers, law firms, academic institutions', eff: 'Feels formal, trustworthy, and classic', ar: 'تقاليد وسلطة واعتمادية: جرايد ومحاماة وجامعات.', size: 1 },
@@ -29,14 +30,14 @@ const TYPES = [
 ];
 /* "Read between the lines": headline style over subline style, as on the slide */
 const RBL = [ // row-major for a 2-column grid, so it mirrors the slide's two columns
-  { h: 'plain', s: 'fancy', read: 'Emphasis is on core business.', ar: 'التركيز على البيزنس الأساسي.' },
-  { h: 'bold', s: 'thin', read: 'Committed to make an impression.', ar: 'عايز يسيب انطباع.' },
-  { h: 'fancy', s: 'plain', read: 'Friendly, flexible and open to new ideas.', ar: 'ودود ومرن ومنفتح على أفكار جديدة.' },
-  { h: 'bold', s: 'bold', read: 'Jagged, masculine and aggressive.', ar: 'حاد ورجولي وعدواني.' },
-  { h: 'plain', s: 'plain', read: 'The impact of this message is clear.', ar: 'تأثير الرسالة واضح ومباشر.' },
-  { h: 'thin', s: 'thin', read: 'Minimalism inspired. Focused.', ar: 'مينيمال ومركّز.' },
-  { h: 'fancy', s: 'fancy', read: 'It is about women. Yep, too feminine.', ar: 'عن الستات، وأنثوي زيادة.' },
-  { h: 'thin', s: 'bold', read: 'Caters to the needs of a disparate audience.', ar: 'بيخدم جمهور مختلف ومتنوع.' }
+  { h: 'plain', s: 'fancy', read: 'Emphasis is on core business.', ar: 'التركيز على البيزنس الأساسي.', en: 'The main business comes first.' },
+  { h: 'bold', s: 'thin', read: 'Committed to make an impression.', ar: 'عايز يسيب انطباع.', en: 'Wants to leave a strong impression.' },
+  { h: 'fancy', s: 'plain', read: 'Friendly, flexible and open to new ideas.', ar: 'ودود ومرن ومنفتح على أفكار جديدة.', en: 'Approachable, flexible, open-minded.' },
+  { h: 'bold', s: 'bold', read: 'Jagged, masculine and aggressive.', ar: 'حاد ورجولي وعدواني.', en: 'Rough-edged, manly and aggressive.' },
+  { h: 'plain', s: 'plain', read: 'The impact of this message is clear.', ar: 'تأثير الرسالة واضح ومباشر.', en: 'The message lands clearly and directly.' },
+  { h: 'thin', s: 'thin', read: 'Minimalism inspired. Focused.', ar: 'مينيمال ومركّز.', en: 'Minimal and focused.' },
+  { h: 'fancy', s: 'fancy', read: 'It is about women. Yep, too feminine.', ar: 'عن الستات، وأنثوي زيادة.', en: 'About women, and too feminine.' },
+  { h: 'thin', s: 'bold', read: 'Caters to the needs of a disparate audience.', ar: 'بيخدم جمهور مختلف ومتنوع.', en: 'Serves a mixed, very varied audience.' }
 ];
 /* Mood mixer briefs: every "fit" is a phrase taken from the slides */
 const BRIEFS = [

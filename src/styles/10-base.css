@@ -54,6 +54,9 @@ bdi.en { font-family: var(--f-text); font-weight: 500; }
 .btn .xp { font: 500 15px/1 var(--f-hud); letter-spacing: .04em; padding: 4px 8px; border-radius: 99px; background: rgba(7, 7, 11, .18); }
 .btn .arrow { transition: transform .4s var(--ease-out); }
 .btn:hover .arrow { transform: translateX(-4px); }
+/* English reads left to right: the fill sweeps in from the start side and arrows nudge forward (right) */
+html[dir="ltr"] .btn::before { transform-origin: left; }
+html[dir="ltr"] .btn:hover .arrow { transform: translateX(4px); }
 
 /* ---------- surfaces ---------- */
 .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-l); }
@@ -71,6 +74,7 @@ bdi.en { font-family: var(--f-text); font-weight: 500; }
 .bar { position: relative; height: 3px; background: var(--line-2); border-radius: 99px; overflow: hidden; }
 .bar > i { position: absolute; inset: 0 0 0 auto; width: calc(var(--p, 0) * 100%); background: var(--zc); border-radius: inherit; box-shadow: 0 0 12px var(--zglow); transition: width .9s var(--ease-out); }
 .bar--good > i { background: var(--good); }
+html[dir="ltr"] .bar > i { inset: 0 auto 0 0; } /* progress fills from the start side */
 /* segmented meter */
 .segs { display: inline-grid; grid-auto-flow: column; gap: 3px; }
 .segs i { width: 10px; height: 4px; border-radius: 2px; background: var(--line-2); }

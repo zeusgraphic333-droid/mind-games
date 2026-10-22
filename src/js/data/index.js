@@ -8,9 +8,10 @@ export const QUESTIONS = [...Q_PSYCH, ...Q_EXPRESS, ...Q_GESTALT, ...Q_BONUS];
 export const QBY = Object.fromEntries(QUESTIONS.map(q => [q.id, q]));
 /** topic → island zone */
 export const TOPIC_ZONE = { mind: 'mind', shape: 'shape', space: 'space', color: 'color', type: 'type', express: 'express', gintro: 'gestalt', gideas: 'gestalt', glaws: 'gestalt', bonus: 'old' };
+/** topic → [Arabic, English] name (pick with L() at render time) */
 export const TOPIC_NAME = {
   mind: ['عقل المشاهد', 'The viewer’s mind'], shape: ['الأشكال', 'Shapes'], space: ['الفراغ', 'Space'], color: ['الألوان', 'Color'], type: ['الخطوط', 'Typeface'],
-  express: ['التعبير', 'Express meaning'], gintro: ['مقدمة الجشطالت', 'Gestalt basics'], gideas: ['أفكار الجشطالت', 'Key ideas'], glaws: ['قوانين الجشطالت', 'Gestalt laws'], bonus: ['محاضرة ١', 'Lecture 01']
+  express: ['التعبير', 'Express meaning'], gintro: ['مقدمة الجشطالت', 'Gestalt basics'], gideas: ['أفكار الجشطالت', 'Gestalt ideas'], glaws: ['قوانين الجشطالت', 'Gestalt laws'], bonus: ['محاضرة ١', 'Lecture 01']
 };
 export const qFor = topics => QUESTIONS.filter(q => topics.includes(q.tp));
 /** options in display order: fixed items keep their order, the rest are shuffled; returns [{text, ok}] */

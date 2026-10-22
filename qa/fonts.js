@@ -9,6 +9,11 @@ const MAP = [
   ['Lobster', ['@fontsource/lobster/400.css'], 'Lobster'],
   ['Bebas Neue', ['@fontsource/bebas-neue/400.css'], 'Bebas Neue'],
   ['Courier Prime', ['@fontsource/courier-prime/400.css', '@fontsource/courier-prime/700.css'], 'Courier Prime'],
+  ['Italiana', ['@fontsource/italiana/400.css'], 'Italiana'],
+  ['Archivo', ['@fontsource-variable/archivo/wdth.css'], 'Archivo Variable'],
+  ['Anybody', ['@fontsource-variable/anybody/wdth.css'], 'Anybody Variable'],
+  ['Atkinson Hyperlegible Next', ['@fontsource-variable/atkinson-hyperlegible-next/wght.css'], 'Atkinson Hyperlegible Next Variable'],
+  ['Doto', ['@fontsource-variable/doto/full.css'], 'Doto Variable'],
 ];
 function buildCss() {
   let out = '';

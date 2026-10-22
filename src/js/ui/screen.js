@@ -5,9 +5,12 @@ import { ICON } from './icons.js';
 import { GLYPH } from './glyphs.js';
 import { levelOf, state, on, emit } from '../core/state.js';
 import { sfx } from '../core/sfx.js';
+import { t, L, isEN, isRTL } from '../core/i18n.js';
 
 let current = null;
 export const currentScreen = () => current;
+/** a stage caption [English title, Arabic line, English line] → the two lines to show in the current language */
+export const capOf = (info = []) => isEN() ? [info[0], info[2] ?? (/[\u0600-\u06FF]/.test(info[1] || '') ? '' : info[1])] : [info[0], info[1]];
 
 function lum(hex) { const n = parseInt(hex.slice(1), 16); const r = (n >> 16) / 255, g = ((n >> 8) & 255) / 255, b = (n & 255) / 255; const f = c => c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); }
 export function zoneVars(color, dark) {
@@ -17,7 +20,7 @@ export function zoneVars(color, dark) {
 
 /**
  * openScreen({ id, title, en, glyph, color, dark, tabs:[{id,label,icon}], onBack, onTab, stage:true })
- * returns { el, body, panes, setTab(id), setCaption(n, en, ar), close() }
+ * returns { el, body, panes, setTab(id), setCaption(n, title, line), close() }  (callers pass strings already in the current language; capOf() helps)
  */
 export function openScreen(o) {
   closeScreen(true);
@@ -31,10 +34,10 @@ export function openScreen(o) {
   el.innerHTML = `
     <div class="screen__main">
       <header class="screen__bar">
-        <button type="button" class="btn btn--icon screen__back" aria-label="ارجع للمدار" title="المدار">${ICON.back}</button>
+        <button type="button" class="btn btn--icon screen__back" aria-label="${esc(t('screen.back'))}" title="${esc(t('screen.backTitle'))}">${ICON.back}</button>
         <div class="screen__title"><span class="glyph screen__glyph">${GLYPH[o.glyph] || GLYPH.eye}</span><div><h2>${esc(o.title)}</h2>${o.en ? `<small dir="ltr">${esc(o.en)}</small>` : ''}</div></div>
-        <div class="screen__xp"><span class="chip chip--lvl">Lv ${lv.n} · ${esc(lv.ar)}</span><span class="chip" data-xp>${ICON.bolt}<span class="hud-num">${state().xp}</span></span></div>
-        ${o.tabs ? `<nav class="tabs" role="tablist" aria-label="أقسام">${o.tabs.map((t, i) => `<button type="button" class="tab" role="tab" id="tab-${t.id}" aria-controls="pane-${t.id}" aria-selected="false" tabindex="-1" data-tab="${t.id}"><span class="tab__n hud-num">${String(i + 1).padStart(2, '0')}</span><span>${esc(t.label)}</span></button>`).join('')}<i class="tabs__ink" aria-hidden="true"></i></nav>` : ''}
+        <div class="screen__xp"><span class="chip chip--lvl">Lv ${lv.n} · ${esc(L(lv.ar, lv.en))}</span><span class="chip" data-xp>${ICON.bolt}<span class="hud-num">${state().xp}</span></span></div>
+        ${o.tabs ? `<nav class="tabs" role="tablist" aria-label="${esc(t('screen.sections'))}">${o.tabs.map((t, i) => `<button type="button" class="tab" role="tab" id="tab-${t.id}" aria-controls="pane-${t.id}" aria-selected="false" tabindex="-1" data-tab="${t.id}"><span class="tab__n hud-num">${String(i + 1).padStart(2, '0')}</span><span>${esc(t.label)}</span></button>`).join('')}<i class="tabs__ink" aria-hidden="true"></i></nav>` : ''}
       </header>
       <div class="screen__body" tabindex="-1">${o.tabs ? o.tabs.map(t => `<div class="pane" role="tabpanel" id="pane-${t.id}" aria-labelledby="tab-${t.id}" hidden></div>`).join('') : '<div class="pane" id="pane-main"></div>'}</div>
     </div>
@@ -65,13 +68,14 @@ export function openScreen(o) {
   el.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => { sfx('click'); api.setTab(t.dataset.tab); }));
   el.querySelector('.tabs')?.addEventListener('keydown', e => {
     const tabs = [...el.querySelectorAll('.tab')]; const i = tabs.indexOf(document.activeElement); if (i < 0) return;
-    const d = e.key === 'ArrowLeft' ? 1 : e.key === 'ArrowRight' ? -1 : 0; // RTL
+    const fwd = isRTL() ? 'ArrowLeft' : 'ArrowRight', bwd = isRTL() ? 'ArrowRight' : 'ArrowLeft'; // tabs run in reading order
+    const d = e.key === fwd ? 1 : e.key === bwd ? -1 : 0;
     if (d) { e.preventDefault(); const n = tabs[(i + d + tabs.length) % tabs.length]; n.click(); n.focus(); }
   });
   el.querySelector('.screen__back').addEventListener('click', () => { sfx('swoosh'); o.onBack ? o.onBack() : (location.hash = '#/'); });
   const onKey = e => { if (e.key === 'Escape' && !document.querySelector('.modal')) { e.preventDefault(); el.querySelector('.screen__back').click(); } };
   document.addEventListener('keydown', onKey); api.cleanups.push(() => document.removeEventListener('keydown', onKey));
-  const offXP = on('xp', () => { const x = el.querySelector('[data-xp] .hud-num'); if (x) x.textContent = state().xp; const l = levelOf(); const c = el.querySelector('.chip--lvl'); if (c) c.textContent = `Lv ${l.n} · ${l.ar}`; });
+  const offXP = on('xp', () => { const x = el.querySelector('[data-xp] .hud-num'); if (x) x.textContent = state().xp; const l = levelOf(); const c = el.querySelector('.chip--lvl'); if (c) c.textContent = `Lv ${l.n} · ${L(l.ar, l.en)}`; });
   api.cleanups.push(offXP);
   const ro = new ResizeObserver(moveInk); ro.observe(el); api.cleanups.push(() => ro.disconnect());
   // phones: tell the world whether its band at the top is still in view (so it can rest when covered)

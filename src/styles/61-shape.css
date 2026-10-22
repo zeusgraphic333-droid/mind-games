@@ -73,3 +73,9 @@
   .shp-mood__read small { text-align: center; }
   .shp-lines, .shp-sides { grid-template-columns: 1fr; }
 }
+
+/* English edition (LTR): the slide line under the mood reading follows its column (the Arabic page keeps the rules above) */
+[dir="ltr"] .shp-mood__read small { text-align: left; }
+@media (max-width: 760px) {
+  [dir="ltr"] .shp-mood__read small { text-align: center; }
+}

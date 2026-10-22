@@ -30,6 +30,8 @@
 .old-game .g-choice b { font: 700 16px/1.2 var(--f-display); }
 .old-game .g-choice small { grid-column: 2; font: 500 12px/1 var(--f-text); color: var(--fg-3); }
 .old-game .g-choice .old-key { grid-row: span 2; }
+/* English edition: a choice is the term alone (no second line), so the key sits on one row */
+[dir="ltr"] .old-game .g-choice .old-key { grid-row: auto; }
 
 @media (max-width: 760px) {
   .old-seg { justify-self: stretch; border-radius: 18px; }

@@ -16,6 +16,7 @@
 .fc__hint { display: inline-flex; gap: 6px; align-items: center; font-size: 12.5px; color: var(--fg-3); margin-top: 6px; }
 .fc__hint svg { width: 14px; height: 14px; }
 .fc__k { position: absolute; top: 16px; left: 16px; }
+html[dir="ltr"] .fc__k { left: auto; right: 16px; }
 .fc__back { transform: rotateY(180deg); background: color-mix(in srgb, var(--zc) 6%, var(--card)); }
 .fc__back p { margin: 0; font-size: 17px; line-height: 1.7; }
 .fc__back .fc__r { color: var(--fg-2); font-size: 16px; border-top: 1px dashed var(--line-2); padding-top: 10px; }
@@ -89,6 +90,13 @@
 .set small { font-size: 13px; color: var(--fg-3); }
 .set input { width: 20px; height: 20px; accent-color: var(--violet); flex: none; }
 .set--danger { cursor: default; }
+/* language / experience: two-way switches */
+.set--pref { cursor: default; flex-wrap: wrap; }
+.set__seg { display: inline-flex; gap: 6px; flex: none; }
+.set__opt { cursor: pointer; background: none; transition: color .2s, border-color .2s, background .2s; }
+.set__opt:hover { border-color: var(--line-3); color: var(--fg); }
+.set__opt[aria-checked="true"] { color: var(--void); background: var(--fg); border-color: var(--fg); }
+.set__opt[lang="ar"] { font-family: var(--f-display); }
 .set--danger .btn { --fill: var(--bad); --ft: var(--void); }
 
 @media (max-width: 760px) {

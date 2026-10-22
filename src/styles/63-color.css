@@ -102,3 +102,6 @@
   .clr-cta { grid-template-columns: 120px minmax(0, 1fr); gap: 14px; }
   .clr-cul__view { grid-template-columns: 110px minmax(0, 1fr); }
 }
+
+/* English edition (LTR): English lines run longer, so the five flip-card backs get slightly tighter type */
+html[dir="ltr"] .screen[data-screen="zone-color"] .blk-grid--flip .gcard__back { font-size: 12.5px; line-height: 1.4; padding: 10px 9px; }

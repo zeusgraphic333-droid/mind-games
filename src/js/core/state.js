@@ -63,21 +63,21 @@ export function touchStreak() {
   if (st.days >= 3) award('streak3');
 }
 
-/* ---------- badges ---------- */
+/* ---------- badges (ar/en: name · d/dEn: what you did) ---------- */
 export const BADGES = {
-  hello: { ar: 'فتّحت عينك', en: 'Eyes open', d: 'دخلت عقلك لأول مرة.', icon: 'eye' },
-  explorer: { ar: 'رحّالة', en: 'Explorer', d: 'زرت كل مناطق المنهج.', icon: 'line' },
-  reader: { ar: 'قارئ', en: 'Reader', d: 'خلّصت كل دروس منطقة واحدة.', icon: 'letter' },
-  scholar: { ar: 'المنهج كله', en: 'Scholar', d: 'خلّصت كل الدروس في المنهج.', icon: 'polygon' },
-  combo10: { ar: 'كومبو ١٠', en: 'Combo ×10', d: '١٠ إجابات صح ورا بعض.', icon: 'bolt' },
-  perfect: { ar: 'فول مارك', en: 'Full marks', d: 'قفلت كويز منطقة من غير ولا غلطة.', icon: 'star' },
-  gamer: { ar: 'لاعب', en: 'Player', d: 'خلّصت ٣ تحديات مختلفة.', icon: 'target' },
-  boss: { ar: 'كسرت الوحش', en: 'Exam breaker', d: 'هزمت وحش الامتحان.', icon: 'monolith' },
-  portal: { ar: 'جاهز للبورتال', en: 'Portal ready', d: 'جبت ٨٠٪ أو أكتر في امتحان البورتال.', icon: 'square' },
-  revenge: { ar: 'خدت تارك', en: 'Revenge', d: 'صلّحت ١٠ غلطات قديمة.', icon: 'infinity' },
-  streak3: { ar: 'نَفَس طويل', en: 'Streak', d: 'ذاكرت ٣ أيام ورا بعض.', icon: 'flame' },
-  owl: { ar: 'بومة الليل', en: 'Night owl', d: 'ذاكرت بعد نص الليل. نام بقى.', icon: 'moon' },
-  allstars: { ar: 'كل العلامات', en: 'All marks', d: 'جبت ٣ علامات في كل كويزات المناطق.', icon: 'crown' }
+  hello: { ar: 'فتّحت عينك', en: 'Eyes open', d: 'دخلت عقلك لأول مرة.', dEn: 'You stepped into your mind for the first time.', icon: 'eye' },
+  explorer: { ar: 'رحّالة', en: 'Explorer', d: 'زرت كل مناطق المنهج.', dEn: 'Visited every district of the course.', icon: 'line' },
+  reader: { ar: 'قارئ', en: 'Reader', d: 'خلّصت كل دروس منطقة واحدة.', dEn: 'Finished every lesson in one district.', icon: 'letter' },
+  scholar: { ar: 'المنهج كله', en: 'Scholar', d: 'خلّصت كل الدروس في المنهج.', dEn: 'Finished every lesson in the course.', icon: 'polygon' },
+  combo10: { ar: 'كومبو ١٠', en: 'Combo ×10', d: '١٠ إجابات صح ورا بعض.', dEn: '10 right answers in a row.', icon: 'bolt' },
+  perfect: { ar: 'فول مارك', en: 'Full marks', d: 'قفلت كويز منطقة من غير ولا غلطة.', dEn: 'Finished a district quiz without a single mistake.', icon: 'star' },
+  gamer: { ar: 'لاعب', en: 'Player', d: 'خلّصت ٣ تحديات مختلفة.', dEn: 'Completed 3 different trials.', icon: 'target' },
+  boss: { ar: 'كسرت الوحش', en: 'Exam breaker', d: 'هزمت وحش الامتحان.', dEn: 'Beat the Exam boss.', icon: 'monolith' },
+  portal: { ar: 'جاهز للبورتال', en: 'Portal ready', d: 'جبت ٨٠٪ أو أكتر في امتحان البورتال.', dEn: 'Scored 80% or more on the Portal exam.', icon: 'square' },
+  revenge: { ar: 'خدت تارك', en: 'Revenge', d: 'صلّحت ١٠ غلطات قديمة.', dEn: 'Fixed 10 old mistakes.', icon: 'infinity' },
+  streak3: { ar: 'نَفَس طويل', en: 'Streak', d: 'ذاكرت ٣ أيام ورا بعض.', dEn: 'Studied 3 days in a row.', icon: 'flame' },
+  owl: { ar: 'بومة الليل', en: 'Night owl', d: 'ذاكرت بعد نص الليل. نام بقى.', dEn: 'Studied after midnight. Go to sleep.', icon: 'moon' },
+  allstars: { ar: 'كل العلامات', en: 'All marks', d: 'جبت ٣ علامات في كل كويزات المناطق.', dEn: 'Earned 3 marks on every district quiz.', icon: 'crown' }
 };
 export function award(id) {
   if (!BADGES[id] || S.badges[id]) return false;

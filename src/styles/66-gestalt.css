@@ -115,6 +115,8 @@
 .gst-miss, .old-miss { width: 100%; text-align: start; border-top: 1px solid var(--line); padding-top: 14px; margin-top: 4px; }
 .gst-miss ul, .old-miss ul { margin: 8px 0 0; padding: 0 18px 0 0; display: grid; gap: 6px; color: var(--fg-2); font-size: 14.5px; line-height: 1.6; }
 .gst-miss b, .old-miss b { color: var(--fg); }
+/* English (LTR): the review list's bullets sit on the left */
+html[dir="ltr"] .gst-miss ul, html[dir="ltr"] .old-miss ul { padding: 0 0 0 18px; }
 
 @media (max-width: 760px) {
   .gst-two { grid-template-columns: 1fr; }

@@ -1,8 +1,11 @@
 // Hand-made icon set: chunky strokes, round caps, same 24px grid.
+import { isRTL, t } from '../core/i18n.js';
 const s = (d, extra = '') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extra}>${d}</svg>`;
+const CHEV_R = s('<path d="M9 5l7 7-7 7"/>'), CHEV_L = s('<path d="M15 5l-7 7 7 7"/>');
 export const ICON = {
-  back: s('<path d="M9 5l7 7-7 7"/>'), // points right = "back" in RTL
-  next: s('<path d="M15 5l-7 7 7 7"/>'),
+  /** "back" and "next" follow the reading direction (read at render time): back points right in Arabic, left in English */
+  get back() { return isRTL() ? CHEV_R : CHEV_L; },
+  get next() { return isRTL() ? CHEV_L : CHEV_R; },
   map: s('<path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/>'),
   book: s('<path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5z"/>'),
   play: s('<rect x="2.5" y="7" width="19" height="11" rx="5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><circle cx="15.5" cy="11" r=".6" fill="currentColor"/><circle cx="17.5" cy="13.5" r=".6" fill="currentColor"/>'),
@@ -34,5 +37,5 @@ export const ICON = {
 };
 const SPARK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.9 5.6 4.9 9.6 10.5 10.5-5.6.9-9.6 4.9-10.5 10.5C11.1 16.9 7.1 12.9 1.5 12 7.1 11.1 11.1 7.1 12 1.5z" fill="currentColor"/></svg>';
 /** 0–3 marks (the "stars" of this world, drawn as sparks) */
-export const marks = (n, of = 3, cls = '') => `<span class="marks ${cls}" role="img" aria-label="${n} من ${of}">${Array.from({ length: of }, (_, i) => `<span class="${i < n ? 'on' : 'off'}">${SPARK}</span>`).join('')}</span>`;
+export const marks = (n, of = 3, cls = '') => `<span class="marks ${cls}" role="img" aria-label="${t('common.marks', { n, of })}">${Array.from({ length: of }, (_, i) => `<span class="${i < n ? 'on' : 'off'}">${SPARK}</span>`).join('')}</span>`;
 export const starRow = marks;

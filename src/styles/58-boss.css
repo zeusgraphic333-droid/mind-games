@@ -13,6 +13,7 @@
 .fight__bar { position: relative; height: 8px; border-radius: 99px; background: var(--line-2); overflow: hidden; }
 .fight__bar i { position: absolute; inset: 0 0 0 auto; width: calc(var(--p) * 100%); background: var(--alarm); border-radius: inherit; box-shadow: 0 0 14px rgba(255, 59, 48, .6); transition: width .35s var(--ease-out); z-index: 1; }
 .fight__bar .fight__ghost { background: #FFD1C4; box-shadow: none; z-index: 0; transition: width .8s var(--ease-io); }
+html[dir="ltr"] .fight__bar i { inset: 0 auto 0 0; }
 .fight__me { display: flex; align-items: center; gap: 14px; }
 .fight__lives { display: flex; gap: 6px; }
 .fight__lives i { width: 14px; height: 14px; transform: rotate(45deg); background: var(--fg); box-shadow: 0 0 10px rgba(237, 235, 230, .45); transition: background .3s, box-shadow .3s, transform .4s var(--ease-back); }
@@ -74,6 +75,7 @@
 .result__tps h3 { font: 800 22px/1.2 var(--f-display); margin-bottom: 6px; }
 .tprow { display: grid; grid-template-columns: 130px minmax(0, 1fr) 48px; gap: 12px; align-items: center; font-size: 14.5px; color: var(--fg-2); }
 .tprow .hud-num { font-size: 18px; color: var(--fg); text-align: left; }
+html[dir="ltr"] .tprow .hud-num { text-align: right; }
 .result__cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 22px; }
 .rcard { border: 1px solid var(--line); border-radius: 18px; padding: 16px; background: var(--card); display: grid; gap: 6px; align-content: start; }
 .rcard b { font: 800 20px/1.25 var(--f-display); }

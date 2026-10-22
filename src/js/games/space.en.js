@@ -1,3 +1,131 @@
-// English edition of space.js — placeholder that re-exports the Arabic file until the translation lands.
-export * from './space.js';
-export { default } from './space.js';
+// Space zone trials (English edition): Declutter (tap the noise away so the message can sing) and Read the Space (quick-fire).
+import { densityLayout, spaceLayout } from '../content/lessons/space.en.js';
+import { marks } from '../ui/icons.js';
+
+const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+/** phones keep a particle band above the level content: bring the whole trial (and its back bar) into view, so no timed control sits below the fold */
+function fitView(el) {
+  requestAnimationFrame(() => {
+    if (el.getBoundingClientRect().bottom <= innerHeight) return;
+    (el.previousElementSibling || el).scrollIntoView({ block: 'start', behavior: reduced() ? 'auto' : 'smooth' });
+  });
+}
+
+function endScreen(el, api, ctx, id, score, max, lines) {
+  el._mgStop?.(); // the finished trial lets go of its timers and keys before the end card (replay remounts without a stop)
+  const pct = max ? score / max : 0;
+  el.innerHTML = `<div class="g-card g-end">
+    <span class="glyph">${api.GLYPH.void}</span>
+    <p class="label">Your score</p>
+    <h3><span class="hud-num">${score}</span> / <span class="hud-num">${max}</span></h3>
+    <div class="g-end__marks"></div>
+    <p>${pct >= .95 ? lines[0] : pct >= .6 ? lines[1] : lines[2]}</p>
+    <p class="g-end__xp"></p>
+    <div class="g-acts"><button type="button" class="btn btn--zone" data-a="again">Play again</button><button type="button" class="btn" data-a="back">All trials</button></div>
+  </div>`;
+  const r = api.finishGame(id, score, max, el.querySelector('h3'));
+  el.querySelector('.g-end__marks').innerHTML = marks(r.stars, 3, 'marks--big');
+  el.querySelector('.g-end__xp').innerHTML = `<span class="chip chip--zone"><span class="hud-num" dir="ltr">+${r.xp} XP</span></span>`;
+  el.querySelector('[data-a="again"]').addEventListener('click', () => ctx.again());
+  el.querySelector('[data-a="back"]').addEventListener('click', () => ctx.back());
+  el.querySelector('[data-a="again"]').focus({ preventScroll: true });
+}
+function timerBar(bar, ms, onEnd) {
+  const t0 = performance.now(); let raf = 0;
+  const step = now => { const left = 1 - (now - t0) / ms; bar.style.setProperty('--t', Math.max(0, left)); if (left <= 0) onEnd(); else raf = requestAnimationFrame(step); };
+  raf = requestAnimationFrame(step);
+  return () => cancelAnimationFrame(raf);
+}
+
+/* ---------- 1 · Declutter ---------- */
+// short on purpose: no wider than the Arabic messages, so they stay inside the clutter-free middle of the board on a phone
+const MESSAGES = ['Opening', '30% off', 'Spring fair', 'Join now', 'Calm', 'Friday gig'];
+const declutter = {
+  id: 'space-declutter', title: 'Declutter', en: 'tap the noise away',
+  how: 'A crowded poster with one message in the middle. Clear the clutter fast without touching the message. 6 rounds, and the clutter keeps growing.',
+  mount(el, api, ctx) {
+    const ROUNDS = 6, LIMIT = reduced() ? 13000 : 9000; const COUNTS = Array.from({ length: ROUNDS }, (_, i) => 5 + i); const MAX = COUNTS.reduce((a, b) => a + b, 0);
+    let i = 0, score = 0, left = 0, slips = 0, stopT = null, timers = [], live = false;
+    el.innerHTML = `<div class="spc-t">
+      <div class="g-hud"><span class="chip">Round <span class="hud-num" data-r>1</span>/<span class="hud-num">${ROUNDS}</span></span><span class="chip">Clutter left <span class="hud-num" data-l>0</span></span><span class="chip chip--zone">Points <span class="hud-num" data-s>0</span></span></div>
+      <div class="g-timer"><i></i></div>
+      <div class="spc-t__board" role="group" aria-label="The poster"></div>
+      <p class="spc-t__note" aria-live="polite"></p></div>`;
+    fitView(el);
+    const board = el.querySelector('.spc-t__board'), bar = el.querySelector('.g-timer'), note = el.querySelector('.spc-t__note');
+    const hud = () => { el.querySelector('[data-l]').textContent = left; el.querySelector('[data-s]').textContent = score; };
+    function round() {
+      live = true; slips = 0; const k = COUNTS[i]; left = k; board.classList.remove('is-clear');
+      el.querySelector('[data-r]').textContent = i + 1; note.textContent = 'Clear all the clutter. Don’t touch the message.';
+      const cols = ['#4E4C5A', '#FF3E8A', '#FFC21A', '#5A5866', '#FF4A2E', '#8B7BFF'];
+      let html = `<button type="button" class="spc-t__msg">${MESSAGES[i % MESSAGES.length]}</button>`;
+      for (let n = 0; n < k; n++) {
+        let x, y, w, h; do { w = 10 + Math.random() * 18; h = 6 + Math.random() * 12; x = 3 + Math.random() * (94 - w); y = 4 + Math.random() * (92 - h); } while (x < 70 && x + w > 28 && y < 62 && y + h > 36);
+        html += `<button type="button" class="spc-t__j" aria-label="Clutter ${n + 1}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%;background:${cols[n % cols.length]};--o:${(.65 + Math.random() * .3).toFixed(2)}"></button>`;
+      }
+      board.innerHTML = html; hud();
+      board.querySelectorAll('.spc-t__j').forEach(b => b.addEventListener('click', () => {
+        if (!live || b.classList.contains('is-gone')) return;
+        b.classList.add('is-gone'); left--; score++; api.sfx('pop'); hud();
+        if (!left) finish(true);
+      }));
+      board.querySelector('.spc-t__msg').addEventListener('click', e => { if (!live) return; slips++; score = Math.max(0, score - 1); hud(); api.sfx('bad'); api.shake(e.currentTarget); note.innerHTML = '<b>That’s the message!</b> Leave it alone. Clear what’s around it.'; });
+      stopT?.(); stopT = timerBar(bar, LIMIT, () => finish(false));
+    }
+    function finish(clean) {
+      if (!live) return; live = false; stopT?.();
+      if (clean) { board.classList.add('is-clear'); api.sfx('good'); note.innerHTML = slips ? '<b>Clean.</b> But you touched the message. Focus.' : '<b>Now the message sings.</b>'; }
+      else { api.sfx('bad'); note.innerHTML = `<b>Time’s up.</b> ${left} piece${left === 1 ? '' : 's'} of clutter left.`; }
+      i++;
+      timers.push(setTimeout(() => { if (i < ROUNDS) round(); else endScreen(el, api, ctx, declutter.id, score, MAX, ['Not a speck of noise. The message sang in every round.', 'Quick hands. Space is your friend now.', 'The noise won this time. Try again, and start from the edges.']); }, 1300));
+    }
+    round();
+    return (el._mgStop = () => { stopT?.(); timers.forEach(clearTimeout); });
+  }
+};
+
+/* ---------- 2 · Read the Space ---------- */
+const readSpace = {
+  id: 'space-read', title: 'Read the Space', en: 'active or passive · calm or urgent',
+  how: 'A layout appears, with one question: is this space <b>Active</b> or <b>Passive</b>? Or does it feel <b>calm</b> or <b>urgent</b>? Press 1 or 2.',
+  mount(el, api, ctx) {
+    const ROUNDS = 10, LIMIT = reduced() ? 11000 : 7000;
+    const set = shuffle([...Array(5)].map((_, n) => ({ t: 'ap', a: n % 2 ? 'passive' : 'active', seed: 3 + n })).concat([...Array(5)].map((_, n) => ({ t: 'mood', a: n % 2 ? 'urgent' : 'calm', seed: 9 + n }))));
+    let i = 0, score = 0, stopT = null, locked = false, timers = [];
+    el.innerHTML = `<div class="spc-t">
+      <div class="g-hud"><span class="chip">Layout <span class="hud-num" data-r>1</span>/<span class="hud-num">${ROUNDS}</span></span><span class="chip chip--zone">Correct <span class="hud-num" data-s>0</span></span></div>
+      <div class="g-timer"><i></i></div>
+      <div class="g-card"><div class="spc-t__fig"></div><p class="spc-t__q"></p><div class="spc-t__yn"></div></div>
+      <p class="spc-t__note" aria-live="polite"></p></div>`;
+    fitView(el);
+    const fig = el.querySelector('.spc-t__fig'), q = el.querySelector('.spc-t__q'), yn = el.querySelector('.spc-t__yn'), bar = el.querySelector('.g-timer'), note = el.querySelector('.spc-t__note');
+    const OPTS = { ap: [['active', 'Active', 'deliberate, asymmetric'], ['passive', 'Passive', 'default spacing']], mood: [['calm', 'Calm', 'calm and inviting'], ['urgent', 'Urgent', 'intense or urgent']] };
+    function round() {
+      locked = false; const it = set[i]; el.querySelector('[data-r]').textContent = i + 1; note.textContent = '';
+      fig.innerHTML = it.t === 'ap' ? spaceLayout(it.a, '#101018', it.seed) : densityLayout(it.a === 'calm' ? .06 + Math.random() * .12 : .82 + Math.random() * .16, it.seed);
+      q.textContent = it.t === 'ap' ? 'The space in this layout is:' : 'This layout feels:';
+      // every sub-label is English here, so it always runs left to right
+      yn.innerHTML = OPTS[it.t].map(([k, a, b], n) => `<button type="button" class="g-choice" data-k="${k}"><span class="hud-num">${n + 1}</span>${a}<bdi class="en" dir="ltr">${b}</bdi></button>`).join('');
+      yn.querySelectorAll('.g-choice').forEach(b => b.addEventListener('click', () => answer(b.dataset.k)));
+      stopT?.(); stopT = timerBar(bar, LIMIT, () => answer(null));
+    }
+    function answer(k) {
+      if (locked) return; locked = true; stopT?.();
+      const it = set[i]; const ok = k === it.a;
+      yn.querySelectorAll('.g-choice').forEach(b => { b.disabled = true; if (b.dataset.k === it.a) b.classList.add('is-right'); else if (b.dataset.k === k) b.classList.add('is-wrong'); });
+      if (ok) { score++; api.sfx('good'); } else api.sfx('bad');
+      el.querySelector('[data-s]').textContent = score;
+      const why = { active: 'A big empty area on one side, on purpose: <bdi class="en" dir="ltr">deliberate, asymmetric</bdi>.', passive: 'Normal gaps between lines and elements: <bdi class="en" dir="ltr">default space</bdi>.', calm: 'Roomy = <bdi class="en" dir="ltr">calm and inviting</bdi>.', urgent: 'Crowded = <bdi class="en" dir="ltr">intense or urgent</bdi>.' }[it.a];
+      note.innerHTML = `<b>${k === null ? 'Time’s up.' : ok ? 'Right.' : 'No.'}</b> ${why}`;
+      i++;
+      timers.push(setTimeout(() => { if (i < ROUNDS) round(); else endScreen(el, api, ctx, readSpace.id, score, ROUNDS, ['Your eye reads space the way it reads words.', 'Good. Active and Passive are clear to you now.', 'Still mixing them up. Go back to the chapter “Space by decision, space by default”.']); }, ok ? 900 : 1700));
+    }
+    const onKey = e => { const n = '12'.indexOf(e.key); const b = yn.querySelectorAll('.g-choice')[n]; if (n >= 0 && b && !b.disabled) { e.preventDefault(); answer(b.dataset.k); } };
+    document.addEventListener('keydown', onKey);
+    round();
+    return (el._mgStop = () => { stopT?.(); timers.forEach(clearTimeout); document.removeEventListener('keydown', onKey); });
+  }
+};
+
+export default [declutter, readSpace];

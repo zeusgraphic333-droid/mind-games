@@ -9,9 +9,10 @@ import color from './color.js';
 import type from './type.js';
 import express, { sq } from './express.js';
 import gestalt from './gestalt.js';
+import title from './title.js';
 import { INK, dots, mul } from './kit.js';
 
-export const SCENES2D = { ...other, ...mind, ...shape, ...space, ...color, ...type, ...express, ...gestalt };
+export const SCENES2D = { ...other, ...mind, ...shape, ...space, ...color, ...type, ...express, ...gestalt, ...title };
 
 /** shown for a name nobody has drawn yet: a loose riso dot field (reads as "raw stimuli") */
 export const FALLBACK = {

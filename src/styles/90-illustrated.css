@@ -1,0 +1,129 @@
+/* =====================================================================================================
+   ILLUSTRATED EXPERIENCE — a riso-print lab on paper (html[data-mode="illustrated"])
+   Same components, new ink: paper ground, navy "black", riso blue / fluorescent pink / yellow, flat colour,
+   hard offset shadows instead of glow. Figures and trials that were drawn for the dark world sit on navy
+   "plates" (dark stock), so their art reads exactly as designed.
+   ===================================================================================================== */
+html[data-mode="illustrated"] {
+  --void: #F4F5F9; --bg: #F4F5F9; --panel: #FFFFFF; --card: #FFFFFF; --card-2: #F0F2F8; --card-3: #E6E9F3;
+  --line: #DCE0EF; --line-2: #C3C9E0; --line-3: #8C93BC;
+  --fg: #121535; --fg-2: #3D4270; --fg-3: #626796; --fg-4: #9DA2C4;
+  --violet: #6B4CFF; --red: #EE3440; --ice: #00A6A1; --sun: #E0A800; --ultra: #2F47E8; --pink: #FF4DAA; --stone: #9C6B3C;
+  --alarm: #E8263A; --good: #0E9F64; --bad: #D9303A; --gold: #E0A800;
+  --zc: #2F47E8; --zd: #1D2CB4; --zon: #FFFFFF; --zglow: transparent;
+  --riso-pink: #FF4DAA; --riso-blue: #2F47E8; --riso-yellow: #FFE24A; --navy: #121535; --paper: #F4F5F9;
+  --f-display: 'Anybody', 'Alexandria', 'Arial Black', sans-serif;
+  --f-text: 'Atkinson Hyperlegible Next', 'IBM Plex Sans Arabic', 'Segoe UI', Arial, sans-serif;
+  --f-hud: 'Doto', 'Handjet', ui-monospace, monospace;
+  --hard: 5px 5px 0 var(--riso-pink);
+  color-scheme: light;
+}
+/* Arabic text keeps its own faces (Anybody/Atkinson have no Arabic, the browser falls through per glyph);
+   in Arabic the display face is Alexandria outright, so Latin words inside Arabic headings match it */
+html[data-mode="illustrated"][lang="ar"] { --f-display: 'Alexandria', 'Anybody', sans-serif; }
+html[data-mode="illustrated"] h1, html[data-mode="illustrated"] h2, html[data-mode="illustrated"] h3 { font-stretch: 112%; }
+html[data-mode="illustrated"] body { background: var(--void); }
+html[data-mode="illustrated"] ::selection { background: var(--riso-yellow); color: var(--navy); }
+html[data-mode="illustrated"] * { scrollbar-color: rgba(18, 21, 53, .25) transparent; }
+html[data-mode="illustrated"] ::-webkit-scrollbar-thumb { background: rgba(18, 21, 53, .22); background-clip: content-box; }
+html[data-mode="illustrated"] .hud-num { font-weight: 700; letter-spacing: .04em; }
+
+/* the paper itself: a fine grain over the stage, under the content */
+html[data-mode="illustrated"] #app::before { content: ''; position: fixed; inset: 0; z-index: 5; pointer-events: none; opacity: .22; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .07 0 0 0 0 .08 0 0 0 0 .2 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* ---------- glow → print: no light, only ink ---------- */
+html[data-mode="illustrated"] .bar { height: 5px; background: var(--card-3); }
+html[data-mode="illustrated"] .bar > i, html[data-mode="illustrated"] .segs i.on { box-shadow: none; }
+html[data-mode="illustrated"] .marks .on { color: #E0A800; filter: none; }
+html[data-mode="illustrated"] .marks .off { color: var(--line-2); }
+html[data-mode="illustrated"] .glyph, html[data-mode="illustrated"] .screen__glyph { filter: none; }
+html[data-mode="illustrated"] .fx-float { text-shadow: none; color: var(--navy); background: var(--riso-yellow); padding: 6px 10px; border-radius: 8px; box-shadow: 3px 3px 0 var(--navy); }
+html[data-mode="illustrated"] .fx-float--bad { color: #fff; background: var(--bad); }
+html[data-mode="illustrated"] .fx-float--good { color: #fff; background: var(--good); }
+html[data-mode="illustrated"] .tabs__ink { box-shadow: none; height: 3px; }
+html[data-mode="illustrated"] .g-timer > i { box-shadow: none; }
+
+/* ---------- buttons: ink pills with a hard misregistered shadow ---------- */
+html[data-mode="illustrated"] .btn { border-width: 1.5px; --bb: var(--navy); --fill: var(--navy); --ft: var(--paper); font-weight: 600; }
+html[data-mode="illustrated"] .btn--solid { --bc: var(--navy); --bt: var(--paper); --bb: var(--navy); --fill: var(--zc); --ft: var(--zon); box-shadow: 4px 4px 0 var(--riso-pink); }
+html[data-mode="illustrated"] .btn--zone { --bc: var(--zc); --bt: var(--zon); --bb: var(--navy); --fill: var(--navy); --ft: var(--paper); box-shadow: 4px 4px 0 var(--navy); }
+html[data-mode="illustrated"] .btn--good { --bt: #fff; }
+html[data-mode="illustrated"] .btn--solid:hover, html[data-mode="illustrated"] .btn--zone:hover { transform: translate(-1px, -1px); }
+html[data-mode="illustrated"] .btn--solid:active, html[data-mode="illustrated"] .btn--zone:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--riso-pink); }
+html[data-mode="illustrated"] .btn--ghost { --bb: transparent; }
+html[data-mode="illustrated"] .chip { border-width: 1.5px; border-color: var(--line-2); background: var(--card); }
+html[data-mode="illustrated"] .chip--zone { border-color: var(--zc); color: var(--navy); background: color-mix(in srgb, var(--zc) 12%, #fff); }
+html[data-mode="illustrated"] .card { border-width: 1.5px; }
+html[data-mode="illustrated"] .label { font-weight: 700; color: var(--fg-3); }
+html[data-mode="illustrated"] mark { color: var(--navy); background: linear-gradient(transparent 55%, color-mix(in srgb, var(--riso-yellow) 85%, transparent) 55%); }
+
+/* ---------- toasts, modals ---------- */
+html[data-mode="illustrated"] .toast { background: #fff; backdrop-filter: none; border: 1.5px solid var(--navy); box-shadow: 5px 5px 0 var(--riso-pink); }
+html[data-mode="illustrated"] .modal { background: rgba(244, 245, 249, .82); backdrop-filter: blur(4px); }
+html[data-mode="illustrated"] .modal__card { border: 1.5px solid var(--navy); box-shadow: 8px 8px 0 var(--riso-pink); }
+
+/* ---------- cursor ---------- */
+html[data-mode="illustrated"] .cur--dot { background: var(--navy); mix-blend-mode: normal; }
+html[data-mode="illustrated"] .cur--ring { border-color: rgba(18, 21, 53, .45); }
+
+/* ---------- a level: paper column + the printed stage ---------- */
+html[data-mode="illustrated"] .screen__main { background: rgba(244, 245, 249, .96); backdrop-filter: none; border-inline-end: 1.5px solid var(--navy); }
+html[data-mode="illustrated"] .screen--full .screen__main { background: rgba(244, 245, 249, .98); }
+html[data-mode="illustrated"] .screen__bar { border-bottom: 1.5px solid var(--navy); }
+html[data-mode="illustrated"] .stage__frame i { border-color: var(--navy); opacity: .5; }
+html[data-mode="illustrated"] .stage__n { color: var(--zc); font-weight: 700; }
+html[data-mode="illustrated"] .zhero__title { font-stretch: 118%; text-shadow: .045em .04em 0 color-mix(in srgb, var(--zc) 55%, transparent); }
+html[data-mode="illustrated"][lang="ar"] .zhero__title { text-shadow: .035em .035em 0 color-mix(in srgb, var(--zc) 55%, transparent); }
+@media (max-width: 980px) {
+  html[data-mode="illustrated"] .screen__main { background: transparent; border: 0; }
+  html[data-mode="illustrated"] .screen__bar { background: rgba(244, 245, 249, .94); backdrop-filter: blur(8px); }
+  html[data-mode="illustrated"] .screen__body { background: linear-gradient(to bottom, transparent 0, transparent 26vh, rgba(244, 245, 249, .985) 38vh, rgba(244, 245, 249, .985) 100%); background-attachment: local; }
+  html[data-mode="illustrated"] .screen--full .screen__body { background: rgba(244, 245, 249, .985); }
+}
+
+/* ---------- per-district riso inks (beat the inline zone colours of the dark world) ---------- */
+html[data-mode="illustrated"] [data-screen="zone-mind"] { --zc: #2F47E8 !important; --zd: #1D2CB4 !important; --zon: #fff !important; }
+html[data-mode="illustrated"] [data-screen="zone-shape"] { --zc: #FF6A3D !important; --zd: #D23F18 !important; --zon: #121535 !important; }
+html[data-mode="illustrated"] [data-screen="zone-space"] { --zc: #00A6A1 !important; --zd: #00746F !important; --zon: #fff !important; }
+html[data-mode="illustrated"] [data-screen="zone-color"] { --zc: #FF4DAA !important; --zd: #C8197A !important; --zon: #121535 !important; }
+html[data-mode="illustrated"] [data-screen="zone-type"] { --zc: #FFD21F !important; --zd: #8A6A00 !important; --zon: #121535 !important; }
+html[data-mode="illustrated"] [data-screen="zone-express"] { --zc: #121535 !important; --zd: #121535 !important; --zon: #F4F5F9 !important; }
+html[data-mode="illustrated"] [data-screen="zone-gestalt"] { --zc: #6B4CFF !important; --zd: #4E31E0 !important; --zon: #fff !important; }
+html[data-mode="illustrated"] [data-screen="zone-old"] { --zc: #16A05D !important; --zd: #0E7A45 !important; --zon: #fff !important; }
+html[data-mode="illustrated"] [data-screen^="boss"], html[data-mode="illustrated"] .screen[data-screen*="boss"] { --zc: #EE3440 !important; --zd: #C21F2C !important; --zon: #fff !important; }
+/* yellow can't carry text on paper: text that wants the district colour uses the deep ink */
+html[data-mode="illustrated"] [data-screen="zone-type"] :is(.tab[aria-selected="true"] .tab__n, .zhero__meta .hud-num, .label b, .chap__en, .stage__n, mark) { color: #8A6A00; }
+
+/* ---------- plates: figures and trials drawn for the dark world sit on navy stock ---------- */
+html[data-mode="illustrated"] :is(.blk-art:not(:has(.qfig)), .blk-demo__stage, .blk-ex__art, .blk-cmp__art, .gcard__art, .gamestage__in) {
+  --void: #0C0E26; --bg: #0C0E26; --panel: #12153A; --card: #161A42; --card-2: #1C2150; --card-3: #24295C;
+  --line: rgba(237, 235, 230, .12); --line-2: rgba(237, 235, 230, .22); --line-3: rgba(237, 235, 230, .4);
+  --fg: #EDEBE6; --fg-2: #BDBAD0; --fg-3: #8D8AA6; --fg-4: #5D5B74;
+  --good: #46E3A0; --bad: #FF4D5E; --gold: #FFC93C; --sun: #FFC21A; --ice: #7FE7FF; --red: #FF4A2E; --pink: #FF3E8A; --ultra: #4D6BFF; --violet: #8B7BFF;
+  --zglow: color-mix(in srgb, var(--zc) 35%, transparent);
+  --f-display: 'Alexandria', 'IBM Plex Sans Arabic', system-ui, sans-serif; --f-text: 'IBM Plex Sans Arabic', 'Alexandria', system-ui, sans-serif; --f-hud: 'Handjet', 'Alexandria', system-ui, sans-serif;
+  color-scheme: dark; color: var(--fg); background: #12153A; border-color: #12153A;
+}
+html[data-mode="illustrated"] .blk-demo { border: 1.5px solid var(--navy); background: #fff; box-shadow: 5px 5px 0 color-mix(in srgb, var(--zc) 80%, transparent); }
+html[data-mode="illustrated"] .blk-demo__stage { border-radius: 0 0 18px 18px; }
+html[data-mode="illustrated"] .blk-art:not(:has(.qfig)) { border-radius: 18px; padding: 18px; }
+html[data-mode="illustrated"] .gamestage__in { border-radius: 22px; padding: clamp(12px, 2vw, 22px); box-shadow: 6px 6px 0 var(--zc); }
+html[data-mode="illustrated"] .gamestage__in .btn--solid, html[data-mode="illustrated"] .blk-demo__stage .btn--solid { --bc: var(--fg); --bt: var(--void); --bb: var(--fg); box-shadow: none; }
+html[data-mode="illustrated"] .gamestage__in .btn, html[data-mode="illustrated"] .blk-demo__stage .btn { --bb: var(--line-3); --fill: var(--fg); --ft: var(--void); }
+html[data-mode="illustrated"] .gamestage__in .chip, html[data-mode="illustrated"] .blk-demo__stage .chip { background: transparent; border-color: var(--line-2); }
+html[data-mode="illustrated"] .gamestage__in .bar, html[data-mode="illustrated"] .blk-demo__stage .bar { height: 3px; background: var(--line-2); }
+
+/* ---------- lesson blocks on paper ---------- */
+html[data-mode="illustrated"] .blk-quote { background: #fff; border: 1.5px solid var(--navy); box-shadow: 4px 4px 0 var(--riso-blue); }
+html[data-mode="illustrated"] .blk-trap { background: var(--riso-yellow); border: 1.5px solid var(--navy); box-shadow: 4px 4px 0 var(--riso-pink); color: var(--navy); }
+html[data-mode="illustrated"] .blk-trap * { --fg-2: #2B2F5C; --fg-3: #3D4270; }
+html[data-mode="illustrated"] .blk-tip { background: color-mix(in srgb, var(--riso-blue) 8%, #fff); border-color: var(--riso-blue); }
+html[data-mode="illustrated"] .blk-check__card, html[data-mode="illustrated"] .qrun__card, html[data-mode="illustrated"] .qc { border-width: 1.5px; }
+html[data-mode="illustrated"] .opt { border-width: 1.5px; background: #fff; }
+html[data-mode="illustrated"] .gamecard:hover { background: color-mix(in srgb, var(--zc) 8%, transparent); }
+
+/* ---------- the onboarding card ---------- */
+html[data-mode="illustrated"] .onb { background: rgba(244, 245, 249, .55); }
+html[data-mode="illustrated"] .onb__card { background: #fff; border: 1.5px solid var(--navy); box-shadow: 8px 8px 0 var(--riso-pink); }
+html[data-mode="illustrated"] .sigil[aria-checked="true"] { box-shadow: 4px 4px 0 var(--riso-blue); border-color: var(--navy); }
