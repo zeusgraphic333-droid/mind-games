@@ -1,5 +1,7 @@
 # Mind Games · عقلك بيشتغلك
 
+**Live:** https://mind-games-peach.vercel.app
+
 An immersive study experience for **Graphic Design Fundamentals (MDP001)** at Badr University in Cairo —
 Lecture 02 (Psychology of Design · Express Meaning) and Lecture 03 (Gestalt Principles of Visual Perception).
 
