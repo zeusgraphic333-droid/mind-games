@@ -1,0 +1,47 @@
+/* ---------- Space zone: demos ---------- */
+.spc-dens, .spc-act, .spc-noise { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; align-items: center; }
+.spc-dens__fig svg, .spc-act__fig svg, .spc-noise__fig svg { width: 100%; height: auto; display: block; }
+.spc-dens__side, .spc-act__side, .spc-noise__side { display: grid; gap: 12px; align-content: start; justify-items: start; }
+.spc-range { display: grid; grid-template-columns: auto auto; align-items: baseline; gap: 4px 12px; width: 100%; }
+.spc-range .hud-num { font-size: 30px; line-height: .9; color: var(--fg); }
+.spc-range input { grid-column: 1 / -1; width: 100%; accent-color: var(--zc); }
+.spc-meter { width: 100%; height: 3px; border-radius: 99px; background: var(--line-2); overflow: hidden; }
+.spc-meter i { display: block; height: 100%; width: 15%; transition: width .2s, background .3s; }
+.spc-read { display: grid; gap: 4px; margin: 0; min-height: 64px; }
+.spc-read b { font: 800 clamp(20px, 2.2vw, 26px)/1.3 var(--f-display); color: var(--fg); }
+.spc-read small { font-size: 13.5px; line-height: 1.6; color: var(--fg-3); }
+.spc-seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.spc-seg button { appearance: none; background: transparent; border: 1px solid var(--line-2); border-radius: 99px; padding: 7px 14px; font: 500 14px/1 var(--f-display); color: var(--fg-2); transition: all .2s; }
+.spc-seg button:hover { border-color: var(--line-3); color: var(--fg); }
+.spc-seg button[aria-checked="true"] { background: var(--zc); border-color: var(--zc); color: var(--zon); }
+.spc-noise__j { transition: opacity .5s var(--ease-out), transform .6s var(--ease-out); transform-box: fill-box; transform-origin: center; }
+.spc-noise__j.is-gone { opacity: 0; transform: scale(.6); }
+.spc-noise__msg { transition: fill .6s; }
+.spc-noise__fig.is-clear .spc-noise__msg { fill: var(--ice); }
+.spc-lead { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; align-items: center; }
+.spc-lead__txt { margin: 0; padding: 16px 18px; border: 1px solid var(--line); border-radius: 14px; font-size: 15.5px; color: var(--fg); background: #101018; transition: line-height .25s var(--ease-out); }
+.spc-lead__side { display: grid; gap: 12px; }
+
+/* ---------- Space zone: trials ---------- */
+.spc-t { display: grid; gap: 14px; }
+.spc-t__board { position: relative; width: 100%; max-width: 620px; margin: 0 auto; aspect-ratio: 4 / 3; border-radius: 16px; background: #101018; border: 1px solid var(--line); overflow: hidden; }
+.spc-t__msg { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); appearance: none; background: transparent; border: 0; font: 900 clamp(22px, 3.4vw, 34px)/1.15 var(--f-display); color: var(--fg); padding: 8px 12px; border-radius: 10px; transition: color .4s, transform .5s var(--ease-out); white-space: nowrap; }
+.spc-t__msg:focus-visible { outline: 2px solid var(--zc); }
+.spc-t__board.is-clear .spc-t__msg { color: var(--ice); transform: translate(-50%, -50%) scale(1.06); }
+.spc-t__j { position: absolute; appearance: none; border: 0; border-radius: 6px; padding: 0; cursor: pointer; opacity: var(--o, .8); transition: opacity .3s var(--ease-out), transform .35s var(--ease-out); }
+.spc-t__j:hover { filter: brightness(1.25); }
+.spc-t__j:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.spc-t__j.is-gone { opacity: 0; transform: scale(.4); pointer-events: none; }
+.spc-t__note { margin: 0; text-align: center; color: var(--fg-2); font-size: 15px; min-height: 1.6em; }
+.spc-t__note b { color: var(--fg); }
+.spc-t__fig { max-width: 420px; width: 100%; margin: 0 auto; }
+.spc-t__fig svg { width: 100%; height: auto; display: block; }
+.spc-t__q { font: 700 clamp(19px, 2.2vw, 24px)/1.4 var(--f-display); text-align: center; margin: 12px 0 10px; }
+.spc-t__yn { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.spc-t__yn .g-choice { font-size: 17px; }
+.spc-t__yn .g-choice .hud-num { font-size: 14px; color: var(--fg-4); }
+.spc-t__yn .g-choice bdi { font: 500 12px/1.2 var(--f-text); color: var(--fg-3); }
+
+@media (max-width: 760px) {
+  .spc-dens, .spc-act, .spc-noise, .spc-lead { grid-template-columns: 1fr; }
+}

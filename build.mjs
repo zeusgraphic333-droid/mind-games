@@ -1,0 +1,36 @@
+// Bundle src/js/main.js + src/styles/*.css into one self-contained dist/index.html
+//   node build.mjs [--dev]                  → dist/index.html (the whole game)
+//   node build.mjs --dev --zone shape       → dist/dev-shape.html (one zone only: lesson + games, routes #/dev/learn · #/dev/game/<n> · #/dev/quiz)
+//   node build.mjs --dev --sample           → dist/dev-sample.html (reference lesson with every block type)
+import * as esbuild from 'esbuild';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const root = path.dirname(new URL(import.meta.url).pathname);
+const src = p => path.join(root, 'src', p);
+const argv = process.argv.slice(2);
+const minify = !argv.includes('--dev');
+const zone = argv.includes('--zone') ? argv[argv.indexOf('--zone') + 1] : null;
+const sample = argv.includes('--sample');
+
+const common = { bundle: true, format: 'iife', target: ['es2020'], minify, write: false, legalComments: 'none', charset: 'utf8', define: { 'process.env.NODE_ENV': '"production"' }, logLevel: 'error' };
+let opts;
+if (zone || sample) {
+  const imp = sample
+    ? `import lesson, { games } from './content/lessons/_sample.js'; devBoot('shape', lesson, games);`
+    : `import lesson from './content/lessons/${zone}.js'; import games from './games/${zone}.js'; devBoot('${zone}', lesson, games);`;
+  opts = { ...common, stdin: { contents: `import { devBoot } from './devboot.js'; ${imp}`, resolveDir: src('js'), sourcefile: 'dev-entry.js', loader: 'js' } };
+} else opts = { ...common, entryPoints: [src('js/main.js')] };
+
+const js = await esbuild.build(opts);
+const cssFiles = fs.readdirSync(src('styles')).filter(f => f.endsWith('.css')).sort();
+const cssRaw = cssFiles.map(f => fs.readFileSync(src('styles/' + f), 'utf8')).join('\n');
+const css = await esbuild.transform(cssRaw, { loader: 'css', minify, charset: 'utf8', logLevel: 'error' });
+let html = fs.readFileSync(src('index.html'), 'utf8');
+const jsCode = js.outputFiles[0].text.replace(/<\/script/gi, '<\\/script');
+html = html.replace('/*%CSS%*/', () => css.code).replace('/*%JS%*/', () => jsCode);
+const outName = zone ? `dev-${zone}.html` : sample ? 'dev-sample.html' : 'index.html';
+fs.mkdirSync(path.join(root, 'dist'), { recursive: true });
+fs.writeFileSync(path.join(root, 'dist', outName), html);
+const kb = n => (n / 1024).toFixed(0) + 'KB';
+console.log('built dist/' + outName, kb(Buffer.byteLength(html)), '(js', kb(Buffer.byteLength(jsCode)), 'css', kb(Buffer.byteLength(css.code)) + ')');

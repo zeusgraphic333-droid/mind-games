@@ -1,0 +1,61 @@
+/* MIND GAMES — a perception lab. Void-dark stage, light that behaves like particles, one accent per district. */
+:root {
+  --void: #07070B;
+  --bg: #07070B;
+  --panel: #0D0D14;
+  --card: #111119;
+  --card-2: #171722;
+  --card-3: #1E1E2B;
+  --line: rgba(237, 235, 230, .11);
+  --line-2: rgba(237, 235, 230, .2);
+  --line-3: rgba(237, 235, 230, .36);
+  --fg: #EDEBE6;
+  --fg-2: #B6B3C0;
+  --fg-3: #7E7C8B;
+  --fg-4: #55535F;
+
+  --violet: #8B7BFF;
+  --red: #FF4A2E;
+  --ice: #7FE7FF;
+  --sun: #FFC21A;
+  --ultra: #4D6BFF;
+  --pink: #FF3E8A;
+  --stone: #D9B88C;
+  --alarm: #FF3B30;
+  --good: #46E3A0;
+  --bad: #FF4D5E;
+  --gold: #FFC93C;
+
+  /* the current district (set per screen) */
+  --zc: var(--violet);
+  --zd: #5B4BD6;
+  --zon: #07070B;
+  --zglow: rgba(139, 123, 255, .35);
+
+  --r-xs: 6px;
+  --r-s: 10px;
+  --r-m: 14px;
+  --r-l: 20px;
+
+  --f-display: 'Alexandria', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --f-text: 'IBM Plex Sans Arabic', 'Alexandria', system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+  --f-hud: 'Handjet', 'Alexandria', system-ui, sans-serif;
+  --f-serif: 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --f-script: 'Lobster', 'Brush Script MT', cursive;
+  --f-poster: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
+  --f-mono: 'Courier Prime', 'Courier New', Courier, monospace;
+  --f-sans: 'IBM Plex Sans Arabic', Helvetica, Arial, sans-serif;
+
+  /* aliases used by the figure library */
+  --ink: var(--fg);
+  --ink-2: var(--fg-2);
+  --ink-3: var(--fg-3);
+  --paper: transparent;
+  --blue: var(--zc);
+  --pink-deep: var(--pink);
+
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-io: cubic-bezier(.65, 0, .35, 1);
+  --ease-back: cubic-bezier(.34, 1.4, .64, 1);
+  color-scheme: dark;
+}
