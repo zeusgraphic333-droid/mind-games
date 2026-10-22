@@ -105,7 +105,8 @@ function halftonePlay(svg, k) {
   t.from(all('.hf-b circle'), { scale: 0, transformOrigin: '50% 50%', duration: .5, ease: 'back.out(2)', stagger: { each: .0032, from: 'start' } }, .15);
   if (k.reduced()) return t;
   const o = `${HT.fx} ${HT.fy}`;
-  gsap.timeline({ repeat: -1, delay: 2.6, repeatDelay: 1.8 })
+  // look closer and the picture falls apart into dots; step back and the dots become a ball again
+  gsap.timeline({ repeat: -1, delay: 3.8, repeatDelay: 3 })
     .to(q('.hf-z'), { scale: 3.6, svgOrigin: o, duration: 2.8, ease: 'power2.inOut' })
     .to(q('.hf-z'), { scale: 1, svgOrigin: o, duration: 2.6, ease: 'power2.inOut' }, '+=1.6');
   return t;
@@ -197,7 +198,7 @@ function neckerPlay(svg, k) {
    ====================================================================================================== */
 const VS = { top: 96, bot: 504, l: 96, r: 504 };
 // distance from the centre line to the profile edge, top to bottom (forehead, brow, nose, lips, chin, throat, neck)
-const VPROF = [[96, 118], [140, 112], [178, 100], [198, 108], [218, 96], [244, 54], [260, 68], [272, 86], [284, 74], [297, 86], [309, 76], [323, 92], [343, 72], [366, 98], [394, 118], [440, 124], [478, 116], [504, 104]];
+const VPROF = [[96, 114], [150, 110], [184, 98], [200, 104], [212, 108], [226, 96], [246, 66], [256, 58], [264, 64], [272, 90], [286, 80], [297, 94], [308, 84], [322, 104], [346, 84], [362, 92], [384, 118], [410, 138], [452, 142], [504, 130]];
 function vaseParts() {
   const R = VPROF.map(([y, d]) => [300 + d, y]), L = VPROF.map(([y, d]) => [300 - d, y]);
   const segR = smoothSeg(R), segL = smoothSeg(L), segLup = smoothSeg([...L].reverse());
@@ -242,10 +243,10 @@ function vasePlay(svg, k) {
    ====================================================================================================== */
 const TILE = 'M-40 -56H40Q56 -56 56 -40V40Q56 56 40 56H-40Q-56 56 -56 40V-40Q-56 -56 -40 -56ZM-39 -20a19 19 0 1 0 38 0a19 19 0 1 0 -38 0ZM17 27a12 12 0 1 0 24 0a12 12 0 1 0 -24 0Z';
 const POSES = [
-  { x: 176, y: 178, r: 0, k: 0, sx: 1.12, sy: 1.12 },
-  { x: 432, y: 170, r: 36, k: 0, sx: .72, sy: .72 },
-  { x: 418, y: 420, r: 158, k: 0, sx: 1.04, sy: 1.04 },
-  { x: 180, y: 424, r: -10, k: -26, sx: 1.12, sy: .76 }
+  { x: 172, y: 176, r: 0, k: 0, sx: 1.3, sy: 1.3 },
+  { x: 438, y: 168, r: 36, k: 0, sx: .86, sy: .86 },
+  { x: 426, y: 424, r: 158, k: 0, sx: 1.2, sy: 1.2 },
+  { x: 176, y: 430, r: -10, k: -26, sx: 1.3, sy: .88 }
 ];
 const poseT = p => `translate(${f1(p.x)} ${f1(p.y)}) rotate(${f1(p.r)}) skewX(${f1(p.k)}) scale(${f1(p.sx)} ${f1(p.sy)})`;
 function invarianceDraw(k) {
@@ -369,8 +370,8 @@ function continuityPlay(svg, k) {
   if (k.reduced()) return t;
   // the eye follows each line through the crossing
   const pulse = (tl, dots, rib, at) => tl.to(q(rib), { opacity: .85, duration: .4 }, at)
-    .to(dots, { scale: 1.75, transformOrigin: '50% 50%', duration: .22, ease: 'power2.out', yoyo: true, repeat: 1, stagger: .06 }, at + .1)
-    .to(q(rib), { opacity: 0, duration: .5 }, at + .1 + dots.length * .06 + .2);
+    .to(dots, { scale: 1.4, transformOrigin: '50% 50%', duration: .26, ease: 'sine.out', yoyo: true, repeat: 1, stagger: .055 }, at + .1)
+    .to(q(rib), { opacity: 0, duration: .5 }, at + .1 + dots.length * .055 + .2);
   const cyc = gsap.timeline({ repeat: -1, delay: 1.6, repeatDelay: 1.2 });
   pulse(cyc, S, '.ct-rs', 0); pulse(cyc, C, '.ct-rc', 2.6);
   return t;
@@ -443,9 +444,9 @@ function simplicityPlay(svg, k) {
 /* ======================================================================================================
    commonFate — a still grid; then some dots move down the page together, and they become a group of their own.
    ====================================================================================================== */
-const CF = { cols: 7, rows: 5, dx: 66, dy: 62, drop: 46 };
-const cfX = c => 300 + (c - 3) * CF.dx, cfY = r => 262 + (r - 2) * CF.dy;
-const cfMoves = (c, r) => (c + r) % 3 === 0;
+const CF = { cols: 7, rows: 5, dx: 66, dy: 66, drop: 22 };
+const cfX = c => 300 + (c - 3) * CF.dx, cfY = r => 286 + (r - 2) * CF.dy;
+const cfMoves = (c, r) => ((c - r) % 3 + 3) % 3 === 0;
 function commonFateDraw(k) {
   const { INK } = k; let trails = '', dots = '';
   for (let r = 0; r < CF.rows; r++) for (let c = 0; c < CF.cols; c++) {
@@ -486,7 +487,6 @@ function connectionDraw(k) {
   const row1 = Array.from({ length: 8 }, (_, i) => el(i, CN.y1, i % 2 === 0)).join('');
   const row2 = Array.from({ length: 8 }, (_, i) => el(i, CN.y2, i % 2 === 1)).join('');
   return `<g class="cn-links">${links}</g><g class="cn-els">${row1}${row2}</g>
-  <g class="cn-mis" transform="translate(6 -5)" opacity=".8"><line x1="${f1(cnX(0) - 20)}" y1="${CN.y1 + 74}" x2="${f1(cnX(7) + 20)}" y2="${CN.y1 + 74}" stroke="${INK.blue}" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/></g>
   ${k.regmark(52, 52)}${k.regmark(548, 548)}`;
 }
 function connectionPlay(svg, k) {
@@ -494,7 +494,7 @@ function connectionPlay(svg, k) {
   const links = [...all('.cn-l')]; const x2 = links.map(l => l.getAttribute('x2')), x1 = links.map(l => l.getAttribute('x1'));
   const t = k.tl();
   t.from(all('.cn-els > *'), { scale: 0, transformOrigin: '50% 50%', duration: .45, ease: 'back.out(2)', stagger: .03 }, 0)
-    .from(all('.cn-mis'), { opacity: 0, duration: .5 }, .4);
+    ;
   if (k.reduced()) return t;
   t.fromTo(links, { attr: { x2: i => x1[i] } }, { attr: { x2: i => x2[i] }, duration: .6, stagger: .08, ease: 'power3.inOut' }, .7);
   // unlink, and similarity takes over (circles with circles); link again, and the pairs are units
@@ -508,16 +508,15 @@ function connectionPlay(svg, k) {
    symmetry — [ ] { } [ ]: mirrored pairs close into three figures. Swap partners ([ } { ] ] [) and they are loose
    marks again. The figures the mind closes are shown when the pairs are symmetrical.
    ====================================================================================================== */
-const SYM = { y0: 220, y1: 380, slots: [102, 178, 262, 338, 422, 498] };
-const BR = { sq: 'M24 0H0V160H24', cu: 'M24 0C6 0 6 12 6 30V58C6 72 0 80 -12 80C0 80 6 88 6 102V130C6 148 6 160 24 160' };
+const SYM = { y0: 200, y1: 400, slots: [70, 178, 246, 354, 422, 530] };
+const BR = { sq: 'M30 0H0V200H30', cu: 'M30 0C8 0 8 15 8 38V72C8 90 0 100 -15 100C0 100 8 110 8 128V162C8 185 8 200 30 200' };
 // glyph: [shape, mirrored?, from slot, to slot]
 const GLY = [['sq', false, 0, 0], ['sq', true, 1, 3], ['cu', false, 2, 2], ['cu', true, 3, 1], ['sq', false, 4, 5], ['sq', true, 5, 4]];
 function symmetryDraw(k) {
   const { INK, ht } = k;
-  const g = GLY.map(([s, m, from], i) => `<g class="sy-g" data-i="${i}" transform="translate(${SYM.slots[from]} ${SYM.y0})"><path d="${BR[s]}" transform="${m ? 'scale(-1 1)' : ''}" fill="none" stroke="${INK.navy}" stroke-width="15" stroke-linecap="square" stroke-linejoin="miter"/></g>`).join('');
-  const fills = [[0, 1], [2, 3], [4, 5]].map(([a, b]) => `<rect x="${SYM.slots[a] + 16}" y="${SYM.y0 + 14}" width="${SYM.slots[b] - SYM.slots[a] - 32}" height="${SYM.y1 - SYM.y0 - 28}" fill="${ht('yellow', 'l')}"/>`).join('');
+  const g = GLY.map(([s, m, from], i) => `<g class="sy-g" data-i="${i}" transform="translate(${SYM.slots[from]} ${SYM.y0})"><path d="${BR[s]}" transform="${m ? 'scale(-1 1)' : ''}" fill="none" stroke="${INK.navy}" stroke-width="17" stroke-linecap="square" stroke-linejoin="miter"/></g>`).join('');
+  const fills = [[0, 1], [2, 3], [4, 5]].map(([a, b]) => `<rect x="${SYM.slots[a] + 20}" y="${SYM.y0 + 18}" width="${SYM.slots[b] - SYM.slots[a] - 40}" height="${SYM.y1 - SYM.y0 - 36}" fill="${ht('yellow', 'l')}"/>`).join('');
   return `<g class="sy-ghost" opacity="0">${fills}</g>
-  <g class="sy-mis" transform="translate(6 -5)" opacity=".8"><line x1="70" y1="${SYM.y1 + 42}" x2="530" y2="${SYM.y1 + 42}" stroke="${INK.pink}" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/></g>
   ${g}<line x1="300" y1="${SYM.y0 - 40}" x2="300" y2="${SYM.y1 + 40}" stroke="${INK.blue}" stroke-width="2" stroke-dasharray="4 7" class="sy-axis"/>
   ${k.regmark(52, 52)}${k.regmark(548, 548)}`;
 }
@@ -526,12 +525,12 @@ function symmetryPlay(svg, k) {
   const gs = [...all('.sy-g')];
   const t = k.tl();
   t.from(gs, { opacity: 0, y: SYM.y0 - 30, duration: .8, stagger: .08, ease: 'expo.out' }, 0)
-    .from(q('.sy-axis'), { opacity: 0, duration: .6 }, .4).from(q('.sy-mis'), { opacity: 0, duration: .6 }, .5);
+    .from(q('.sy-axis'), { opacity: 0, duration: .6 }, .4);
   if (k.reduced()) { t.to(q('.sy-ghost'), { opacity: .9, duration: .01 }, .9); return t; }
   const go = (tl, key, at) => GLY.forEach(([, , from, to], i) => {
     const target = SYM.slots[key === 'to' ? to : from]; if (from === to) return;
     tl.to(gs[i], { x: target, duration: 1.1, ease: 'power3.inOut' }, at)
-      .to(gs[i], { y: SYM.y0 + (i % 2 ? -34 : 34), duration: .55, ease: 'sine.out', yoyo: true, repeat: 1 }, at);
+      .to(gs[i], { y: SYM.y0 + (i % 2 ? -40 : 40), duration: .55, ease: 'sine.out', yoyo: true, repeat: 1 }, at);
   });
   const cyc = gsap.timeline({ repeat: -1, delay: 1.2 });
   cyc.to(q('.sy-ghost'), { opacity: .9, duration: .6 }, 0).to(q('.sy-ghost'), { opacity: 0, duration: .5 }, 2.2);
@@ -543,20 +542,20 @@ function symmetryPlay(svg, k) {
 /* ======================================================================================================
    figureGround — a field of navy cells with an arrow nobody printed: the figure exists only as negative space.
    ====================================================================================================== */
-const FG = { n: 9, pitch: 48, cell: 41, x0: 87.5, y0: 64 };
-const fgArrow = (c, r) => (r >= 3 && r <= 5 && c >= 1 && c <= 3) || (c >= 4 && c <= 7 && Math.abs(r - 4) <= 7 - c);
+const FG = { n: 13, pitch: 34, cell: 28, x0: 82, y0: 62 };
+const fgArrow = (c, r) => (r >= 5 && r <= 7 && c >= 1 && c <= 5) || (c >= 6 && c <= 11 && Math.abs(r - 6) <= 11 - c);
 function figureGroundDraw(k) {
   const { INK, ht } = k; const { n, pitch, cell, x0, y0 } = FG; let cells = '', holes = '';
   for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) {
     const x = x0 + c * pitch, y = y0 + r * pitch;
-    if (fgArrow(c, r)) holes += `M${x - 3.5} ${y - 3.5}h${pitch}v${pitch}h${-pitch}Z`;
+    if (fgArrow(c, r)) holes += `M${x - 3} ${y - 3}h${pitch}v${pitch}h${-pitch}Z`;
     else cells += `<rect class="fg-c" data-d="${c + r}" x="${x}" y="${y}" width="${cell}" height="${cell}" fill="${INK.navy}"/>`;
   }
-  const G = (gx, gy) => [x0 + gx * pitch - 3.5, y0 + gy * pitch - 3.5];
-  const arrow = [[1, 3], [4, 3], [4, 1], [8, 4.5], [4, 8], [4, 6], [1, 6]].map(([a, b]) => pt(G(a, b))).join('L');
+  const G = (gx, gy) => [x0 + gx * pitch - 3, y0 + gy * pitch - 3];
+  const arrow = [[1, 5], [6, 5], [6, 1], [12, 6.5], [6, 12], [6, 8], [1, 8]].map(([a, b]) => pt(G(a, b))).join('L');
   const W = n * pitch;
   return `
-  <path class="fg-mis" transform="translate(6 5)" d="M${x0 - 3.5} ${y0 - 3.5}h${W}v${W}h${-W}Z${holes}" fill-rule="evenodd" fill="${ht('blue', 'm')}"/>
+  <path class="fg-mis" transform="translate(5 4)" d="M${x0 - 3} ${y0 - 3}h${W}v${W}h${-W}Z${holes}" fill-rule="evenodd" fill="${ht('blue', 's')}"/>
   <g class="fg-ghost" opacity="0"><path d="M${arrow}Z" fill="${ht('yellow', 'l')}"/><path d="M${arrow}Z" fill="none" ${ghostStyle(k)}/></g>
   <g class="fg-cells">${cells}</g>
   <g class="fg-note" opacity="0">${k.text(300, y0 + W + 38, 'negative space', { size: 24, family: 'dot', weight: 700, fill: INK.ink2 })}</g>`;
@@ -565,12 +564,12 @@ function figureGroundPlay(svg, k) {
   const { gsap } = k; const all = s => svg.querySelectorAll(s), q = s => svg.querySelector(s);
   const cells = [...all('.fg-c')];
   const t = k.tl();
-  t.from(cells, { scale: 0, transformOrigin: '50% 50%', duration: .45, ease: 'back.out(1.8)', stagger: i => +cells[i].dataset.d * .045 }, 0)
+  t.from(cells, { scale: 0, transformOrigin: '50% 50%', duration: .45, ease: 'back.out(1.8)', stagger: i => +cells[i].dataset.d * .032 }, 0)
     .from(q('.fg-mis'), { opacity: 0, x: 0, y: 0, duration: .9, ease: 'expo.out' }, .5);
   if (k.reduced()) return t;
   // the ground keeps breathing; the arrow, made of nothing, stays — and now and then we point at it
   gsap.timeline({ repeat: -1, delay: 1.6, repeatDelay: 1.6 })
-    .to(cells, { scale: .78, transformOrigin: '50% 50%', duration: .6, ease: 'sine.inOut', yoyo: true, repeat: 1, stagger: i => +cells[i].dataset.d * .06 })
+    .to(cells, { scale: .84, transformOrigin: '50% 50%', duration: .8, ease: 'sine.inOut', yoyo: true, repeat: 1, stagger: i => +cells[i].dataset.d * .045 })
     .to(q('.fg-ghost'), { opacity: .9, duration: .6 }, '+=.2').to(q('.fg-note'), { opacity: 1, duration: .4 }, '<.2')
     .to(q('.fg-ghost'), { opacity: 0, duration: .8 }, '+=1.4').to(q('.fg-note'), { opacity: 0, duration: .5 }, '<');
   return t;

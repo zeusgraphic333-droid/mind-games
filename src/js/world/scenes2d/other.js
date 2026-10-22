@@ -82,7 +82,7 @@ function spiralDraw(k) {
   return `
   <g class="spi-tiles">${tiles}</g>
   <g class="spi-frames">${frames}</g>
-  <g transform="translate(5 -4)" opacity=".8"><path class="spi-pass" d="${d}" fill="none" stroke="${INK.orange}" stroke-width="7" stroke-linecap="round"/></g>
+  <g transform="translate(5 -4)" opacity=".8"><path class="spi-pass" d="${d}" fill="none" stroke="${INK.pink}" stroke-width="7" stroke-linecap="round"/></g>
   <path class="spi-path" d="${d}" fill="none" stroke="${INK.navy}" stroke-width="7" stroke-linecap="round"/>
   <circle class="spi-dot" r="13" fill="${INK.paper}" stroke="${INK.navy}" stroke-width="5"/>
   ${marks(k)}`;
@@ -126,7 +126,7 @@ function elementsDraw(k) {
     // 02 shape
     `<circle class="el-shape" cx="${sh[0]}" cy="${sh[1]}" r="38" fill="${INK.blue}"/>`,
     // 03 form: a cube in three flat inks
-    `<g class="el-form"><polygon points="${P([[fo[0], fo[1] - 40], [fo[0] + 36, fo[1] - 20], [fo[0], fo[1]], [fo[0] - 36, fo[1] - 20]])}" fill="${INK.yellow}"/><polygon points="${P([[fo[0] - 36, fo[1] - 20], [fo[0], fo[1]], [fo[0], fo[1] + 42], [fo[0] - 36, fo[1] + 22]])}" fill="${INK.red}"/><polygon points="${P([[fo[0] + 36, fo[1] - 20], [fo[0], fo[1]], [fo[0], fo[1] + 42], [fo[0] + 36, fo[1] + 22]])}" fill="${INK.navy}"/></g>`,
+    `<g class="el-form"><polygon points="${P([[fo[0], fo[1] - 40], [fo[0] + 36, fo[1] - 20], [fo[0], fo[1]], [fo[0] - 36, fo[1] - 20]])}" fill="${INK.yellow}"/><polygon points="${P([[fo[0] - 36, fo[1] - 20], [fo[0], fo[1]], [fo[0], fo[1] + 42], [fo[0] - 36, fo[1] + 22]])}" fill="${INK.pink}"/><polygon points="${P([[fo[0] + 36, fo[1] - 20], [fo[0], fo[1]], [fo[0], fo[1] + 42], [fo[0] + 36, fo[1] + 22]])}" fill="${INK.navy}"/></g>`,
     // 04 color: three inks overprinting
     `<g class="el-color">${[['pink', -90], ['yellow', 150], ['blue', 30]].map(([ink, a]) => `<circle cx="${f1(co[0] + Math.cos(a * Math.PI / 180) * 17)}" cy="${f1(co[1] + 4 + Math.sin(a * Math.PI / 180) * 17)}" r="27" fill="${INK[ink]}" fill-opacity=".86"/>`).join('')}</g>`,
     // 05 value: light to dark in one ink
@@ -197,7 +197,7 @@ function nebulaDraw(k) {
   };
   const groups = [0, 1, 2, 3].map(g => `<g class="nb-g">${M.map((m, i) => m.g === g ? `<g class="nb-m" data-i="${i}">${mark(m)}</g>` : '').join('')}</g>`).join('');
   return `
-  <g class="nb-haze"><circle cx="248" cy="262" r="150" fill="${ht('violet', 'm')}" mask="url(#fade-r)"/><circle cx="360" cy="340" r="130" fill="${ht('pink', 'm')}" mask="url(#fade-r)"/></g>
+  <g class="nb-haze"><circle cx="248" cy="262" r="150" fill="${ht('blue', 'm')}" mask="url(#fade-r)"/><circle cx="360" cy="340" r="130" fill="${ht('pink', 'm')}" mask="url(#fade-r)"/></g>
   ${groups}`;
 }
 function nebulaPlay(svg, k) {

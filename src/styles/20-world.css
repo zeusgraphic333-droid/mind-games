@@ -80,14 +80,16 @@ html[dir="ltr"] .sel__en { text-align: left; }
 .hud.is-shown .hud__nav { opacity: 1; }
 .hud__hint { font-size: 13px; color: var(--fg-3); }
 /* the language switch: a quiet word in the other language */
-.hud__lang { padding: 0 12px; font: 500 14px/1 var(--f-display); --bt: var(--fg-2); }
+.hud__lang, .hud__mode { padding: 0 12px; font: 500 14px/1 var(--f-display); --bt: var(--fg-2); }
+.hud__mode { gap: 7px; }
+.hud__mode svg { width: 18px; height: 18px; }
 .hud.is-diving .sel, .hud.is-diving .nodes, .hud.is-diving .hud__nav { opacity: 0 !important; transition: opacity .35s ease !important; }
 
 @media (max-width: 760px) {
   .hud__top { padding: 14px 14px; align-items: flex-start; }
   .brand__txt small { display: none; }
   .brand__txt b { font-size: 21px; }
-  .me__txt, .hud__archive span, .xp__l { display: none; }
+  .me__txt, .hud__archive span, .hud__mode span, .xp__l { display: none; }
   .xp { padding: 0 4px; }
   .xp__bar { width: 56px; }
   .hud__me { gap: 4px; }

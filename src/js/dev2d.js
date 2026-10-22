@@ -10,7 +10,7 @@ gsap.ticker.lagSmoothing(0);
 document.documentElement.dataset.mode = 'illustrated';
 document.body.style.cssText = 'background:#F4F5F9;color:#121535;margin:0;overflow:auto;font-family:system-ui';
 installDefs();
-const names = [...new Set([...Object.keys(SCENE_INFO), 'sq:Order', 'sq:Chaos#1', 'title', 'hub', ...Object.keys(SCENES2D)])];
+const names = [...new Set([...Object.keys(SCENE_INFO), 'sq:Order', 'sq:Chaos#1', ...Object.keys(SCENES2D)])];
 const app = document.getElementById('app'); app.innerHTML = '';
 let stage = null;
 function sheet() {

@@ -32,18 +32,29 @@ export function createStage2D(host) {
   function play(s) {
     const svg = s.el.firstElementChild;
     s.ctx = gsap.context(() => { try { s.sc.play?.(svg, kit, s.name); } catch (e) { console.warn('scene2d play', s.name, e); } }, svg);
-    if (!running) pauseScene(s);
+    if (reduced()) settle(s);
+    else if (!running) pauseScene(s);
   }
   const tweensOf = s => (s?.ctx?.getTweens ? s.ctx.getTweens() : []);
   const pauseScene = s => { tweensOf(s).forEach(t => t.pause()); s?.el.classList.add('is-paused'); };
-  const resumeScene = s => { tweensOf(s).forEach(t => t.resume()); s?.el.classList.remove('is-paused'); };
+  const resumeScene = s => { if (s?.still) return; tweensOf(s).forEach(t => t.resume()); s?.el.classList.remove('is-paused'); };
+  /** reduced motion: every scene shows its finished picture and nothing moves (entrances jump to the end without
+   *  firing their callbacks, so no loop is started from an onComplete; loops stay on their first frame) */
+  function settle(s) {
+    tweensOf(s).forEach(t => {
+      if (t.parent && t.parent !== gsap.globalTimeline) return; // children follow their timeline
+      if (t.repeat() !== 0) t.pause(0, true); else t.progress(1, true).pause();
+    });
+    s.still = true;
+  }
 
   function swap(name, dur) {
     if (cur && cur.name === name) return Promise.resolve();
     const next = build(name); frame.append(next.el);
     const old = cur; cur = next;
     if (old) {
-      gsap.to(old.el, { opacity: 0, scale: .92, rotate: -2, duration: Math.min(.45, dur * .35), ease: 'power2.in', onComplete: () => { old.ctx?.kill(); old.el.remove(); } });
+      const rm = reduced();
+      gsap.to(old.el, { opacity: 0, scale: rm ? 1 : .92, rotate: rm ? 0 : -2, duration: rm ? .2 : Math.min(.45, dur * .35), ease: 'power2.in', onComplete: () => { old.ctx?.kill(); old.el.remove(); } });
     }
     gsap.fromTo(next.el, { opacity: 0 }, { opacity: 1, duration: .3, delay: old ? .18 : 0 });
     play(next);

@@ -33,7 +33,9 @@ export const ICON = {
   portal: s('<rect x="3" y="4" width="18" height="14" rx="2.5"/><path d="M8 21h8M12 18v3M7 9h6M7 12.5h10"/>'),
   skull: s('<path d="M12 3c4.7 0 8 3.2 8 7.4 0 2.6-1.3 4.3-3 5.3V19c0 .6-.4 1-1 1H8c-.6 0-1-.4-1-1v-3.3c-1.7-1-3-2.7-3-5.3C4 6.2 7.3 3 12 3z"/><circle cx="9" cy="11" r="1.7" fill="currentColor"/><circle cx="15" cy="11" r="1.7" fill="currentColor"/>'),
   list: s('<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1" fill="currentColor"/><circle cx="4.5" cy="12" r="1" fill="currentColor"/><circle cx="4.5" cy="18" r="1" fill="currentColor"/>'),
-  shuffle: s('<path d="M3 7h3.5c5 0 6 10 11 10H21M3 17h3.5c2 0 3.3-1.6 4.4-3.6M15 7h6M18 4l3 3-3 3M18 14l3 3-3 3"/>')
+  shuffle: s('<path d="M3 7h3.5c5 0 6 10 11 10H21M3 17h3.5c2 0 3.3-1.6 4.4-3.6M15 7h6M18 4l3 3-3 3M18 14l3 3-3 3"/>'),
+  /** the illustrated (printed) look: two overprinted shapes */
+  print: s('<circle cx="9" cy="9.5" r="5.5"/><rect x="10.5" y="10" width="9.5" height="9.5" rx="1.5"/>')
 };
 const SPARK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.9 5.6 4.9 9.6 10.5 10.5-5.6.9-9.6 4.9-10.5 10.5C11.1 16.9 7.1 12.9 1.5 12 7.1 11.1 11.1 7.1 12 1.5z" fill="currentColor"/></svg>';
 /** 0–3 marks (the "stars" of this world, drawn as sparks) */

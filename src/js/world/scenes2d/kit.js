@@ -55,9 +55,12 @@ export function dots(cols, rows, x0, y0, step, r, fill, pick = () => true) {
   let s = ''; for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) if (pick(i, j)) s += `<circle cx="${x0 + i * step}" cy="${y0 + j * step}" r="${typeof r === 'function' ? r(i, j) : r}" fill="${fill}"/>`; return s;
 }
 /** display text in the mode's faces. family: 'display' (Anybody), 'text' (Atkinson), 'ar' (Alexandria), 'dot' (Doto) */
-export function text(x, y, s, { size = 40, fill = INK.navy, family = 'display', weight = 800, width = 100, anchor = 'middle', extra = '' } = {}) {
+export function text(x, y, s, { size = 40, fill = INK.navy, family = 'display', weight = 800, width = 100, anchor = 'middle', extra = '', dir = '' } = {}) {
   const fam = { display: "'Anybody', 'Arial Black', sans-serif", text: "'Atkinson Hyperlegible Next', Arial, sans-serif", ar: "'Alexandria', sans-serif", dot: "'Doto', monospace", serif: "'EB Garamond', serif", script: "'Lobster', cursive", bebas: "'Bebas Neue', sans-serif", mono: "'Courier Prime', monospace" }[family] || family;
-  return `<text x="${x}" y="${y}" text-anchor="${anchor}" font-family="${fam}" font-size="${size}" font-weight="${weight}" fill="${fill}" style="font-stretch:${width}%" ${extra}>${s}</text>`;
+  // the page may be RTL: anchors would flip with it, so each text carries its own direction (Arabic text → rtl).
+  // An explicit direction="…" in `extra` comes first in the markup and wins.
+  const d = dir || (/[\u0600-\u06FF]/.test(String(s)) ? 'rtl' : 'ltr');
+  return `<text x="${x}" y="${y}" text-anchor="${anchor}" font-family="${fam}" font-size="${size}" font-weight="${weight}" fill="${fill}" style="font-stretch:${width}%" ${extra} direction="${d}">${s}</text>`;
 }
 /** misregistered copy: the same markup printed twice — the second pass in `ink2`, nudged — for the riso double-hit look */
 export const misreg = (markupFor, ink1, ink2, dx = 3, dy = -2) => `<g transform="translate(${dx} ${dy})" opacity=".85">${markupFor(ink2)}</g><g>${markupFor(ink1)}</g>`;

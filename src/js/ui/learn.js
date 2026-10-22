@@ -15,20 +15,22 @@ import { sfx } from '../core/sfx.js';
 
 const T = s => rich(s); // content is trusted, authored in the repo
 const hasAR = s => /[\u0600-\u06FF]/.test(s || '');
+/** English pages: let each text block find its own direction, so a verbatim Arabic passage still reads right to left (Arabic pages: unchanged) */
+const D = () => (isEN() ? ' dir="auto"' : '');
 
 /* ---------- block renderers: each returns HTML; `after` hooks run once mounted ---------- */
 const R = {
-  say: b => `<div class="blk blk-say">${voiceGlyph(b.who)}<p class="blk-say__txt">${T(b.text)}</p></div>`,
-  p: b => `<p class="blk blk-p${b.big ? ' blk-p--big' : ''}">${T(b.text)}</p>`,
+  say: b => `<div class="blk blk-say">${voiceGlyph(b.who)}<p class="blk-say__txt"${D()}>${T(b.text)}</p></div>`,
+  p: b => `<p class="blk blk-p${b.big ? ' blk-p--big' : ''}"${D()}>${T(b.text)}</p>`,
   h: b => `<h4 class="blk blk-h">${T(b.text)}${b.en ? ` <bdi class="en" dir="ltr">${esc(b.en)}</bdi>` : ''}</h4>`,
-  quote: b => `<figure class="blk blk-quote" dir="ltr"><figcaption><span class="blk-quote__tag">${ICON.book}<span dir="${isEN() ? 'ltr' : 'rtl'}">${t('learn.fromSlide')}</span></span>${b.ref ? `<span class="blk-quote__ref">${esc(b.ref)}</span>` : ''}</figcaption><blockquote>${T(b.text)}</blockquote>${b.ar && !(isEN() && hasAR(b.ar)) ? `<p class="blk-quote__ar" dir="${isEN() ? 'ltr' : 'rtl'}">${T(b.ar)}</p>` : ''}</figure>`,
-  list: b => `<${b.style === 'num' ? 'ol' : 'ul'} class="blk blk-list blk-list--${b.style || 'dot'}">${(b.items || []).map(i => `<li>${T(i)}</li>`).join('')}</${b.style === 'num' ? 'ol' : 'ul'}>`,
-  example: b => `<div class="blk blk-ex"><span class="blk-tag blk-tag--ex">${GLYPH.target}${t('learn.example')}</span>${b.art ? `<div class="blk-ex__art">${b.art}</div>` : ''}<div class="blk-ex__body">${b.title ? `<h5>${T(b.title)}</h5>` : ''}<p>${T(b.text)}</p></div></div>`,
-  why: b => `<div class="blk blk-why"><span class="blk-tag blk-tag--why">${GLYPH.eye}${t('learn.why')}</span><p>${T(b.text)}</p></div>`,
-  trap: b => `<div class="blk blk-trap"><span class="blk-tag blk-tag--trap">${GLYPH.triangle}${t('learn.trap')}</span><p>${T(b.text)}</p>${b.wrong || b.right ? `<div class="blk-trap__ab">${b.wrong ? `<div class="blk-trap__w">${ICON.x}<span>${T(b.wrong)}</span></div>` : ''}${b.right ? `<div class="blk-trap__r">${ICON.check}<span>${T(b.right)}</span></div>` : ''}</div>` : ''}</div>`,
-  tip: b => `<div class="blk blk-tip"><span class="blk-tag blk-tag--tip">${GLYPH.bolt}${t('learn.tip')}</span><p>${T(b.text)}</p></div>`,
+  quote: b => `<figure class="blk blk-quote" dir="ltr"><figcaption><span class="blk-quote__tag">${ICON.book}<span dir="${isEN() ? 'ltr' : 'rtl'}">${t('learn.fromSlide')}</span></span>${b.ref ? `<span class="blk-quote__ref">${esc(b.ref)}</span>` : ''}</figcaption><blockquote${hasAR(b.text) ? ' dir="rtl" lang="ar"' : ''}>${T(b.text)}</blockquote>${b.ar ? `<p class="blk-quote__ar" dir="${hasAR(b.ar) ? 'rtl' : 'ltr'}">${T(b.ar)}</p>` : ''}</figure>`,
+  list: b => `<${b.style === 'num' ? 'ol' : 'ul'} class="blk blk-list blk-list--${b.style || 'dot'}">${(b.items || []).map(i => `<li${D()}>${T(i)}</li>`).join('')}</${b.style === 'num' ? 'ol' : 'ul'}>`,
+  example: b => `<div class="blk blk-ex"><span class="blk-tag blk-tag--ex">${GLYPH.target}${t('learn.example')}</span>${b.art ? `<div class="blk-ex__art">${b.art}</div>` : ''}<div class="blk-ex__body">${b.title ? `<h5>${T(b.title)}</h5>` : ''}<p${D()}>${T(b.text)}</p></div></div>`,
+  why: b => `<div class="blk blk-why"><span class="blk-tag blk-tag--why">${GLYPH.eye}${t('learn.why')}</span><p${D()}>${T(b.text)}</p></div>`,
+  trap: b => `<div class="blk blk-trap"><span class="blk-tag blk-tag--trap">${GLYPH.triangle}${t('learn.trap')}</span><p${D()}>${T(b.text)}</p>${b.wrong || b.right ? `<div class="blk-trap__ab">${b.wrong ? `<div class="blk-trap__w">${ICON.x}<span>${T(b.wrong)}</span></div>` : ''}${b.right ? `<div class="blk-trap__r">${ICON.check}<span>${T(b.right)}</span></div>` : ''}</div>` : ''}</div>`,
+  tip: b => `<div class="blk blk-tip"><span class="blk-tag blk-tag--tip">${GLYPH.bolt}${t('learn.tip')}</span><p${D()}>${T(b.text)}</p></div>`,
   art: b => `<figure class="blk blk-art${b.wide ? ' blk-art--wide' : ''}${b.bg === false ? ' blk-art--bare' : ''}">${b.html}${b.caption ? `<figcaption>${T(b.caption)}</figcaption>` : ''}</figure>`,
-  compare: b => `<div class="blk blk-cmp">${['left', 'right'].map(k => { const s = b[k] || {}; return `<div class="blk-cmp__side blk-cmp__side--${k}">${s.art ? `<div class="blk-cmp__art">${s.art}</div>` : ''}<h5>${T(s.title || '')}${s.en ? ` <bdi class="en" dir="ltr">${esc(s.en)}</bdi>` : ''}</h5><p>${T(s.text || '')}</p></div>`; }).join('<div class="blk-cmp__vs" aria-hidden="true">VS</div>')}${b.note ? `<p class="blk-cmp__note">${T(b.note)}</p>` : ''}</div>`,
+  compare: b => `<div class="blk blk-cmp">${['left', 'right'].map(k => { const s = b[k] || {}; return `<div class="blk-cmp__side blk-cmp__side--${k}">${s.art ? `<div class="blk-cmp__art">${s.art}</div>` : ''}<h5>${T(s.title || '')}${s.en ? ` <bdi class="en" dir="ltr">${esc(s.en)}</bdi>` : ''}</h5><p${D()}>${T(s.text || '')}</p></div>`; }).join('<div class="blk-cmp__vs" aria-hidden="true">VS</div>')}${b.note ? `<p class="blk-cmp__note">${T(b.note)}</p>` : ''}</div>`,
   grid: b => `<div class="blk blk-grid${b.flip ? ' blk-grid--flip' : ''}" style="--cols:${b.cols || 3}">${(b.items || []).map((it, i) => b.flip
     ? `<button type="button" class="gcard gcard--flip" style="--gc:${it.color || 'var(--zc)'}" aria-pressed="false"><span class="gcard__in"><span class="gcard__front">${it.art ? `<span class="gcard__art">${it.art}</span>` : ''}<b>${T(it.title)}</b>${it.en ? `<bdi class="en" dir="ltr">${esc(it.en)}</bdi>` : ''}<span class="gcard__hint">${ICON.refresh} ${t('learn.flip')}</span></span><span class="gcard__back"><span class="gcard__txt">${T(it.text)}</span></span></span></button>`
     : `<div class="gcard" style="--gc:${it.color || 'var(--zc)'}">${it.art ? `<div class="gcard__art">${it.art}</div>` : ''}<b>${T(it.title)}</b>${it.en ? `<bdi class="en" dir="ltr">${esc(it.en)}</bdi>` : ''}${it.text ? `<p>${T(it.text)}</p>` : ''}</div>`).join('')}</div>`,

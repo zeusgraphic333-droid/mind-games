@@ -202,8 +202,8 @@ function coldPlay(svg, k) {
    neutrals — the slide's untitled third set: Friendly, Formal, Gloomy, Solid, Classy, Clean, Purity — as a cairn of
    stones (earth, beside warm's sun and cold's water), the heaviest at the bottom; Classy is the one lavender stone.
    ====================================================================================================== */
-const NEUTRAL = [['Solid', '#050505', 304, 60], ['Gloomy', '#2A2620', 266, 56], ['Formal', '#6B6457', 236, 52], ['Friendly', '#B49F70', 208, 50], ['Clean', '#D6C8A3', 180, 46], ['Classy', '#B2B2F5', 152, 42], ['Purity', '#D9D9D9', 124, 40]];
-const NT = { ground: 452, dx: [0, -12, 10, -8, 12, -6, 5], rot: [0, -2, 1.6, -1.8, 2.2, -2.6, 3], overlap: 7 };
+const NEUTRAL = [['Solid', '#050505', 384, 76], ['Gloomy', '#2A2620', 336, 70], ['Formal', '#6B6457', 298, 66], ['Friendly', '#B49F70', 262, 62], ['Clean', '#D6C8A3', 228, 58], ['Classy', '#B2B2F5', 194, 54], ['Purity', '#D9D9D9', 160, 50]];
+const NT = { ground: 470, dx: [0, -14, 12, -10, 14, -8, 6], rot: [0, -2, 1.6, -1.8, 2.2, -2.6, 3], overlap: 8 };
 /** a pebble: a squarish ellipse, a little flatter underneath, a little skewed */
 function stonePath(w, h) {
   const a = w / 2, b = h / 2, n = 2.7, pts = [];
@@ -226,11 +226,11 @@ function neutralsDraw(k) {
     const { w, c, sw, sh, x, cy, bottom } = frames[i]; const ink = lum(c) < .45 ? '#fff' : INK.navy;
     const mis = i === 0 ? `<path d="${stonePath(sw, sh)}" transform="translate(${x + 7} ${cy - 5})" fill="${INK.blue}" opacity=".9"/>` : '';
     html = `<g class="nt-g" data-i="${i}" data-x="${x}" data-y="${bottom.toFixed(1)}" transform="rotate(${NT.rot[i]} ${x} ${bottom.toFixed(1)})">
-      <g class="nt-s">${mis}<path d="${stonePath(sw, sh)}" transform="translate(${x} ${cy.toFixed(1)})" fill="${c}"/>${mono(x, (cy + 5).toFixed(1), w.toUpperCase(), { size: 12, fill: ink })}</g>
+      <g class="nt-s">${mis}<path d="${stonePath(sw, sh)}" transform="translate(${x} ${cy.toFixed(1)})" fill="${c}"/>${mono(x, (cy + 5).toFixed(1), w.toUpperCase(), { size: 13, fill: ink })}</g>
       ${html}</g>`;
   }
   return `${html}
-  <line class="nt-base" x1="76" y1="${NT.ground + 1}" x2="524" y2="${NT.ground + 1}" stroke="${INK.navy}" stroke-width="3" stroke-linecap="round"/>
+  <line class="nt-base" x1="60" y1="${NT.ground + 1}" x2="540" y2="${NT.ground + 1}" stroke="${INK.navy}" stroke-width="3" stroke-linecap="round"/>
   ${k.regmark(52, 52)}${k.regmark(548, 52)}`;
 }
 function neutralsPlay(svg, k) {
@@ -251,7 +251,7 @@ function neutralsPlay(svg, k) {
    Each chip prints its solid and two halftone tints.
    ====================================================================================================== */
 const EIGHT = [['Red', '#E5322D'], ['Orange', '#FF7A1A'], ['Yellow', '#FFD21F'], ['Green', '#1FA35B'], ['Blue', '#2F47E8'], ['Purple', '#7B3FC4'], ['Black', '#15151C'], ['White', '#FFFFFF']];
-const SW = { px: 300, py: 486, len: 298, w: 50, step: 16.5 };
+const SW = { px: 300, py: 474, len: 298, w: 50, step: 16.5 };
 const swAngle = i => (i - (EIGHT.length - 1) / 2) * SW.step;
 function swatchesDraw(k) {
   const { INK } = k; const { px, py, len, w } = SW;

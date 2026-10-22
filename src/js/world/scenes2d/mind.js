@@ -30,17 +30,17 @@ function eyePlay(svg, k) {
   const { gsap } = k; const q = s => svg.querySelector(s);
   const t = k.tl();
   k.press(t, [q('.e-halo'), q('.e-sun'), q('.e-eye')], { from: 26 });
-  t.from(q('.e-iris'), { scale: .4, transformOrigin: '300px 300px', duration: 1.2, ease: 'expo.out' }, .25);
+  t.from(q('.e-iris'), { scale: .4, svgOrigin: '300 300', duration: 1.2, ease: 'expo.out' }, .25);
   if (k.reduced()) return t;
   // look around, then blink — a calm, unhurried loop
   gsap.timeline({ repeat: -1, delay: 1.4 })
     .to(q('.e-iris'), { x: -46, y: 6, duration: 1.1, ease: 'power3.inOut' })
     .to(q('.e-iris'), { x: 38, y: -10, duration: 1.3, ease: 'power3.inOut' }, '+=.8')
     .to(q('.e-iris'), { x: 0, y: 0, duration: 1, ease: 'power3.inOut' }, '+=.7')
-    .to(q('.e-eye'), { scaleY: .05, transformOrigin: '300px 300px', duration: .09, ease: 'power1.in' }, '+=.5')
+    .to(q('.e-eye'), { scaleY: .05, svgOrigin: '300 300', duration: .09, ease: 'power1.in' }, '+=.5')
     .to(q('.e-eye'), { scaleY: 1, duration: .16, ease: 'power2.out' });
   k.loop(q('.e-pupil'), { attr: { r: 36 }, duration: 2.6 });
-  k.loop(q('.e-halo'), { rotate: 8, transformOrigin: '300px 300px', duration: 7 });
+  k.loop(q('.e-halo'), { rotate: 8, svgOrigin: '300 300', duration: 7 });
   return t;
 }
 
@@ -160,12 +160,12 @@ function leversDraw(k) {
   const [sx, sy] = LQ[0], [cx, cy] = LQ[2], [px, py] = LQ[3];
   const shapes = `<g class="lv-shapes">
       <circle cx="${sx - 24}" cy="${sy - 28}" r="44" fill="${INK.blue}"/>
-      <rect x="${sx - 6}" y="${sy - 10}" width="78" height="78" fill="${INK.red}" fill-opacity=".9"/>
+      <rect x="${sx - 6}" y="${sy - 10}" width="78" height="78" fill="${INK.pink}" fill-opacity=".9"/>
       <polygon points="${P([[sx - 46, sy + 6], [sx + 4, sy + 84], [sx - 96, sy + 84]])}" fill="${INK.yellow}" fill-opacity=".92"/></g>`;
   const faces = TYPE_FACES.map(([fam, w, wt], i) => `<g class="lv-face" opacity="${i ? 0 : 1}">${k.text(LQ[1][0] + 6, LQ[1][1] + 46, 'Aa', { size: fam === 'display' ? 112 : 136, family: fam, weight: wt, width: w, fill: INK.pink, extra: 'transform="translate(5 -4)" opacity=".85"' })}${k.text(LQ[1][0], LQ[1][1] + 50, 'Aa', { size: fam === 'display' ? 112 : 136, family: fam, weight: wt, width: w, fill: INK.navy })}</g>`).join('');
   const color = `<g class="lv-color">${[['pink', -90], ['yellow', 150], ['blue', 30]].map(([ink, a]) => `<circle cx="${(cx + Math.cos(a * Math.PI / 180) * 34).toFixed(1)}" cy="${(cy + 6 + Math.sin(a * Math.PI / 180) * 34).toFixed(1)}" r="54" fill="${INK[ink]}" fill-opacity=".86"/>`).join('')}</g>`;
   const space = `<g class="lv-space"><rect class="lv-frame" x="${px - 76}" y="${py - 76}" width="152" height="152" fill="none" stroke="${INK.navy}" stroke-width="4" stroke-dasharray="10 8"/>
-      <rect class="lv-dot" x="${px - 52}" y="${py - 52}" width="30" height="30" fill="${INK.teal}"/><rect x="${px - 52}" y="${py - 52}" width="30" height="30" fill="${ht('navy', 's')}" class="lv-dot2" opacity="0"/></g>`;
+      <rect class="lv-dot" x="${px - 52}" y="${py - 52}" width="30" height="30" fill="${INK.navy}"/><rect x="${px - 52}" y="${py - 52}" width="30" height="30" fill="${ht('navy', 's')}" class="lv-dot2" opacity="0"/></g>`;
   const cross = `<g class="lv-cross" stroke="${INK.navy}" stroke-width="1.8" opacity=".4"><line x1="56" y1="300" x2="226" y2="300"/><line x1="374" y1="300" x2="544" y2="300"/><line x1="300" y1="56" x2="300" y2="272"/><line x1="300" y1="328" x2="300" y2="544"/></g>`;
   const eye = `<g class="lv-eye"><path d="M232,300 Q300,254 368,300 Q300,346 232,300 Z" fill="${INK.paper}" stroke="${INK.navy}" stroke-width="5" stroke-linejoin="round"/>
       <clipPath id="levers-eye"><path d="M232,300 Q300,254 368,300 Q300,346 232,300 Z"/></clipPath>

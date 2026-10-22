@@ -40,6 +40,7 @@ html[dir="ltr"] .chap__en { text-align: left; }
 .blk-quote__tag svg { width: 15px; height: 15px; }
 .blk-quote__ref { font: 500 13px/1 var(--f-hud); letter-spacing: .06em; color: var(--fg-3); }
 .blk-quote blockquote { margin: 0; font: 400 17px/1.65 var(--f-serif); font-size: 19px; color: var(--fg); }
+.blk-quote blockquote[dir="rtl"] { font: 500 17.5px/1.9 var(--f-text); } /* a slide that is itself in Arabic */
 .blk-quote__ar { margin: 10px 0 0; padding-top: 10px; border-top: 1px dashed var(--line-2); font-size: 15.5px; color: var(--fg-2); }
 
 .blk-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
@@ -101,9 +102,10 @@ html[dir="ltr"] .chap__en { text-align: left; }
 .gcard__art svg { width: 100%; height: 100%; }
 .gcard--flip { appearance: none; padding: 0; background: transparent; border: 0; perspective: 1000px; min-height: 196px; font: inherit; color: inherit; text-align: center; overflow: visible; }
 .gcard--flip::before { display: none; }
-.gcard__in { position: relative; display: block; width: 100%; height: 100%; min-height: 196px; transition: transform .7s var(--ease-out); transform-style: preserve-3d; }
+/* both faces share one grid cell, so the card grows to fit the taller face (196px is the floor) */
+.gcard__in { position: relative; display: grid; width: 100%; height: 100%; min-height: 196px; transition: transform .7s var(--ease-out); transform-style: preserve-3d; }
 .gcard--flip.is-flipped .gcard__in { transform: rotateY(180deg); }
-.gcard__front, .gcard__back { position: absolute; inset: 0; backface-visibility: hidden; border: 1px solid var(--line); border-radius: 16px; padding: 14px 12px; display: grid; align-content: center; justify-items: center; gap: 4px; background: var(--card); }
+.gcard__front, .gcard__back { position: relative; inset: auto; grid-area: 1 / 1; backface-visibility: hidden; border: 1px solid var(--line); border-radius: 16px; padding: 14px 12px; display: grid; align-content: center; justify-items: center; gap: 4px; background: var(--card); }
 .gcard__front::before { content: ''; position: absolute; inset: 0 0 auto; height: 2px; background: var(--gc); border-radius: 16px 16px 0 0; box-shadow: 0 0 14px var(--gc); }
 .gcard__txt { display: block; text-align: center; }
 .gcard__back { transform: rotateY(180deg); background: color-mix(in srgb, var(--gc) 14%, var(--card)); border-color: color-mix(in srgb, var(--gc) 45%, transparent); font-size: 14.5px; line-height: 1.65; color: var(--fg); overflow: auto; }

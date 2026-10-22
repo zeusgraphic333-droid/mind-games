@@ -5,21 +5,21 @@
 import { SQ } from '../../data/squares.js';
 
 /* the sheet: a 150 × 150 page (+5 margin) scaled ×3 into the 600 frame; frame box = 1 pt stroke, no fill */
-const U = 3, PX = 75, PY = 60;            // page origin in the frame
+const U = 2.8, PX = 300 - 75 * U, PY = 54; // page origin in the frame (a 160-unit card: 40…488)
 const px = v => PX + v * U, py = v => PY + v * U;
 const LECTURE = ['Order', 'Increase', 'Bold', 'Congested', 'Tension', 'Playful'];
 const inkOf = (k, c) => ({ r: k.INK.red, b: k.INK.blue, p: k.INK.pink }[c] || k.INK.navy);
 const f1 = v => (+v).toFixed(1);
 
 function sheet(k, id, word, note) {
-  const { INK } = k; const x0 = px(-5), y0 = py(-5), s = 160 * U, x1 = x0 + s, y1 = y0 + s, m = 16, L = 22;
+  const { INK } = k; const x0 = px(-5), y0 = py(-5), s = 160 * U, x1 = x0 + s, y1 = y0 + s, m = 10, L = 16;
   const crop = [[x0, y0, -1, -1], [x1, y0, 1, -1], [x0, y1, -1, 1], [x1, y1, 1, 1]].map(([x, y, sx, sy]) =>
     `<line x1="${x + sx * m}" y1="${y}" x2="${x + sx * (m + L)}" y2="${y}"/><line x1="${x}" y1="${y + sy * m}" x2="${x}" y2="${y + sy * (m + L)}"/>`).join('');
   return {
     under: `<g class="${id}-crop" stroke="${INK.navy}" stroke-width="1.2" opacity=".6">${crop}</g>
-      <rect class="${id}-card" x="${x0}" y="${y0}" width="${s}" height="${s}" fill="${INK.paper}"/>
+      <rect class="${id}-card" x="${x0}" y="${y0}" width="${s}" height="${s}" fill="${INK.paper2}"/>
       <rect class="${id}-frame" x="${px(0)}" y="${py(0)}" width="${150 * U}" height="${150 * U}" fill="none" stroke="${INK.navy}" stroke-width="1.3"/>`,
-    label: `<g class="${id}-label">${k.text(x0, y1 + 34, word.toUpperCase(), { size: 22, family: 'dot', weight: 800, fill: INK.navy, anchor: 'start', extra: `class="${id}-word" letter-spacing="3"` })}${note ? k.text(x1, y1 + 34, note, { size: 18, family: 'dot', weight: 700, fill: INK.ink3, anchor: 'end', extra: `class="${id}-note"` }) : ''}</g>`
+    label: `<g class="${id}-label">${k.text(x0, y1 + 46, word.toUpperCase(), { size: 22, family: 'dot', weight: 800, fill: INK.navy, anchor: 'start', extra: `class="${id}-word" letter-spacing="3"` })}${note ? k.text(x1, y1 + 46, note, { size: 18, family: 'dot', weight: 700, fill: INK.ink3, anchor: 'end', extra: `class="${id}-note"` }) : ''}</g>`
   };
 }
 /** one SQ item as markup in frame coordinates */
@@ -83,13 +83,13 @@ const sqT = p => `translate(${f1(p.cx)} ${f1(p.cy)}) rotate(${f1(p.r)}) scale(${
 function squaresDraw(k) {
   const sh = sheet(k, 'bs', LECTURE[0], '');
   const L0 = LAYOUTS[0];
-  const words = LECTURE.map((w, i) => k.text(px(-5), py(155) + 34, w.toUpperCase(), { size: 22, family: 'dot', weight: 800, fill: k.INK.navy, anchor: 'start', extra: `class="bs-w" data-i="${i}" letter-spacing="3" opacity="${i ? 0 : 1}"` })).join('');
+  const words = LECTURE.map((w, i) => k.text(px(-5), py(155) + 46, w.toUpperCase(), { size: 22, family: 'dot', weight: 800, fill: k.INK.navy, anchor: 'start', extra: `class="bs-w" data-i="${i}" letter-spacing="3" opacity="${i ? 0 : 1}"` })).join('');
   return `<g direction="ltr"><defs>${pageClip('bs')}</defs>
     <rect class="bs-mis" x="${px(0) + 5}" y="${py(0) - 4}" width="${150 * U}" height="${150 * U}" fill="none" stroke="${k.INK.blue}" stroke-width="1.3" opacity=".55"/>
     ${sh.under}
     <g clip-path="url(#bs-clip)">${L0.map((p, j) => `<rect class="bs-q" data-j="${j}" x="-.5" y="-.5" width="1" height="1" fill="${k.INK.navy}" transform="${sqT(p)}"/>`).join('')}</g>
     ${words}
-    <g class="bs-dots">${LECTURE.map((_, i) => `<circle class="bs-d" cx="${px(150) - (LECTURE.length - 1 - i) * 18}" cy="${py(155) + 27}" r="5" fill="${i ? 'none' : k.INK.pink}" stroke="${k.INK.navy}" stroke-width="1.5"/>`).join('')}</g></g>`;
+    <g class="bs-dots">${LECTURE.map((_, i) => `<circle class="bs-d" cx="${px(150) - (LECTURE.length - 1 - i) * 18}" cy="${py(155) + 39}" r="5" fill="${i ? 'none' : k.INK.pink}" stroke="${k.INK.navy}" stroke-width="1.5"/>`).join('')}</g></g>`;
 }
 function squaresPlay(svg, k) {
   const { gsap } = k; const all = s => svg.querySelectorAll(s), q = s => svg.querySelector(s);

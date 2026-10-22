@@ -11,6 +11,7 @@ import { state, levelOf, on, setSetting } from '../core/state.js';
 import { sfx } from '../core/sfx.js';
 import { lessonProgress } from './learn.js';
 import { t, L, isEN, isRTL, setLang, lang } from '../core/i18n.js';
+import { setMode } from '../core/mode.js';
 import * as THREE from 'three';
 
 const STEP = Math.PI * 2 / ZONES.length;
@@ -36,6 +37,7 @@ export function createHub(world, { lessons = {}, onEnter, onOpen }) {
         <span class="streak chip" title="${esc(t('hub.streak'))}">${GLYPH.flame}<span class="hud-num"></span></span>
         <button type="button" class="btn btn--icon btn--ghost hud__sound" aria-label="${esc(t('hub.sound'))}"></button>
         <button type="button" class="btn btn--sm btn--ghost hud__lang" data-pref="lang" lang="${en ? 'ar' : 'en'}" dir="${en ? 'rtl' : 'ltr'}">${esc(t(en ? 'prefs.toAR' : 'prefs.toEN'))}</button>
+        <button type="button" class="btn btn--sm btn--ghost hud__mode" data-pref="mode" title="${esc(t('prefs.toIllustrated'))}" aria-label="${esc(t('prefs.toIllustrated'))}">${ICON.print}<span>${esc(t('setup.illustrated'))}</span></button>
         <button type="button" class="btn btn--sm hud__archive" data-open="archive">${ICON.cards}<span>${esc(t('hub.archive'))}</span></button>
       </div>
     </header>
@@ -67,6 +69,7 @@ export function createHub(world, { lessons = {}, onEnter, onOpen }) {
     root.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => onOpen?.(b.dataset.open)));
     root.querySelector('.hud__sound').addEventListener('click', () => { setSetting('sound', !state().settings.sound); paintSound(); if (state().settings.sound) sfx('pop'); });
     root.querySelector('.hud__lang').addEventListener('click', () => { sfx('click'); setLang(isEN() ? 'ar' : 'en'); });
+    root.querySelector('.hud__mode').addEventListener('click', () => { sfx('swoosh'); setMode('illustrated'); });
     boxT = 0; selBox = null;
     paintMe();
   }

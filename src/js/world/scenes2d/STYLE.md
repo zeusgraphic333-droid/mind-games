@@ -34,7 +34,12 @@ Think of a small studio that prints posters on a riso machine, then makes them m
   already skips itself under reduced motion. The loop should *demonstrate the idea* when it can (Kanizsa shows the
   triangle your mind adds, then removes it).
 - Never flash, never shake continuously, nothing faster than ~0.25 s per cycle.
-- `k.reduced()` true → show the final composed state, no loops.
+- `k.reduced()` true → show the final composed state, no loops. The stage enforces this too: under reduced motion every
+  entrance timeline jumps to its end (callbacks suppressed) and every repeating animation stays on its first frame.
+- **Pivots in SVG:** in GSAP a px `transformOrigin` on an SVG element is measured from the element's own box. To pivot
+  around a point in viewBox coordinates use `svgOrigin: '300 300'` (the eye's zoom, blink and halo had this bug).
+- **Text direction:** `k.text()` sets `direction` per text (rtl when the string has Arabic letters, else ltr), so
+  `anchor: 'start' | 'end'` lands on the same side whatever the page direction. Override with `{ dir: 'rtl' }`.
 
 ## Contract
 Each group file (`mind.js`, `shape.js`, … ) default-exports `{ sceneName: { view?, draw(k, name), play?(svg, k, name) } }`.
