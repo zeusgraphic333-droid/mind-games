@@ -95,7 +95,7 @@ html[dir="ltr"] .chap__en { text-align: left; }
 .blk-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 10px; }
 .gcard { --gc: var(--zc); background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 14px 12px; text-align: center; display: grid; gap: 4px; align-content: start; position: relative; overflow: hidden; }
 .gcard::before { content: ''; position: absolute; inset: 0 0 auto; height: 2px; background: var(--gc); box-shadow: 0 0 14px var(--gc); }
-.gcard b { font: 700 17px/1.25 var(--f-display); }
+.gcard b { font: 700 17px/1.25 var(--f-display); overflow-wrap: break-word; hyphens: auto; }
 .gcard bdi { font: 500 12px/1.2 var(--f-text); color: var(--fg-3); }
 .gcard p { font-size: 14.5px; line-height: 1.65; margin: 6px 0 0; color: var(--fg-2); }
 .gcard__art { width: 64px; height: 64px; margin: 2px auto 8px; color: var(--gc); }

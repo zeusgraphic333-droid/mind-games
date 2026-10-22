@@ -126,7 +126,8 @@ async function boot() {
     gsap.to(ident.el, { opacity: 0, duration: .9, ease: 'power2.out', onComplete: () => removeIdent?.() });
     setTimeout(() => warmUp([titleName(), 'eye']), 1200);
     ({ sound } = await picked);
-    if (hubMode !== mode()) { buildHub(); hub.hide(); }
+    // the hub was built before the setup screen: catch it up with what was picked there
+    if (hubMode !== mode()) { buildHub(); hub.hide(); } else hub.refresh?.();
     // the title assembles: from points in the dark, or printed on paper
     if (isIllustrated()) { await world.morph(titleName(), { dur: 2.2 }); await sleep(1300); }
     else if (particles) { gsap.to(particles.uniforms.uOpacity, { value: 1, duration: .8 }); await particles.morph(titleName(), { dur: 2.1, swirl: 1.6 }); await sleep(900); }
