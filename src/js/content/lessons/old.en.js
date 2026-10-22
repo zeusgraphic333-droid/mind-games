@@ -87,11 +87,11 @@ export default {
           { title: '5 · Proximity', text: 'Things that belong together sit together.', color: C.good },
           { title: '6 · Alignment', text: 'The elements line up on one line.', color: C.pink },
           { title: '7 · Repetition', text: 'A unified, consistent look.', color: C.stone },
-          { title: '8 · Leading lines', text: 'Lines that point the eye.', color: C.fg }
+          { title: '8 · Leading lines', text: 'Lines that direct the eye.', color: C.fg }
         ] },
         hierarchyDemo,
         { t: 'quote', text: 'Typographic hierarchy in graphic design is a system used to organize in a visual way using typography the order of importance of the information shown in the design, where the title will be the most important element, and it will be bigger than the body text.', ref: 'L01 · S61' },
-        { t: 'quote', text: 'Proximity rules in the visual hierarchy say that things that are related should be nearer to each other, and things that don’t have any relationship should be placed further from each other in your design composition.', ref: 'L01 · S64' },
+        { t: 'quote', text: 'Proximity rules in the visual hierarchy are say that things that are related should be nearer to each other, and things that don’t have any relationship should be placed further from each other in your design composition.', ref: 'L01 · S64' },
         { t: 'trap', text: 'Expect a **NOT** question on the eight tools. If a Gestalt law like **Common fate** shows up among them, that’s the one that doesn’t belong.', wrong: 'Common fate is one of the eight hierarchy tools', right: 'Size, color & contrast, typography, spacing, proximity, alignment, repetition, leading lines' },
         { t: 'tip', text: 'The eight tools: **size, color, type, spacing, proximity, alignment, repetition, lines**.' },
         { t: 'check', q: 'b07' }, { t: 'check', q: 'b08' }, { t: 'check', q: 'b09' }, { t: 'check', q: 'b10' }, { t: 'check', q: 'b11' }, { t: 'check', q: 'b25' }

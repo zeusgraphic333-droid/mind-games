@@ -868,7 +868,7 @@ const Q_GESTALT = [
  e:"In Arcimboldo's painting the separate parts combine to form a new whole.",
  r:"أجزاء منفصلة بتعمل مع بعض “كل” جديد."},
 {id:"gi16",tp:"gintro",lv:2,k:"def",ref:"ges-perception",
- q:"The W.E. Hill (1915) and German postcard (1880) image, which shows a young woman or an old woman, demonstrates that:",
+ q:"The W.E. Hill (1915) and German postcard (1880) images, which show a young woman or an old woman, demonstrates that:",
  o:["one image can be perceived in more than one way","color has cultural meanings","serif fonts are for print","whitespace must be white"],
  e:"The same picture can be interpreted in more than one way.",
  r:"نفس الصورة ممكن تتشاف بأكتر من طريقة."},

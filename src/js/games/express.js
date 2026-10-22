@@ -50,7 +50,7 @@ const RULES = [
   { ok: true, s: 'تحط ٤٠ مربع في صفحة واحدة', art: paper(Array.from({ length: 40 }, (_, k) => sq(12 + (k % 8) * 16, 18 + Math.floor(k / 8) * 24, 10)).join(''), 'Forty small squares'), en: 'as many as you like' },
   { ok: true, s: 'تلوّن مربع بالأحمر', art: paper(sq(30, 55, 30) + `<rect x="66" y="55" width="30" height="30" fill="${RED}"/>` + sq(102, 55, 30), 'One red square between black ones'), en: play('COLOR') },
   { ok: true, s: 'تميّل مربع ٤٥ درجة', art: paper(sq(53, 53, 44, 'transform="rotate(45 75 75)"'), 'A square turned 45 degrees'), en: play('ORIENTATION') },
-  { ok: true, s: 'تقلّل شفافية مربع لـ ٤٠٪', art: paper(sq(22, 52, 46) + sq(82, 52, 46, 'opacity=".4"'), 'A solid square next to a square at 40 percent opacity'), en: play('OPACITY') },
+  { ok: true, s: 'تخلّي الـ Opacity بتاعة مربع ٤٠٪', art: paper(sq(22, 52, 46) + sq(82, 52, 46, 'opacity=".4"'), 'A solid square next to a square at 40 percent opacity'), en: play('OPACITY') },
   { ok: true, s: 'تكرّر نفس المربع كذا مرة', art: paper([0, 1, 2, 3, 4].map(k => sq(14 + k * 26, 64, 18)).join(''), 'The same square repeated in a row'), en: play('REPETITION') },
   { ok: true, s: 'تكبّر مربع وتصغّر التاني', art: paper(sq(18, 30, 84) + sq(112, 96, 18), 'One big square and one small square'), en: play('SIZE') },
   { ok: true, s: 'تزق المربع لركن الصفحة', art: paper(sq(112, 112, 30), 'A square pushed into the corner'), en: play('POSITION') },

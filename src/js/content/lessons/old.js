@@ -91,7 +91,7 @@ export default {
         ] },
         hierarchyDemo,
         { t: 'quote', text: 'Typographic hierarchy in graphic design is a system used to organize in a visual way using typography the order of importance of the information shown in the design, where the title will be the most important element, and it will be bigger than the body text.', ref: 'L01 · S61' },
-        { t: 'quote', text: 'Proximity rules in the visual hierarchy say that things that are related should be nearer to each other, and things that don’t have any relationship should be placed further from each other in your design composition.', ref: 'L01 · S64' },
+        { t: 'quote', text: 'Proximity rules in the visual hierarchy are say that things that are related should be nearer to each other, and things that don’t have any relationship should be placed further from each other in your design composition.', ref: 'L01 · S64' },
         { t: 'trap', text: 'سؤال <en>NOT</en> على الأدوات التمانية. لو لقيت قانون جشطالت زي <en>Common fate</en> وسطهم: ده الدخيل.', wrong: 'Common fate is one of the eight hierarchy tools', right: 'Size, color & contrast, typography, spacing, proximity, alignment, repetition, leading lines' },
         { t: 'tip', text: 'الأدوات التمانية: **حجم، لون، خط، مسافة، قرب، محاذاة، تكرار، خطوط**.' },
         { t: 'check', q: 'b07' }, { t: 'check', q: 'b08' }, { t: 'check', q: 'b09' }, { t: 'check', q: 'b10' }, { t: 'check', q: 'b11' }, { t: 'check', q: 'b25' }

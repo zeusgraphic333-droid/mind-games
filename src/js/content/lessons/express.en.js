@@ -165,7 +165,7 @@ export default {
       id: 'exp-translate', title: 'From a feeling to a composition', en: 'Turning a feeling into squares and lines', ref: 'L02 · Express + Psychology of Design', scene: 'sq:Tranquility',
       blocks: [
         { t: 'say', who: 'blacksq', text: 'The hardest part: you look at a word like **Melancholy** and ask yourself, what does a sad square look like? The answer is in the lecture itself.' },
-        { t: 'list', style: 'num', items: ['**Feel the word in your body**: heavy or light? Fast or still? Crowded or alone?', '**Turn it into relationships**: distance, size, direction, repetition.', '**Go back to the Psychology of Design** in the same lecture: open space calms, crowding stresses, red is energy, urgency and danger, the square is stability and order, and the triangle is tension, sometimes aggression.'] },
+        { t: 'list', style: 'num', items: ['**Feel the word in your body**: heavy or light? Fast or still? Crowded or alone?', '**Turn it into relationships**: distance, size, direction, repetition.', '**Go back to the Psychology of Design** in the same lecture: open space calms, crowding creates tension, red is energy, urgency and danger, the square is stability and order, and the triangle is tension, sometimes aggression.'] },
         { t: 'quote', text: 'Psychologically, space affects mood. Open, airy designs can feel calm and inviting, while dense, compact layouts may feel intense or urgent.', ref: 'L02 · Psychology of Design · Space' },
         { t: 'table', head: ['Variable', 'What it says', 'Example'], rows: [
           ['Color', 'A red square among black ones = energy, anger or surprise.', 'Rage, Surprise'],
@@ -184,7 +184,7 @@ export default {
           el.innerHTML = `<div class="exp-sb"><div class="exp-sb__page"></div><div class="exp-sb__ctl">
             <label>Count <input type="range" min="1" max="30" value="9" data-k="n"></label>
             <label>Size <input type="range" min="6" max="90" value="18" data-k="size"></label>
-            <label>Opacity <input type="range" min="0" max="85" value="0" data-k="tr"></label>
+            <label>Transparency <input type="range" min="0" max="85" value="0" data-k="tr"></label>
             <label>Tilt <input type="range" min="0" max="45" value="0" data-k="rot"></label>
             <div class="exp-sb__g" data-g="lay"><span>Layout</span>${[['grid', 'Grid'], ['row', 'Row'], ['grow', 'Growing'], ['corner', 'In the corner'], ['scatter', 'Random']].map(([k, a]) => `<button type="button" class="btn btn--sm" data-v="${k}">${a}</button>`).join('')}</div>
             <div class="exp-sb__g" data-g="lines"><span>Lines</span>${[['none', 'None'], ['h', 'Horizontal'], ['v', 'Vertical']].map(([k, a]) => `<button type="button" class="btn btn--sm" data-v="${k}">${a}</button>`).join('')}</div>
