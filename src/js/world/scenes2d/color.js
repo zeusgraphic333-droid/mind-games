@@ -177,6 +177,7 @@ function coldDraw(k) {
   const labels = COLD.map(([w, c], i) => mono(cx, top + i * h + h / 2 + 7, w.toUpperCase(), { size: 13, fill: lum(c) < .5 ? '#fff' : INK.navy })).join('');
   return `
   <defs><clipPath id="cold-disc"><circle cx="${cx}" cy="${cy}" r="${R}"/></clipPath></defs>
+  <g class="cd-mist"><circle cx="${cx}" cy="${cy}" r="${R + 66}" fill="${k.ht('blue', 'l')}" mask="url(#fade-r)" opacity=".75"/></g>
   <g class="cd-mis" transform="translate(-7 6)" opacity=".9"><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${INK.violet}" stroke-width="3"/></g>
   <g class="cd-sea" clip-path="url(#cold-disc)">${bands}</g>
   <g class="cd-lab">${labels}</g>
@@ -189,12 +190,13 @@ function coldPlay(svg, k) {
   const t = k.tl();
   // the water level settles band by band, then the labels are printed
   t.from(all('.cd-b'), { y: 70, opacity: 0, duration: 1.2, stagger: .1, ease: 'expo.out' }, 0);
-  k.press(t, [q('.cd-mis'), q('.cd-rim')], { at: .1 });
+  k.press(t, [q('.cd-mist'), q('.cd-mis'), q('.cd-rim')], { at: .1 });
   t.from(q('.cd-lab'), { opacity: 0, duration: .5 }, .9).from(q('.cd-hz'), { opacity: 0, duration: .5 }, .9);
   if (k.reduced()) return t;
   // calm water: each band drifts sideways by one wavelength, slowly, in alternating directions
   all('.cd-w').forEach((w, i) => gsap.to(w, { x: (i % 2 ? 1 : -1) * CD.wl, duration: 9 + i * 1.7, ease: 'none', repeat: -1 }));
   k.loop(q('.cd-mis'), { x: -3, y: 2, duration: 4 });
+  k.loop(q('.cd-mist'), { rotate: -10, svgOrigin: `${CD.cx} ${CD.cy}`, duration: 8 });
   return t;
 }
 
@@ -229,14 +231,16 @@ function neutralsDraw(k) {
       <g class="nt-s">${mis}<path d="${stonePath(sw, sh)}" transform="translate(${x} ${cy.toFixed(1)})" fill="${c}"/>${mono(x, (cy + 5).toFixed(1), w.toUpperCase(), { size: 13, fill: ink })}</g>
       ${html}</g>`;
   }
-  return `${html}
+  return `<rect class="nt-earth" x="60" y="${NT.ground + 6}" width="480" height="70" fill="${k.ht('navy', 's')}" mask="url(#fade-y)" opacity=".55"/>
+  ${html}
   <line class="nt-base" x1="60" y1="${NT.ground + 1}" x2="540" y2="${NT.ground + 1}" stroke="${INK.navy}" stroke-width="3" stroke-linecap="round"/>
   ${k.regmark(52, 52)}${k.regmark(548, 52)}`;
 }
 function neutralsPlay(svg, k) {
   const { gsap } = k; const all = s => svg.querySelectorAll(s);
   const t = k.tl();
-  t.from(svg.querySelector('.nt-base'), { attr: { x1: 300, x2: 300 }, duration: .7, ease: 'expo.out' }, 0);
+  t.from(svg.querySelector('.nt-base'), { attr: { x1: 300, x2: 300 }, duration: .7, ease: 'expo.out' }, 0)
+    .from(svg.querySelector('.nt-earth'), { opacity: 0, duration: .8 }, .2);
   // the cairn is built: each stone is set down on the one below, heaviest first
   t.from(all('.nt-s'), { y: -40, opacity: 0, duration: .7, stagger: .12, ease: 'power3.out' }, .1);
   if (k.reduced()) return t;
